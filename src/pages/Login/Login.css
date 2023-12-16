@@ -1,0 +1,117 @@
+.form-login{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: px;
+    /* background: #fff; */
+    padding-bottom: 30px;
+}
+.body-login{
+    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('../../images/background.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100vh;
+    padding-top: 20%;
+    padding-right: 50px;
+    color: #fff;
+}
+.header-login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.text-login{
+    color: #9e1c3f;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.underline-login{
+    width: 61px;
+    height: 2px;
+    background: black;
+    border-radius: 9px;
+    opacity: 75%;
+}
+
+.inputs-login{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.input-login{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 480px;
+    height: 80px;
+    background: #eaeaea;
+    border-radius: 6px;
+}
+
+.input-login img{
+    margin: 0px 30px;
+}
+
+.input-login input{
+    height: 50px;
+    width: 400px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #797979;
+    font-size: 19px;
+}
+
+.forgot-pass-login{
+    margin-top: 27px;
+    color: black;
+    font-size: 15px;
+    margin-bottom: -30px;
+    margin-left: 12vh;
+}
+
+.forgot-pass-login span{
+    color: #4c00b4;
+    cursor: pointer;
+}
+
+.submit-cont-login{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 60px auto;
+}
+
+.submit-login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 50px;
+    color: #fff;
+    background: #9e1c3f;
+    border-radius: 50px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.sec__one-login{
+    border-radius: 1%;
+    margin-top: 40px;
+    margin-left: 60vh;
+    margin-right: 60vh;
+    background-color: rgba(255,255,255,0.6);
+  }

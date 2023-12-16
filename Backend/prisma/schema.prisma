@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// admin.prisma
+model Admin {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  fullName  String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// files.prisma
+model File {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  type      String
+  data      Bytes?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// projects.prisma
+model Project {
+  id        String             @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  students  StudentInProject[]
+  reviews   Review[]
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  staffId   String             @db.ObjectId
+  Staff     Staff              @relation(fields: [staffId], references: [id])
+  Student   Student[]
+}
+
+// reviews.prisma
+model Review {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String   @db.ObjectId
+  staffId   String
+  status    String
+  stage     String
+  type      String
+  fileId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Project   Project  @relation(fields: [projectId], references: [id])
+}
+
+// staff.prisma
+model Staff {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  fullName        String
+  email           String    @unique
+  password        String
+  profileImg      Bytes
+  specializations String?
+  projects        Project[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+// student.prisma
+model Student {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  fullName  String
+  regNo     String   @unique
+  email     String   @unique
+  batch     String
+  password  String
+  phoneNo   String
+  projectId String?  @db.ObjectId
+  project   Project? @relation(fields: [projectId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+type StudentInProject {
+  id       String
+  fullName String
+}
