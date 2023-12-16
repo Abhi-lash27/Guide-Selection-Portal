@@ -2,5 +2,5 @@
   "watch": ["src"],
   "ext": ".js",
   "ignore": ["*.spec.js", "*.test.js"],
-  "exec": "node src/index.js"
+  "exec": "node --inspect src/index.js"
 }

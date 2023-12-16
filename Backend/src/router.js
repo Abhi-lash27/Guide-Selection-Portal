@@ -45,10 +45,9 @@ router.delete('/admin/:id', deleteAdmin)
 
 // Projects
 router.get('/projects')
-router.get('/project/:id')
-router.post('/project/', registerProject)
-router.put('/project/:id')
-router.delete('/project/:id')
-
+router.get('/projects/:id')
+router.post('/projects', registerProject)
+router.put('/projects/:id')
+router.delete('/projects/:id')
 
 export default router

@@ -32,15 +32,14 @@ model File {
 
 // projects.prisma
 model Project {
-  id        String             @id @default(auto()) @map("_id") @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   title     String
-  students  StudentInProject[]
   reviews   Review[]
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-  staffId   String             @db.ObjectId
-  Staff     Staff              @relation(fields: [staffId], references: [id])
-  Student   Student[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  staffId   String    @db.ObjectId
+  staff     Staff     @relation(fields: [staffId], references: [id])
+  students  Student[]
 }
 
 // reviews.prisma
@@ -79,10 +78,10 @@ model Student {
   batch     String
   password  String
   phoneNo   String
-  projectId String?  @db.ObjectId
-  project   Project? @relation(fields: [projectId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  projectId String?  @db.ObjectId
+  project   Project? @relation(fields: [projectId], references: [id])
 }
 
 type StudentInProject {
