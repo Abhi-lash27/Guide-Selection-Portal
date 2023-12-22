@@ -10,6 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum FileType {
+  ppt
+  pdf
+  doc
+}
+
 // admin.prisma
 model Admin {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -24,7 +30,7 @@ model Admin {
 model File {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  type      String
+  type      FileType
   data      Bytes?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -82,9 +88,4 @@ model Student {
   updatedAt DateTime @updatedAt
   projectId String?  @db.ObjectId
   project   Project? @relation(fields: [projectId], references: [id])
-}
-
-type StudentInProject {
-  id       String
-  fullName String
 }
