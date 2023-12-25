@@ -12,8 +12,31 @@ datasource db {
 
 enum FileType {
   ppt
+  pptx
   pdf
   doc
+  docx
+}
+
+enum Type {
+  presentation
+  reviewForm
+  report
+}
+
+enum Stage {
+  zero
+  one
+  two
+  three
+  model
+  final
+}
+
+enum Status {
+  pending
+  approved
+  rejected
 }
 
 // admin.prisma
@@ -29,9 +52,10 @@ model Admin {
 // files.prisma
 model File {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
   type      FileType
-  data      Bytes?
+  data      Bytes
+  reviewId  String?  @db.ObjectId
+  review    Review?  @relation(fields: [reviewId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -52,11 +76,11 @@ model Project {
 model Review {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   projectId String   @db.ObjectId
-  staffId   String
-  status    String
-  stage     String
-  type      String
-  fileId    String
+  staffId   String   @db.ObjectId
+  status    Status   @default(pending)
+  stage     Stage
+  type      Type
+  files     File[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Project   Project  @relation(fields: [projectId], references: [id])

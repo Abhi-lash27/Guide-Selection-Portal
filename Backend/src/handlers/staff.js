@@ -1,6 +1,6 @@
 import prisma from "../db.js";
 import logger from "../modules/logger.js";
-import fs from "fs/promises";
+// import fs from "fs/promises";
 
 import {
   hashPassword,
@@ -11,13 +11,13 @@ import {
 export const createStaff = async (req, res) => {
   logger.info(req.body);
   try {
-    const fileData = await fs.readFile(req.file.path);
+    // const fileData = await fs.readFile(req.file.path);
     const staff = await prisma.staff.create({
       data: {
         fullName: req.body.fullName,
         email: req.body.email,
         password: await hashPassword(req.body.password),
-        profileImg: Buffer.from(fileData),
+        profileImg: req.file.buffer,
         specializations: req.body.specializations,
         createdAt: new Date(),
         updatedAt: new Date(),
