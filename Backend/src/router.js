@@ -32,7 +32,7 @@ import {
 
 import { getFileById, updateFile, uploadFile } from "./handlers/file.js";
 
-import { review, reviewForm } from "./handlers/review.js";
+import { review, updateReview,reviewForm } from "./handlers/review.js";
 
 const router = Router();
 
@@ -71,5 +71,6 @@ router.put("/files/:id", upload.single("data"), updateFile);
 
 router.get("/review-form",reviewForm);
 router.post("/reviews", review);
+router.put("/reviews/:id", updateReview);
 
 export default router;

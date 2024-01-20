@@ -7,22 +7,26 @@ import {
   createJWTAdmin,
 } from "../modules/auth.js";
 
-export const createAdmin = async (req, res) => {
-  logger.info(req.body);
+export const createAdmin = async () => {
   try {
-    const admin = await prisma.admin.create({
-      data: {
-        fullName: req.body.fullName,
-        email: req.body.email,
-        password: await hashPassword(req.body.password),
-      },
-    });
-    return res.status(200).json({ admin });
+    const getAdmin = await prisma.admin.findUnique({
+      where: {
+        email: process.env.ADMIN_EMAIL
+      }
+    })
+
+    if(getAdmin === null) {
+      const admin = await prisma.admin.create({
+        data: {
+          fullName: process.env.ADMIN_FULLNAME,
+          email: process.env.ADMIN_EMAIL,
+          password: await hashPassword(process.env.ADMIN_PASSWORD),
+        },
+      });
+      logger.info("Admin created")
+    }
   } catch (err) {
     logger.error(err);
-    return res
-      .status(400)
-      .json({ error: "User already exists or Internal server error" });
   }
 };
 

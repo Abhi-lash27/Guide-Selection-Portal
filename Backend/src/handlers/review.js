@@ -13,6 +13,25 @@ export const review = async (req, res, next) => {
   }
 }
 
+export const updateReview = async (req, res, next) => {
+  try {
+    const review = await prisma.review.update({
+      where: {
+        id: req.params.id
+      },
+      data: req.body
+    })
+
+    if(!review) {
+      return res.status(404).json({message: 'Review not found'})
+    }
+    return res.status(200).json({message: 'Review updated'})
+  } catch (err) {
+    logger.error(err)
+    return res.status(500).json({message: err.message})
+  }
+}
+
 export const reviewForm = async (req, res, next) => {
   try {
     const fileId = process.env.REVIEW_FORM_FILE_ID
