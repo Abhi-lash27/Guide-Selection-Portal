@@ -94,7 +94,7 @@ const DownloadReportStaff = () => {
     {
       name: "REPORT",
       cell: (row) => (
-        <a href={row.report} target="_blank" rel="noopener noreferrer">View Report</a>
+        <button className="btn-download">View Report</button>
       ),
       sortable: true,
     },

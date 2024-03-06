@@ -94,7 +94,7 @@ const DownloadPptAdmin = () => {
     {
       name: "PPT",
       cell: (row) => (
-        <a href={row.ppt} target="_blank" rel="noopener noreferrer">View PPT</a>
+        <button className="btn-download">View PPT</button>
       ),
       sortable: true,
     },
