@@ -5,6 +5,8 @@ import Topbar from "../global/Topbar";
 import { ColorModeContext, useMode } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import StudentSidebar from "../global/StudentSidebar";
+import SearchableDropdown from "../../components/common/SearchableDropdown";
+import "./ProjectRegister.css"
 
 
 
@@ -26,6 +28,15 @@ const Createstudent = () => {
         "Ms. T G Ruby Angel",
         "Ms.Sageengrana",
         "Mr.R.Ravi Karthick",
+      ];
+      const options = [
+        {  label: '41120001' },
+        {  label: '41120002' },
+        {  label: '41120003' },
+        {  label: '41120004' },
+        {  label: '41120005' },
+        {  label: '41120008' },
+        {  label: '41120007' },
       ];
       const [guide, updateGuide] = useState("");
 
@@ -63,14 +74,15 @@ const Createstudent = () => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <div className="app">
-            <StudentSidebar />
-            <main className="content">
-            <Topbar />
-            <div className="FORM">
-            <h1 className="h1-form">REGISTER PROJECT</h1>
-            <fieldset>
-                <form action="#" method="get">
-                    <label for="name">Enter Name:</label>
+    <StudentSidebar />
+    <main className="content">
+        <Topbar />
+        <div className="forms-container">
+            <div className="form">
+                <h1 className="h1-form">REGISTER PROJECT</h1>
+                <form >
+                  <h2>Team Member: 1</h2>
+                    <label htmlFor="name">Enter Name:</label>
                     <input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -80,8 +92,8 @@ const Createstudent = () => {
                         placeholder="Enter Name"
                         required
                     />
-                    <label for="regno">Enter Register Number: </label>
-                    <input
+                    <label htmlFor="regno">Enter Register Number: </label>
+                    {/* <input
                         value={regno}
                         onChange={(e) => setRegno(e.target.value)}
                         type="text"
@@ -89,8 +101,9 @@ const Createstudent = () => {
                         id="regno"
                         placeholder="Enter Register number"
                         required
-                    />
-                    <label for="email">Email ID:</label>
+                    /> */}
+                    <SearchableDropdown options={options} />
+                    <label htmlFor="email">Email ID:</label>
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -100,7 +113,9 @@ const Createstudent = () => {
                         placeholder="Enter Email"
                         required
                     />
-                    <label for="name">Enter Name:</label>
+                    <br/>
+                    <h2>Team Member: 2</h2>
+                    <label htmlFor="name">Enter Name:</label>
                     <input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -110,8 +125,8 @@ const Createstudent = () => {
                         placeholder="Enter Name"
                         required
                     />
-                    <label for="regno">Enter Register Number: </label>
-                    <input
+                    <label htmlFor="regno">Enter Register Number: </label>
+                    {/* <input
                         value={regno}
                         onChange={(e) => setRegno(e.target.value)}
                         type="text"
@@ -119,8 +134,9 @@ const Createstudent = () => {
                         id="regno"
                         placeholder="Enter Register number"
                         required
-                    />
-                    <label for="email">Email ID:</label>
+                    /> */}
+                    <SearchableDropdown options={options} />
+                    <label htmlFor="email">Email ID:</label>
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -130,7 +146,12 @@ const Createstudent = () => {
                         placeholder="Enter Email"
                         required
                     />
-                    <label for="title">Project Title:</label>
+                </form>
+            </div>
+            <div className="form">
+                <h1 className="h1-form">PROJECT DETAILS</h1>
+                <form>
+                    <label htmlFor="title">Project Title:</label>
                     <input
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
@@ -140,29 +161,30 @@ const Createstudent = () => {
                         placeholder="Enter your Project Title"
                         required
                     />
-                    <label>Select Guide:</label>
+                    <label htmlFor="guide">Select Guide:</label>
                     <select
-                    id="guide"
-                    value={guide}
-                    onChange={(e) => updateGuide(e.target.value)}
-                    required
+                        id="guide"
+                        value={guide}
+                        onChange={(e) => setGuide(e.target.value)}
+                        required
                     >
-                    <option />
-                    {Guide.map((guide) => (
-                        <option key={guide} value={guide}>
-                        {guide}
-                        </option>
-                    ))}
+                        <option value="">Select Guide</option>
+                        {Guide.map((guide) => (
+                            <option key={guide} value={guide}>
+                                {guide}
+                            </option>
+                        ))}
                     </select>
-                    <button className="btn-form1" type="submit" value="Submit" onClick={Submit}>
-                        Submit
+                    <button className="btn-form1" type="submit" onClick={Submit}>
+                    Submit
                     </button>
                 </form>
-            </fieldset>
             </div>
-              
-            </main>
-          </div>
+            
+        </div>
+    </main>
+</div>
+
         </ThemeProvider>
       </ColorModeContext.Provider>
     );

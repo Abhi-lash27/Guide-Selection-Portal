@@ -1,0 +1,19 @@
+.forms-container {
+    display: flex;
+}
+
+.form {
+    flex: 1;
+    margin-right: 20px; /* Adjust as needed */
+    margin-left: 20px;
+}
+
+.form:last-child {
+    margin-right: 20px;
+}
+.btn-app-admin{
+    padding: 10px;
+    background-color: green;
+    color: white;
+
+}
