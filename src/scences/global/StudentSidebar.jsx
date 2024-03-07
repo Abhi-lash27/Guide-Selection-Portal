@@ -138,20 +138,6 @@ const StudentSidebar = () => {
               Data
             </Typography>
             <Item
-              title="Review Form"
-              to="/student-review-form"
-              icon={<FeedOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Upload PPT"
-              to="/student-upload-ppt"
-              icon={<FileUploadOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
               title="Upload Report"
               to="/student-upload-report"
               icon={<FileUploadOutlinedIcon />}
@@ -171,7 +157,7 @@ const StudentSidebar = () => {
               icon={<LogoutOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            />
             
           </Box>
         </Menu>

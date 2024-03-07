@@ -16,6 +16,9 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { red } from "@mui/material/colors";
 import Modal from "@mui/material/Modal";
 
+import ReportCard from "../../components/ReportCard";
+import FinalCard from  "../../components/FinalCard"
+
 const ReportUpload = () => {
   const [theme, colorMode] = useMode();
   const colors = tokens(theme.palette.mode);
@@ -75,360 +78,59 @@ const ReportUpload = () => {
                           fontSize: 24,
                         }}
                       >
-                        UPLOAD REPORT
+                        UPLOAD FILES
                       </Typography>
                     </Box>
                   </CardContent>
                 </Card>
               </Stack>
+              <Card
+                    sx={{
+                      maxWidth: 920,
+                      mx: 10,
+                      backgroundColor: colors.primary[400],
+                      marginBottom: 5,
+                    }}
+                  >
+                    <CardContent style={{ display: "inline-block" }}>
+                      <Box>
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                          sx={{ fontSize: 24 }}
+                        >
+                          Download Review Form
+                        </Typography>
+                      </Box>
+                      <CardActions>
+                        <Box>
+                          <Button
+                            size="small"
+                            sx={{
+                              color: colors.blueAccent[400],
+                              border: 1,
+                              marginRight: 5,
+                            }}
+                          >
+                            <DownloadOutlinedIcon></DownloadOutlinedIcon>
+                            Download
+                          </Button>
+                        </Box>
+                      </CardActions>
+                    </CardContent>
+                  </Card>
               <Stack direction="row">
-                <Card
-                  sx={{
-                    minWidth: 380,
-                    mx: 10,
-                    backgroundColor: colors.primary[400],
-                    marginBottom: 5,
-                  }}
-                >
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      sx={{ fontSize: 24 }}
-                    >
-                      Model Review
-                    </Typography>
-
-                    <CardActions>
-                      <Box>
-                        <Button
-                          onClick={handleUpload}
-                          size="small"
-                          sx={{
-                            color: colors.greenAccent[400],
-                            border: 1,
-                          }}
-                        >
-                          <FileUploadOutlinedIcon></FileUploadOutlinedIcon>
-                          Upload
-                        </Button>
-                        <Modal
-                          open={upload}
-                          onClose={handleClose}
-                          aria-labelledby="modal-modal-title"
-                          aria-describedby="modal-modal-description"
-                        >
-                          <Box sx={style}>
-                            <Typography
-                              id="modal-modal-title"
-                              variant="h4"
-                              component="h2"
-                              style={{
-                                display: "flex",
-                                justifyContent: "flex-start",
-                              }}
-                            >
-                              Select a file to upload
-                            </Typography>
-                            <input type="file" />
-                            <br />
-                            <button
-                              type="submit"
-                              style={{ marginRight: 5, marginTop: 5 }}
-                            >
-                              Submit
-                            </button>
-                            <button
-                              type="button"
-                              style={{ backgroundColor: "red" }}
-                              onClick={handleClose}
-                            >
-                              Cancel
-                            </button>
-                          </Box>
-                        </Modal>
-                        <Button
-                          onClick={handleUpdate}
-                          size="small"
-                          sx={{
-                            color: colors.blueAccent[400],
-                            border: 1,
-                            mx: 2,
-                          }}
-                        >
-                          <FileUploadOutlinedIcon></FileUploadOutlinedIcon>
-                          Update
-                        </Button>
-                        <Modal
-                          open={update}
-                          onClose={closeUpdate}
-                          aria-labelledby="modal-modal-title"
-                          aria-describedby="modal-modal-description"
-                        >
-                          <Box sx={style}>
-                            <Typography
-                              id="modal-modal-title"
-                              variant="h4"
-                              component="h2"
-                              style={{
-                                display: "flex",
-                                justifyContent: "flex-start",
-                              }}
-                            >
-                              Select a file to Update
-                            </Typography>
-                            <input type="file" />
-                            <br />
-                            <button
-                              type="submit"
-                              style={{ marginRight: 5, marginTop: 5 }}
-                            >
-                              Submit
-                            </button>
-                            <button
-                              type="button"
-                              style={{ backgroundColor: "red" }}
-                              onClick={closeUpdate}
-                            >
-                              Cancel
-                            </button>
-                          </Box>
-                        </Modal>
-                        <Button
-                          onClick={handleDelete}
-                          size="small"
-                          sx={{
-                            color: danger,
-                            border: 1,
-                          }}
-                        >
-                          <DeleteOutlineIcon></DeleteOutlineIcon>
-                          Delete
-                        </Button>
-                        <Modal
-                          open={del}
-                          onClose={closeDelete}
-                          aria-labelledby="modal-modal-title"
-                          aria-describedby="modal-modal-description"
-                        >
-                          <Box sx={style}>
-                            <Typography
-                              id="modal-modal-title"
-                              variant="h4"
-                              component="h2"
-                              style={{
-                                display: "flex",
-                                justifyContent: "flex-start",
-                              }}
-                            >
-                              DELETE
-                            </Typography>
-                            <Typography
-                              id="modal-modal-description"
-                              variant="h5"
-                              component="h4"
-                            >
-                              Are you sure to delete the file??
-                            </Typography>
-                            <br />
-                            <button
-                              type="submit"
-                              style={{
-                                marginRight: 5,
-                                marginTop: 5,
-                                backgroundColor: "red",
-                              }}
-                            >
-                              Delete
-                            </button>
-                            <button
-                              type="button"
-                              style={{ backgroundColor: "green" }}
-                              onClick={closeDelete}
-                            >
-                              Cancel
-                            </button>
-                          </Box>
-                        </Modal>
-                      </Box>
-                    </CardActions>
-                  </CardContent>
-                </Card>
-
-                <Card
-                  sx={{
-                    minWidth: 380,
-                    mx: 10,
-                    backgroundColor: colors.primary[400],
-                    marginBottom: 5,
-                  }}
-                >
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      sx={{ fontSize: 24 }}
-                    >
-                      Final Report
-                    </Typography>
-
-                    <CardActions>
-                      <Box>
-                        <Button
-                          onClick={handleUpload}
-                          size="small"
-                          sx={{
-                            color: colors.greenAccent[400],
-                            border: 1,
-                          }}
-                        >
-                          <FileUploadOutlinedIcon></FileUploadOutlinedIcon>
-                          Upload
-                        </Button>
-                        <Modal
-                          open={upload}
-                          onClose={handleClose}
-                          aria-labelledby="modal-modal-title"
-                          aria-describedby="modal-modal-description"
-                        >
-                          <Box sx={style}>
-                            <Typography
-                              id="modal-modal-title"
-                              variant="h4"
-                              component="h2"
-                              style={{
-                                display: "flex",
-                                justifyContent: "flex-start",
-                              }}
-                            >
-                              Select a file to upload
-                            </Typography>
-                            <input type="file" />
-                            <br />
-                            <button
-                              type="submit"
-                              style={{ marginRight: 5, marginTop: 5 }}
-                            >
-                              Submit
-                            </button>
-                            <button
-                              type="button"
-                              style={{ backgroundColor: "red" }}
-                              onClick={handleClose}
-                            >
-                              Cancel
-                            </button>
-                          </Box>
-                        </Modal>
-                        <Button
-                          onClick={handleUpdate}
-                          size="small"
-                          sx={{
-                            color: colors.blueAccent[400],
-                            border: 1,
-                            mx: 2,
-                          }}
-                        >
-                          <FileUploadOutlinedIcon></FileUploadOutlinedIcon>
-                          Update
-                        </Button>
-                        <Modal
-                          open={update}
-                          onClose={closeUpdate}
-                          aria-labelledby="modal-modal-title"
-                          aria-describedby="modal-modal-description"
-                        >
-                          <Box sx={style}>
-                            <Typography
-                              id="modal-modal-title"
-                              variant="h4"
-                              component="h2"
-                              style={{
-                                display: "flex",
-                                justifyContent: "flex-start",
-                              }}
-                            >
-                              Select a file to Update
-                            </Typography>
-                            <input type="file" />
-                            <br />
-                            <button
-                              type="submit"
-                              style={{ marginRight: 5, marginTop: 5 }}
-                            >
-                              Submit
-                            </button>
-                            <button
-                              type="button"
-                              style={{ backgroundColor: "red" }}
-                              onClick={closeUpdate}
-                            >
-                              Cancel
-                            </button>
-                          </Box>
-                        </Modal>
-                        <Button
-                          onClick={handleDelete}
-                          size="small"
-                          sx={{
-                            color: danger,
-                            border: 1,
-                          }}
-                        >
-                          <DeleteOutlineIcon></DeleteOutlineIcon>
-                          Delete
-                        </Button>
-                        <Modal
-                          open={del}
-                          onClose={closeDelete}
-                          aria-labelledby="modal-modal-title"
-                          aria-describedby="modal-modal-description"
-                        >
-                          <Box sx={style}>
-                            <Typography
-                              id="modal-modal-title"
-                              variant="h4"
-                              component="h2"
-                              style={{
-                                display: "flex",
-                                justifyContent: "flex-start",
-                              }}
-                            >
-                              DELETE
-                            </Typography>
-                            <Typography
-                              id="modal-modal-description"
-                              variant="h5"
-                              component="h4"
-                            >
-                              Are you sure to delete the file??
-                            </Typography>
-                            <br />
-                            <button
-                              type="submit"
-                              style={{
-                                marginRight: 5,
-                                marginTop: 5,
-                                backgroundColor: "red",
-                              }}
-                            >
-                              Delete
-                            </button>
-                            <button
-                              type="button"
-                              style={{ backgroundColor: "green" }}
-                              onClick={closeDelete}
-                            >
-                              Cancel
-                            </button>
-                          </Box>
-                        </Modal>
-                      </Box>
-                    </CardActions>
-                  </CardContent>
-                </Card>
+                <ReportCard name="0th Review"/>
+                <ReportCard name="1st Review"/>
+              </Stack>
+              <Stack direction="row">
+                <ReportCard name="2nd Review"/>
+                <ReportCard name="3rd Review"/>
+              </Stack>
+              <Stack direction="row">
+                <FinalCard name="Model Review" />
+                <FinalCard name="Final Review" />
               </Stack>
             </div>
           </main>
