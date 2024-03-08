@@ -1,4 +1,6 @@
 import React from "react";
+import axios from "axios";
+
 import { useState } from "react";
 import './form.css';
 import AdminSidebar from "../global/AdminSidebar";
@@ -11,33 +13,35 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 const Createstudent = () => {
     const [theme, colorMode] = useMode();
 
-    const [name, setName] = useState("");
-    const [regno, setRegno] = useState("");
+    const [fullName, setFullName] = useState("");
+    const [regNo, setRegNo] = useState("");
     const [email, setEmail] = useState("");
     const [batch, setBatch] = useState("");
     const [password, setPassword] = useState("");
+    const [phoneNo, setPhoneNo] = useState("")
 
     async function Submit(event) {
-      event.preventDefault()
-
-      const res = await fetch(`http://localhost:7777/api/register-student`, {
-        method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        regno,
-        batch,
-        email,
-        password,
-      }),
-      })
-
-      const data = await res.json()
-
-      if(data) {
-        alert("success")
+      event.preventDefault();
+    
+      try {
+        const response = await axios.post('http://localhost:7777/signup', {
+          fullName,
+          regNo,
+          phoneNo,
+          batch,
+          email,
+          password,
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    
+        if (response.data) {
+          alert('Success');
+        }
+      } catch (error) {
+        console.error('Error from create student :', error);
       }
     }
   
@@ -53,29 +57,40 @@ const Createstudent = () => {
             <h1 className="h1-form">Create Student</h1>
             <fieldset>
                 <form action="#" method="get">
-                    <label for="name">Enter Name:</label>
+                    <label htmlFor="fullName">Enter Name:</label>
                     <input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
                         type="text"
-                        name="name"
-                        id="name"
+                        name="fullName"
+                        id="fullName"
                         placeholder="Enter Name"
                         required
                     />
                     <br />
-                    <label for="regno">Enter Register Number: </label>
+                    <label htmlFor="regNo">Enter Register Number: </label>
                     <input
-                        value={regno}
-                        onChange={(e) => setRegno(e.target.value)}
+                        value={regNo}
+                        onChange={(e) => setRegNo(e.target.value)}
                         type="text"
-                        name="regno"
-                        id="regno"
+                        name="regNo"
+                        id="regNo"
                         placeholder="Enter Register number"
                         required
                     />
                     <br />
-                    <label for="email">Email ID:</label>
+                    <label htmlFor="regno">Enter Phone Number: </label>
+                    <input
+                        value={phoneNo}
+                        onChange={(e) => setPhoneNo(e.target.value)}
+                        type="text"
+                        name="phoneNo"
+                        id="phoneNo"
+                        placeholder="Enter Phone number"
+                        required
+                    />
+                    <br />
+                    <label htmlFor="email">Email ID:</label>
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -86,7 +101,18 @@ const Createstudent = () => {
                         required
                     />
                     <br />
-                    <label for="batch">Batch:</label>
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Enter Password"
+                        required
+                    />
+                    <br />
+                    <label htmlFor="batch">Batch:</label>
                     <input
                         value={batch}
                         onChange={(e) => setBatch(e.target.value)}

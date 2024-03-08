@@ -62,13 +62,26 @@ export const staffLogin = async (req, res) => {
 
 export const getAllStaff = async (req, res) => {
   try {
-    const staffs = await prisma.staff.findMany();
-    return res.status(200).json({ staffs });
+    const staffs = await prisma.staff.findMany()
+
+    if(!staffs || staffs.length === 0) {
+      return res.status(404).json({error : "No staff found"})
+    }
+
+    const foramattedStaffs = staffs.map((staff) => ({
+      id: staff.id,
+      fullName: staff.fullName,
+      email: staff.email,
+      profileImg: staff.profileImg ? `data:image/jpeg;base64,${Buffer.from(staff.profileImg).toString('base64')}` : null,
+      specializations: staff.specializations
+    }))
+
+    return res.status(200).json({staff: foramattedStaffs})
+
   } catch (err) {
-    logger.error(err);
-    return res.status(404).json({ error: "Staffs not found" });
+    logger.error(err)
   }
-};
+}
 
 export const getSingleStaff = async (req, res) => {
   try {
