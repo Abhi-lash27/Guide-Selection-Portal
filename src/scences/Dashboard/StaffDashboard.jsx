@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ColorModeContext, useMode } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import "../../index.css";
@@ -7,6 +7,16 @@ import StaffSidebar from "../global/StaffSidebar";
 
 const StaffDashboard = () => {
   const [theme, colorMode] = useMode();
+
+  const [token, setToken] = useState(null)
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if(!storedToken) {
+      return window.location.href = '/'
+    }
+    setToken(storedToken);
+  }, [])
 
   return (
     <ColorModeContext.Provider value={colorMode}>

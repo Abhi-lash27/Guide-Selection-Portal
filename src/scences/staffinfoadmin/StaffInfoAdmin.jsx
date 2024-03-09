@@ -77,13 +77,6 @@ const StaffInfoAdmin = () => {
     }
   ]
 
-  useEffect(() => {
-    fetch(`http://localhost:7777/api/staffs`)
-    .then(res => res.json())
-    .then(data => setData(data))
-    .catch(err => console.log(err))
-  })
-
   const handleFilter = (event) => {
     const newRecord = data.filter(data => data.name.toLowerCase().includes(event.target.value.toLowerCase()))
     setData(newRecord)
@@ -103,7 +96,8 @@ const StaffInfoAdmin = () => {
                 <input type="text" placeholder="Seach by Name" onChange={handleFilter} style={{padding: "6px 10px"}}/>
               </div>
               <br/>
-            <DataTable 
+              {/*<h1>{data.fullName}</h1>*/}
+            <DataTable
             columns={column}
             data={data}
             customStyles={customstyle}

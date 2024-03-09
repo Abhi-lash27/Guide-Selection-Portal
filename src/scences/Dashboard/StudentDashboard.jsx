@@ -9,12 +9,15 @@ const StudentDashboard = () => {
   const [theme, colorMode] = useMode();
   const [data, setData] = useState([]);
 
+  const [token, setToken] = useState(null)
+
   useEffect(() => {
-    fetch(`http://localhost:7777/api/projects`)
-      .then((res) => res.json())
-      .then((data) => setData(data))
-      .catch((err) => console.log(err));
-  }, []);
+    const storedToken = localStorage.getItem('token');
+    if(!storedToken) {
+      return window.location.href = "/"
+    }
+    setToken(storedToken);
+  }, [])
 
   return (
     <ColorModeContext.Provider value={colorMode}>

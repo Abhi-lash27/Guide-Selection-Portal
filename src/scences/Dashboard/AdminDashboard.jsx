@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom"
 import { ColorModeContext, useMode } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import '../../index.css'
@@ -13,6 +14,9 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
+    if(!storedToken) {
+      return window.location.href = "/"
+    }
     setToken(storedToken);
   }, [])
 

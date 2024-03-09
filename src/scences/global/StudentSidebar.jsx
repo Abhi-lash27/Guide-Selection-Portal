@@ -15,6 +15,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
+import { jwtDecode as jwt_decode } from "jwt-decode";
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -40,12 +41,20 @@ const StudentSidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [studentName, setStudentName] = useState("");
+
   const [token,setToken] = useState(null)
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     setToken(storedToken);
- }, [])
+    if(storedToken) {
+      const decodedToken = jwt_decode(storedToken);
+      setStudentName(decodedToken.name);
+    }
+  }, [])
+
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -119,7 +128,7 @@ const StudentSidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Student
+                  {studentName}
                 </Typography>
               </Box>
             </Box>
