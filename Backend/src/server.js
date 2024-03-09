@@ -11,6 +11,7 @@ dotenv.config();
 import { signIn } from "./handlers/login.js";
 import { createStudent } from "./handlers/student.js";
 import { expressjwt as jwt } from "express-jwt";
+import { getAllStaff } from "./handlers/staff.js";
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.use(logger(stream));
 
 app.post("/login/:role", signIn);
 app.post("/signup", createStudent);
+
+app.get("/api/staffs", getAllStaff);
 
 app.use("/api", jwt({secret: process.env.SECRET_KEY, algorithms: ["HS256"]}),router);
 // app.use("/api",router);

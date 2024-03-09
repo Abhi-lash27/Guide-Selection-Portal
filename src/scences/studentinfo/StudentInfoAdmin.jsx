@@ -6,7 +6,6 @@ import Topbar from "../global/Topbar";
 import AdminSidebar from "../global/AdminSidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
-import { jwtDecode as jwt_decode } from "jwt-decode";
 
 const StudentInfoAdmin = () => {
   const [theme, colorMode] = useMode();

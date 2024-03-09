@@ -46,7 +46,6 @@ router.put("/students/:id", updateStudent);
 // delete student
 router.delete("/students/:id", deleteStudent);
 
-router.get("/staffs", getAllStaff);
 router.get("/staffs/:id", getSingleStaff);
 router.post("/staffs", upload.single("profileImg"), createStaff);
 router.put("/staffs/:id", updateStaff);

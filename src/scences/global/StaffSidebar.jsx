@@ -13,6 +13,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
+import { jwtDecode as jwt_decode } from "jwt-decode";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -37,12 +38,18 @@ const StaffSidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [fullName, setFullName] = useState("")
+
   const [token,setToken] = useState(null)
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     setToken(storedToken);
- }, [])
+    if(storedToken) {
+      const decodedToken = jwt_decode(storedToken);
+      setFullName(decodedToken.name);
+    }
+  }, [])
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -116,7 +123,7 @@ const StaffSidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Staff
+                  {fullName}
                 </Typography>
               </Box>
             </Box>
