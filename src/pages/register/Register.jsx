@@ -41,6 +41,7 @@ const Register = () => {
     <div>
       <div className="body-register"></div>
       <Header />
+      <div className="sec__one-login">
       <div className="Form-register">
         <form onSubmit={handleSubmit}>
           <div className="content1-register">
@@ -132,6 +133,7 @@ const Register = () => {
             </button>
           </div>
         </form>
+        </div>
       </div>
     </div>
   );

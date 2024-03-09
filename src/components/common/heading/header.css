@@ -55,6 +55,10 @@
     .header-main ul.flexSB-header{
         display: none;
     }
+    .submenu-header {
+        display: block;
+    }
+
     .header-main ul li{
         margin-bottom: 20px;
     }

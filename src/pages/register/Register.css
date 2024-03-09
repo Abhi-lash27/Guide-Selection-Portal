@@ -1,103 +1,87 @@
 * {
-    box-sizing: border-box;
-  }
-  h2{
-    text-align: center;
-  }
-  .body-register{
-    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('../../images/background.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    width: 100%;
-    height: 110vh;
-    padding-top: 20%;
-    padding-right: 50px;
-    color: #fff;
-  }
-  .content1-register {
-    position: relative;
-    max-width: 700px;
-    padding: 16px;
-    align-items: center;
-    border: none;
-    border-radius: 1%;
-    background-color: rgba(255,255,255,0.6);
-  }
-  .column-register{
-    width: 50%;
-    padding: 10px 30px;
-  }
-  .field-register[type="text"],
-  .field-register[type="email"],
-  .field-register[type="password"],
-      select{
-        
-        width: 100%;
-        padding: 15px;
-        /* margin: 5px 0 22px 0; */
-        border: none;
-        background: #f1f1f1;
-      }
-       .field-register[type="text"]:focus,
-      .field-register[type="email"]:focus,
-     .field-register[type="password"]:focus,
-      select:focus {
-        background-color: #ddd;
-        outline: none;
-      }
-      .btn-register {
-        background-color: rgba(131, 18, 56, 1);
-        color: white;
-        padding: 16px 20px;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        opacity: 0.9;
-      }
+  box-sizing: border-box;
+}
 
-      .btn-register:hover {
-        opacity: 1;
-        background-color: #9E1C3F;
-      }
-      .Form-register{
-        /* border-radius: 1%; */
-        margin-top: 40px;
-        margin-left: 70vh;
-        margin-right: 70vh;
-        /* background-color: rgba(255,255,255,0.6); */
-      }
+h2 {
+  text-align: center;
+}
 
-@media screen and (max-width:768px) {
-  .body-register{
-    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('../../images/background.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    position: absolute;
-    background-position: center;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    width: 100%;
-    height: 100vh;
-    padding-top: 20%;
-    padding-right: 50px;
-    color: #fff;
+.body-register {
+  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('../../images/background.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100vh; /* Adjusted height for mobile screens */
+  padding-top: 20%;
+  color: #fff;
+}
+
+.content1-register {
+  position: relative; /* Adjusted max-width for mobile screens */
+  margin-left: 20px;
+   /* Center align content */
+  padding: 16px;
+  border: none;
+  border-radius: 1%;
+}
+
+.column-register {
+  width: 100%; /* Full width for mobile screens */
+  padding: 10px;
+}
+
+.field-register[type="text"],
+.field-register[type="email"],
+.field-register[type="password"],
+select {
+  width: 100%; /* Set width to 100% for mobile screens */
+  padding: 15px;
+  border: none;
+  background: #f1f1f1;
+}
+
+.field-register[type="text"]:focus,
+.field-register[type="email"]:focus,
+.field-register[type="password"]:focus,
+select:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.btn-register {
+  background-color: rgba(131, 18, 56, 1);
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn-register:hover {
+  opacity: 1;
+  background-color: #9E1C3F;
+}
+
+.Form-register {
+  margin-top: 40px;
+}
+
+@media screen and (max-width: 768px) {
+  .body-register {
+      padding-right: 20px; /* Adjusted padding for mobile screens */
   }
+
   .content1-register {
-    position: absolute;
-    /* padding: 16px; */
-    align-items: center;
-    margin-left: -60vh;
-    background-color: rgba(255,255,255,0.6);
-    border: none;
-    border-radius: 1%;
+      padding: 10px; /* Adjusted padding for mobile screens */
   }
-  h2{
-    text-align: center;
+
+  .Form-register {
+      margin-left: 5%; /* Adjusted margin for mobile screens */
+      margin-right: 5%; /* Adjusted margin for mobile screens */
   }
-  
 }

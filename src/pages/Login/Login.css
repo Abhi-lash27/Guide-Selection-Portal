@@ -1,13 +1,13 @@
-.form-login{
+/* Base styles for login form */
+.form-login {
     display: flex;
     flex-direction: column;
     margin: auto;
-    margin-top: px;
-    /* background: #fff; */
-    padding-bottom: 30px;
+    padding-bottom: 0px;
 }
-.body-login{
-    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('../../images/background.jpg');
+
+.body-login {
+    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('../../images/background.jpg');
     background-size: cover;
     background-attachment: fixed;
     position: absolute;
@@ -15,12 +15,12 @@
     left: 0;
     z-index: -1;
     width: 100%;
-    height: 100vh;
+    height: 110vh;
     padding-top: 20%;
-    padding-right: 50px;
     color: #fff;
 }
-.header-login{
+
+.header-login {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,88 +30,108 @@
     margin-bottom: 20px;
 }
 
-.text-login{
+.text-login {
     color: #9e1c3f;
     font-size: 30px;
     font-weight: 700;
 }
 
-.underline-login{
+.underline-login {
     width: 61px;
     height: 2px;
     background: black;
     border-radius: 9px;
     opacity: 75%;
+    
 }
 
-.inputs-login{
+.inputs-login {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 25px;
 }
 
-.input-login{
+.input-login {
     display: flex;
     align-items: center;
     margin: auto;
-    width: 480px;
+    width: 100%;
+    max-width: 480px; /* Limit maximum width */
     height: 80px;
     background: #eaeaea;
     border-radius: 6px;
 }
 
-.input-login img{
-    margin: 0px 30px;
+.input-login img {
+    margin: 0px 15px; /* Reduced margin for smaller screens */
 }
 
-.input-login input{
+.input-login input {
+    flex: 1; /* Take remaining space */
     height: 50px;
-    width: 400px;
+    width: 100%; /* Fill parent width */
     background: transparent;
     border: none;
     outline: none;
     color: #797979;
-    font-size: 19px;
+    font-size: 16px; /* Reduced font size for smaller screens */
 }
 
-.forgot-pass-login{
-    margin-top: 27px;
-    color: black;
-    font-size: 15px;
-    margin-bottom: -30px;
-    margin-left: 12vh;
+.forgot-pass-login {
+    margin-top: 15px; /* Reduced margin for smaller screens */
+    text-align: center; /* Center alignment for smaller screens */
 }
 
-.forgot-pass-login span{
+.forgot-pass-login span {
     color: #4c00b4;
     cursor: pointer;
 }
 
-.submit-cont-login{
+.submit-cont-login {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin: 60px auto;
+    gap: 20px; /* Reduced gap for smaller screens */
+    margin: 40px auto; /* Reduced margin for smaller screens */
 }
 
-.submit-login{
+.submit-login {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 220px;
+    width: 150px;
+    max-width: 700px; /* Limit maximum width */
     height: 50px;
     color: #fff;
     background: #9e1c3f;
-    border-radius: 50px;
-    font-size: 19px;
+    border-radius: 25px; /* Reduced border radius for smaller screens */
+    font-size: 16px; /* Reduced font size for smaller screens */
     font-weight: 700;
     cursor: pointer;
 }
-.sec__one-login{
-    border-radius: 1%;
-    margin-top: 40px;
-    margin-left: 60vh;
-    margin-right: 60vh;
+
+.sec__one-login {
+    border-radius: 6px; /* Reduced border radius for smaller screens */
+    margin: 20px auto; /* Reduced margin for smaller screens */
     background-color: rgba(255,255,255,0.6);
-  }
+    padding: 20px; /* Increased padding for better spacing on smaller screens */
+}
+
+/* Media queries for responsiveness */
+@media (min-width: 750px) {
+    .input-login {
+        max-width: 80%; /* Set maximum width to 100% for smaller screens */
+    }
+    
+    .input-login img {
+        margin: 0px 10px; /* Further reduced margin for smaller screens */
+    }
+    
+    .submit-login {
+        max-width: none; /* Remove maximum width for submit button on smaller screens */
+        border-radius: 25px; /* Reset border radius */
+    }
+    .sec__one-login {
+        width: 50%;
+    }
+}

@@ -12,7 +12,7 @@
     padding-right: 50px;
     color: #fff;
 }
-@media screen and (max-width:768px) {
+@media screen and (max-width:800px) {
     .hero-homepage{
     background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('../../../images/background.jpg');
     background-size: cover;
