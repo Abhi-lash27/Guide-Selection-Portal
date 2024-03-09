@@ -3,6 +3,10 @@ import cors from "cors";
 import logger from "pino-http";
 import pretty from "pino-pretty";
 import router from "./router.js";
+import dotenv from 'dotenv';
+dotenv.config();
+
+// Now process.env contains the keys and values defined in your .env file
 
 import { signIn } from "./handlers/login.js";
 import { createStudent } from "./handlers/student.js";

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -37,6 +37,17 @@ const StaffSidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [token,setToken] = useState(null)
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    setToken(storedToken);
+ }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.location.replace('/')
+  }
 
   return (
     <Box
@@ -162,13 +173,14 @@ const StaffSidebar = () => {
             >
               Others
             </Typography>
+            <div onClick={handleLogout}>
             <Item
               title="Logout"
-              to="/"
               icon={<LogoutOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+            </div>
             
           </Box>
         </Menu>

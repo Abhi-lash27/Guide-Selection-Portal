@@ -1,43 +1,46 @@
-import React from "react";
+import React,{ useState } from "react";
 import '../Login/Login.css'
 import user from "../../images/user.png"
-import { useState } from "react"
 import passwordImg from "../../images/password.png";
 import Header from "../../components/common/heading/Header";
+import { jwtDecode as jwt_decode } from "jwt-decode";
+
+import axios from 'axios'
 
 const Staff = () => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  async function Login(event) {
+  async function login(event) {
     event.preventDefault();
 
-    const res = await fetch(`http://localhost:7777/api/login-staff`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
+    try {
+      const response = await axios.post(`http://localhost:7777/login/staff`, {
         email,
-        password,
-      }),
-    });
-    console.log(res);
-    const data = await res.json();
-    console.log(data);
-    if (data) {
-      alert("success");
-      window.location.href = "/staff-dashboard";
-    } else {
-      alert("error");
-    }
+        password
+      });
 
-    // console.log(data);
+      const { token } = response.data;
+
+      if (token) {
+        localStorage.setItem('token', token);
+        const decodedToken = jwt_decode(token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        window.location.href = "/staff-dashboard";
+      } else {
+        throw new Error('Token not found in response!');
+      }
+
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("Invalid email or password");
+    }
   }
 
   return (
     <div>
-    <div className="body-login"></div>
+      <div className="body-login"></div>
       <Header />
       <div className="sec__one-login">
         <div className="form-login">
@@ -45,7 +48,7 @@ const Staff = () => {
             <div className="text-login">Staff Login</div>
             <div className="underline-login"></div>
           </div>
-          <form>
+          <form onSubmit={login}>
             <div className="inputs-login">
               <div className="input-login">
                 <img src={user} alt="" />
@@ -68,16 +71,17 @@ const Staff = () => {
                 />
               </div>
             </div>
+            {error && <div className="error-message">{error}</div>}
             <div className="submit-cont-login">
-              <div onClick={Login} className="submit-login">
+              <button type="submit" className="submit-login">
                 Login
-              </div>
+              </button>
             </div>
           </form>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Staff;

@@ -4,35 +4,40 @@ import '../Login/Login.css'
 import user from "../../images/user.png";
 import passwordImg from "../../images/password.png";
 import Header from "../../components/common/heading/Header";
+import { jwtDecode as jwt_decode } from "jwt-decode";
+
+import axios from 'axios'
 
 const Student = () => {
-  const [regno, setRegno] = useState();
-  const [password, setPassword] = useState();
+  const [regNo, setRegNo] = useState("");
+  const [password, setPassword] = useState("");
 
-  async function Login(event) {
+  const [error, setError] = useState("");
+
+  async function login(event) {
     event.preventDefault();
 
-    const res = await fetch(`http://localhost:7777/api/login-student`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        regno,
-        password,
-      }),
-    });
-    console.log(res);
-    const data = await res.json();
-    console.log(data);
-    if (data.token) {
-      alert("success");
-      window.location.href = "/student-dashboard";
-    } else {
-      alert("error");
-    }
+    try {
+      const response = await axios.post(`http://localhost:7777/login/student`, {
+        regNo,
+        password
+      });
 
-    // console.log(data);
+      const { token } = response.data;
+
+      if (token) {
+        localStorage.setItem('token', token);
+        const decodedToken = jwt_decode(token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        window.location.href = "/student-dashboard";
+      } else {
+        throw new Error('Token not found in response!');
+      }
+
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("Invalid email or password");
+    }
   }
 
   return (
@@ -45,13 +50,13 @@ const Student = () => {
             <div className="text-login">Student Login</div>
             <div className="underline-login"></div>
           </div>
-          <form>
+          <form onSubmit={login}>
             <div className="inputs-login">
               <div className="input-login">
                 <img src={user} alt="" />
                 <input
-                  value={regno}
-                  onChange={(e) => setRegno(e.target.value)}
+                  value={regNo}
+                  onChange={(e) => setRegNo(e.target.value)}
                   type="text"
                   placeholder="Register Number"
                   required
@@ -71,8 +76,9 @@ const Student = () => {
             <div className="forgot-pass-login">
               Forgot Password?<span>Click Here</span>
             </div>
-            <div onClick={Login} className="submit-cont-login">
-              <div className="submit-login">Login</div>
+            {error && <div className="error-message">{error}</div>}
+            <div  className="submit-cont-login">
+              <button type="submit" className="submit-login">Login</button>
             </div>
           </form>
         </div>
