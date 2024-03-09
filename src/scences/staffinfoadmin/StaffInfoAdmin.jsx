@@ -6,6 +6,7 @@ import "../../index.css";
 import Topbar from "../global/Topbar";
 import AdminSidebar from "../global/AdminSidebar";
 import { rootShouldForwardProp } from "@mui/material/styles/styled";
+import axios from "axios";
 
 const customstyle = {
   headRow: {
@@ -32,10 +33,41 @@ const StaffInfoAdmin = () => {
   const [theme, colorMode] = useMode();
   const [data, setData] = useState([])
 
+  const [token, setToken] = useState(null)
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    setToken(storedToken);
+  }, [])
+
+  const fetchStudents = async () => {
+    try {
+      const response = await axios.get(`http://localhost:7777/api/staffs`, {
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      console.log(response);
+      const responseData = response.data;
+      setData(responseData.staff);
+      console.log('Data after setting:', responseData); // Log the data after setting
+    } catch (error) {
+      console.error('Error fetching staffs:', error);
+    }
+  };
+
+  useEffect(() => {
+    if(token) {
+      fetchStudents()
+    }
+  }, [token]);
+
   const column = [
     {
       name: "Name",
-      selector: data => data.name,
+      selector: data => data.fullName,
       sortable: true
     },
     {

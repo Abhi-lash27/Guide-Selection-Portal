@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ColorModeContext, useMode } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import '../../index.css'
@@ -8,6 +8,13 @@ import DataTable from "react-data-table-component";
 
 const AdminDashboard = () => {
   const [theme, colorMode] = useMode();
+
+  const [token, setToken] = useState(null)
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    setToken(storedToken);
+  }, [])
 
   return (
     <ColorModeContext.Provider value={colorMode}>
