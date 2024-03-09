@@ -21,8 +21,8 @@ app.use(logger(stream));
 app.post("/login/:role", signIn);
 app.post("/signup", createStudent);
 
-// app.use("/api", jwt({secret: process.env.SECRET_KEY}),router);
-app.use("/api",router);
+app.use("/api", jwt({secret: process.env.SECRET_KEY, algorithms: ["HS256"]}),router);
+// app.use("/api",router);
 
 
 
