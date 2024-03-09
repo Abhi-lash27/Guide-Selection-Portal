@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 
 import { useState } from "react";
@@ -20,6 +20,13 @@ const Createstudent = () => {
     const [password, setPassword] = useState("");
     const [phoneNo, setPhoneNo] = useState("")
 
+    const [token, setToken] = useState(null)
+
+    useEffect(() => {
+      const storedToken = localStorage.getItem('token');
+      setToken(storedToken);
+    }, [])
+
     async function Submit(event) {
       event.preventDefault();
     
@@ -34,6 +41,7 @@ const Createstudent = () => {
         }, {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
           },
         });
     
