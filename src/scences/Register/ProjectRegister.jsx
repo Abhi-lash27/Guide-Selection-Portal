@@ -6,7 +6,6 @@ import { ColorModeContext, useMode } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import StudentSidebar from "../global/StudentSidebar";
 import SearchableDropdown from "../../components/common/SearchableDropdown";
-import "./ProjectRegister.css"
 
 
 
@@ -38,10 +37,10 @@ const Createstudent = () => {
         {  label: '41120008' },
         {  label: '41120007' },
       ];
-      const [guide, updateGuide] = useState("");
+      const [guide, setGuide] = useState("");
 
     const [name, setName] = useState("");
-    const [regno, setRegno] = useState("");
+    const [regno,setRegno] = useState("");
     const [email, setEmail] = useState("");
     const [title, setTitle] = useState("");
 
@@ -77,22 +76,12 @@ const Createstudent = () => {
     <StudentSidebar />
     <main className="content">
         <Topbar />
-        <div className="forms-container">
-            <div className="form">
+        <div className="forms-container" style={{marginRight: "20%", marginLeft: "20%"}}>
+            <div className="form" >
                 <h1 className="h1-form">REGISTER PROJECT</h1>
                 <form >
-                  <h2>Team Member: 1</h2>
-                    <label htmlFor="name">Enter Name:</label>
-                    <input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        type="text"
-                        name="name"
-                        id="name"
-                        placeholder="Enter Name"
-                        required
-                    />
-                    <label htmlFor="regno">Enter Register Number: </label>
+                  <h2>Enter Details</h2>
+                    <label htmlFor="regno">Select Your Register Number: </label>
                     {/* <input
                         value={regno}
                         onChange={(e) => setRegno(e.target.value)}
@@ -103,29 +92,7 @@ const Createstudent = () => {
                         required
                     /> */}
                     <SearchableDropdown options={options} />
-                    <label htmlFor="email">Email ID:</label>
-                    <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="Enter Email"
-                        required
-                    />
-                    <br/>
-                    <h2>Team Member: 2</h2>
-                    <label htmlFor="name">Enter Name:</label>
-                    <input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        type="text"
-                        name="name"
-                        id="name"
-                        placeholder="Enter Name"
-                        required
-                    />
-                    <label htmlFor="regno">Enter Register Number: </label>
+                    <label htmlFor="regno">Select Team- Register Number: </label>
                     {/* <input
                         value={regno}
                         onChange={(e) => setRegno(e.target.value)}
@@ -136,16 +103,6 @@ const Createstudent = () => {
                         required
                     /> */}
                     <SearchableDropdown options={options} />
-                    <label htmlFor="email">Email ID:</label>
-                    <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="Enter Email"
-                        required
-                    />
                 </form>
             </div>
             <div className="form">
