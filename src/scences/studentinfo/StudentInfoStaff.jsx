@@ -47,7 +47,18 @@ const customstyle = {
       name: "Batch",
       selector: row => row.batch,
       sortable: true
-    }
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <button
+          className="delete-student"
+          onClick={() => handleDelete(row)}
+        >
+          Delete
+        </button>
+      ),
+    },
   ]
 
 const StudentInfoStaff = () => {
@@ -61,49 +72,6 @@ const StudentInfoStaff = () => {
     const storedToken = localStorage.getItem('token');
     setToken(storedToken);
   }, [])
-
-  const customStyle = {
-    headRow: {
-      style: {
-        backgroundColor: "#45a049",
-        color: "white"
-      }
-    },
-    headCells: {
-      style: {
-        fontSize: "16px"
-      }
-    },
-    cells: {
-      style: {
-        fontSize: "15px",
-      }
-    }
-  };
-
-  const columns = [
-    {
-      name: "Name",
-      selector: row => row.fullName,
-      sortable: true,
-    },
-    {
-      name: "Email",
-      selector: row => row.email,
-      sortable: true,
-    },
-    {
-      name: "Register Number",
-      selector: row => row.regNo,
-      sortable: true,
-
-    },
-    {
-      name: "Batch",
-      selector: row => row.batch,
-      sortable: true,
-    }
-  ]
 
   const fetchStudents = async () => {
     try {
@@ -130,7 +98,7 @@ const StudentInfoStaff = () => {
   }, [token]);
 
   const handleFilter = (event) => {
-    const newRecord = data.filter(data => data.name.toLowerCase().includes(event.target.value.toLowerCase()))
+    const newRecord = data.filter(data => data.fullName.toLowerCase().includes(event.target.value.toLowerCase()))
     setFilterdata(newRecord); // Update filter data state
   }
 
@@ -150,7 +118,7 @@ const StudentInfoStaff = () => {
               <br/>
             <DataTable
               columns={column}
-              data={data}
+              data={filterdata.length ? filterdata : data}
               customStyles={customstyle}
               pagination
             ></DataTable>

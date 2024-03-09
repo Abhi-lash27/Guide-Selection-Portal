@@ -32,6 +32,8 @@ const customstyle = {
 const StaffInfoAdmin = () => {
   const [theme, colorMode] = useMode();
   const [data, setData] = useState([])
+  const [filterdata, setFilterdata] = useState([]);
+
 
   const [token, setToken] = useState(null)
 
@@ -74,12 +76,27 @@ const StaffInfoAdmin = () => {
       name: "Email",
       selector: data => data.email,
       sortable: true
-    }
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <button
+          className="delete-student"
+          onClick={() => handleDelete(row)}
+        >
+          Delete
+        </button>
+      ),
+    },
   ]
 
+  // const handleFilter = (event) => {
+  //   const newRecord = data.filter(data => data.fullName.toLowerCase().includes(event.target.value.toLowerCase()))
+  //   setData(newRecord)
+  // }
   const handleFilter = (event) => {
-    const newRecord = data.filter(data => data.name.toLowerCase().includes(event.target.value.toLowerCase()))
-    setData(newRecord)
+    const newRecord = data.filter(data => data.fullName.toLowerCase().includes(event.target.value.toLowerCase()))
+    setFilterdata(newRecord); // Update filter data state
   }
 
   return (
@@ -99,7 +116,7 @@ const StaffInfoAdmin = () => {
               {/*<h1>{data.fullName}</h1>*/}
             <DataTable
             columns={column}
-            data={data}
+            data={filterdata.length ? filterdata : data}
             customStyles={customstyle}
             pagination
             ></DataTable>

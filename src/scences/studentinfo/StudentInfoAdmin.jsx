@@ -47,19 +47,31 @@ const StudentInfoAdmin = () => {
     {
       name: "Email",
       selector: row => row.email,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Register Number",
       selector: row => row.regNo,
-      sortable: true,
+      sortable: false,
 
     },
     {
       name: "Batch",
       selector: row => row.batch,
-      sortable: true,
-    }
+      sortable: false,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <button
+          className="delete-student"
+          onClick={() => handleDelete(row)}
+        >
+          Delete
+        </button>
+      ),
+    },
+
   ]
 
   const fetchStudents = async () => {
@@ -87,7 +99,7 @@ const StudentInfoAdmin = () => {
   }, [token]);
 
   const handleFilter = (event) => {
-    const newRecord = data.filter(data => data.name.toLowerCase().includes(event.target.value.toLowerCase()))
+    const newRecord = data.filter(data => data.fullName.toLowerCase().includes(event.target.value.toLowerCase()))
     setFilterdata(newRecord); // Update filter data state
   }
 
