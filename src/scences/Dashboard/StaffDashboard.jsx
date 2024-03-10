@@ -11,7 +11,7 @@ const StaffDashboard = () => {
   const [token, setToken] = useState(null)
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem('staff-token');
     if(!storedToken) {
       return window.location.href = '/'
     }

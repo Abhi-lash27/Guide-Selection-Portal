@@ -43,7 +43,7 @@ const StaffSidebar = () => {
   const [token,setToken] = useState(null)
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem('staff-token');
     setToken(storedToken);
     if(storedToken) {
       const decodedToken = jwt_decode(storedToken);

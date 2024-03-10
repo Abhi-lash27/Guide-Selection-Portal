@@ -24,7 +24,7 @@ const Staff = () => {
       const { token } = response.data;
 
       if (token) {
-        localStorage.setItem('token', token);
+        localStorage.setItem('staff-token', token);
         const decodedToken = jwt_decode(token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         window.location.href = "/staff-dashboard";
