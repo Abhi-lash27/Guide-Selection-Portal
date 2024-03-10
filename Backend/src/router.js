@@ -36,7 +36,6 @@ import { review, updateReview,reviewForm } from "./handlers/review.js";
 
 const router = Router();
 
-router.get("/students", getAllStudent);
 // get single student
 router.get("/students/:id", getSingleStudent);
 // student signup

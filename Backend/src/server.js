@@ -9,7 +9,7 @@ dotenv.config();
 // Now process.env contains the keys and values defined in your .env file
 
 import { signIn } from "./handlers/login.js";
-import { createStudent } from "./handlers/student.js";
+import { createStudent, getAllStudent } from "./handlers/student.js";
 import { expressjwt as jwt } from "express-jwt";
 import { getAllStaff } from "./handlers/staff.js";
 
@@ -26,6 +26,7 @@ app.use(logger(stream));
 app.post("/login/:role", signIn);
 app.post("/signup", createStudent);
 
+app.get("/api/students", getAllStudent);
 app.get("/api/staffs", getAllStaff);
 
 app.use("/api", jwt({secret: process.env.SECRET_KEY, algorithms: ["HS256"]}),router);
