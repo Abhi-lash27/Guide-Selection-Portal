@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -8,10 +8,11 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { red } from "@mui/material/colors";
 import Modal from "@mui/material/Modal";
+import axios from "axios";
 
 
 
-const FinalCard = ({ name }) => {
+const FinalCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleFileId3 }) => {
 
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
@@ -20,6 +21,132 @@ const FinalCard = ({ name }) => {
     const [upload, setUpload] = useState(false);
     const [update, setUpdate] = useState(false);
     const [del, setDel] = useState(false);
+
+    const [file1, setFile1] = useState(null);
+    const [file2, setFile2] = useState(null);
+    const [file3, setFile3] = useState(null);
+
+    const [id1, setId1] = useState(null)
+    const [id2, setId2] = useState(null)
+    const [id3, setId3] = useState();
+
+    const [token, setToken] = useState(null)
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if(!storedToken) {
+            return window.location.href = "/"
+        }
+        setToken(storedToken);
+    }, [])
+
+    const handleFileChange1 = (event) => {
+        setFile1(event.target.files[0]);
+    };
+
+    const handleFileChange2 = (event) => {
+        setFile2(event.target.files[0]);
+    };
+
+    const handleFileChange3 = (event) => {
+        setFile3(event.target.files[0]);
+    };
+
+    const handleFileUpload1 = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("data", file1);
+            formData.append("type", "pdf")
+
+            const res = await axios.post(`http://localhost:7777/api/files`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+
+            const fileId = res.data.id;
+
+            setId1(fileId)
+
+            handleFileId1(fileId)
+
+            if(res.status === 200) {
+                setId1(null)
+
+                return alert("Pdf uploaded")
+            }
+
+            setUpload(false);
+        } catch (error) {
+            console.error("Error uploading files: ", error);
+        }
+    };
+
+    const handleFileUpload2 = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("data", file2);
+            formData.append("type", "ppt")
+
+            const res = await axios.post(`http://localhost:7777/api/files`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            const fileId = res.data.id
+
+            setId2(fileId)
+
+            handleFileId2(fileId)
+
+            if(res.status === 200) {
+                setId2(null)
+
+                return alert("PPT uploaded")
+            }
+
+            setUpload(false);
+        } catch (error) {
+            console.error("Error uploading files: ", error);
+        }
+    };
+
+    const handleFileUpload3 = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("data", file3);
+            formData.append("type", "pdf")
+
+            const res = await axios.post(`http://localhost:7777/api/files`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+
+            const fileId = res.data.id;
+
+            setId3(fileId)
+
+            handleFileId3(fileId)
+
+            if(res.status === 200) {
+                setId3(null)
+
+                return alert("Report uploaded")
+            }
+
+            setUpload(false);
+        } catch (error) {
+            console.error("Error uploading files: ", error);
+        }
+    };
+
 
     const handleUpload = () => setUpload(true);
     const handleClose = () => setUpload(false);
@@ -80,64 +207,98 @@ const FinalCard = ({ name }) => {
                         >
                             <Box sx={style}>
                                 <Typography
-                                    id="modal-modal-title"
-                                    variant="h4"
-                                    component="h2"
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "flex-start",
-                                        fontStyle: "bold",
-                                        textTransform: "uppercase",
-                                    }}
+                                  id="modal-modal-title"
+                                  variant="h4"
+                                  component="h2"
+                                  style={{
+                                      display: "flex",
+                                      justifyContent: "flex-start",
+                                      fontStyle: "bold",
+                                      textTransform: "uppercase"
+                                  }}
                                 >
                                     Upload files
                                 </Typography>
-                                <br/>
+                                <br />
                                 <Typography
-                                    style={{
-                                        fontSize: "16px"
-                                    }}
+                                  style={{
+                                      fontSize: "16px"
+                                  }}
                                 >Review form</Typography>
-                                <input type="file"/>
-                                <br/> <br/>
-                                <Typography
-                                    style={{
-                                        fontSize: "16px"
-                                    }}
-                                >PPT</Typography>
-                                <input type="file"/>
-                                <br/>
-                                <br/>
-                                <Typography
-                                    style={{
-                                        fontSize: "16px"
-                                    }}
-                                >Report</Typography>
-                                <input type="file"/>
-                                <br/>
+                                <input type="file" onChange={handleFileChange1} />
                                 <button
-                                    type="submit"
-                                    style={{marginRight: 5, marginTop: 5, backgroundColor: "green", color: "white"}}
+                                  onClick={handleFileUpload1}
+                                  type="submit"
+                                  style={{
+                                      backgroundColor: "rgba(69,83,147,0.73)",
+                                      color: "white",
+                                      marginTop: "3px",
+                                      borderRadius: "5px"
+                                  }}
+                                >Upload File
+                                </button>
+                                <br /> <br />
+                                <Typography
+                                  style={{
+                                      fontSize: "16px"
+                                  }}
+                                >PPT</Typography>
+                                <input type="file" onChange={handleFileChange2} />
+                                <button
+                                  onClick={handleFileUpload2}
+                                  type="submit"
+                                  style={{
+                                      backgroundColor: "rgba(69,83,147,0.73)",
+                                      color: "white",
+                                      marginTop: "3px",
+                                      borderRadius: "5px"
+                                  }}
+                                >Upload File
+                                </button>
+                                <br />
+                                <br />
+                                <Typography
+                                  style={{
+                                      fontSize: "16px"
+                                  }}
+                                >Report</Typography>
+                                <input type="file" onChange={handleFileChange3} />
+                                <button
+                                  onClick={handleFileUpload3}
+                                  type="submit"
+                                  style={{
+                                      backgroundColor: "rgba(69,83,147,0.73)",
+                                      color: "white",
+                                      marginTop: "3px",
+                                      borderRadius: "5px"
+                                  }}
+                                >Upload File
+                                </button>
+                                <br />
+                                <button
+                                  onClick={handleSubmit}
+                                  type="submit"
+                                  style={{ marginRight: 5, marginTop: 5, backgroundColor: "green", color: "white" }}
                                 >
                                     Submit
                                 </button>
                                 <button
-                                    type="button"
-                                    style={{backgroundColor: "red", color: "white"}}
-                                    onClick={handleClose}
+                                  type="button"
+                                  style={{ backgroundColor: "red", color: "white" }}
+                                  onClick={handleClose}
                                 >
                                     Cancel
                                 </button>
                             </Box>
                         </Modal>
                         <Button
-                            onClick={handleUpdate}
-                            size="small"
-                            sx={{
-                                color: colors.blueAccent[400],
-                                border: 1,
-                                mx: 2,
-                            }}
+                          onClick={handleUpdate}
+                          size="small"
+                          sx={{
+                              color: colors.blueAccent[400],
+                              border: 1,
+                              mx: 2
+                          }}
                         >
                             <FileUploadOutlinedIcon></FileUploadOutlinedIcon>
                             Update

@@ -12,9 +12,7 @@ import StaffDashboard from './scences/Dashboard/StaffDashboard'
 import StudentDashboard from './scences/Dashboard/StudentDashboard'
 import Createstaff from './scences/form/Createstaff'
 import Createstudent from './scences/form/Createstudent'
-import PPTUpload from './scences/ReviewOptions/PPTUpload'
 import ReportUpload from './scences/ReviewOptions/ReportUpload'
-import StudentReviewForm from './scences/ReviewOptions/StudentReviewForm'
 import StudentInfoAdmin from './scences/studentinfo/StudentInfoAdmin'
 import StudentInfoStaff from './scences/studentinfo/StudentInfoStaff'
 import StaffInfoAdmin from './scences/staffinfoadmin/StaffInfoAdmin'
@@ -43,9 +41,9 @@ const App = () => {
         <Route path='/student-dashboard' element={<StudentDashboard />} />
         <Route path='/create-staff' element={<Createstaff />} />
         <Route path='/create-student' element={<Createstudent />} />
-        <Route path='/student-upload-ppt' element={<PPTUpload />} />
+        {/*<Route path='/student-upload-ppt' element={<PPTUpload />} />*/}
         <Route path='/student-upload-report' element={<ReportUpload />} />
-        <Route path='/student-review-form' element={<StudentReviewForm />} />
+        {/*<Route path='/student-review-form' element={<StudentReviewForm />} />*/}
         <Route path='/student-data-admin' element={<StudentInfoAdmin />} />
         <Route path='/student-data-staff' element={<StudentInfoStaff />} />
         <Route path='/staff-data-admin' element={<StaffInfoAdmin />} />

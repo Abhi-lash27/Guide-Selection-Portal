@@ -85,9 +85,15 @@ export const getSingleProject = async (req, res) => {
       include: {
         students: {
           select: {
+            id: true,
             fullName: true,
+            email: true,
+            batch: true,
+            regNo: true,
+            phoneNo: true
           },
         },
+        reviews: true
       },
     });
 
