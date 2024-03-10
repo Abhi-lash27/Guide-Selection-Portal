@@ -7,6 +7,7 @@ import Topbar from "../global/Topbar";
 import AdminSidebar from "../global/AdminSidebar";
 import { rootShouldForwardProp } from "@mui/material/styles/styled";
 import axios from "axios";
+import * as ReactBootStrap from "react-bootstrap";
 
 const customstyle = {
   headRow: {
@@ -33,6 +34,7 @@ const StaffInfoAdmin = () => {
   const [theme, colorMode] = useMode();
   const [data, setData] = useState([])
   const [filterdata, setFilterdata] = useState([]);
+  const [loading, setLoading] =  useState(false);
 
 
   const [token, setToken] = useState(null)
@@ -50,7 +52,7 @@ const StaffInfoAdmin = () => {
           Authorization: `Bearer ${token}`
         }
       });
-
+      setLoading(true);
       console.log(response);
       const responseData = response.data;
       setData(responseData.staff);
@@ -114,12 +116,13 @@ const StaffInfoAdmin = () => {
               </div>
               <br/>
               {/*<h1>{data.fullName}</h1>*/}
-            <DataTable
+              {loading ? <DataTable
             columns={column}
             data={filterdata.length ? filterdata : data}
             customStyles={customstyle}
             pagination
-            ></DataTable>
+            ></DataTable> : <ReactBootStrap.Spinner animation="border" /> }
+            
             </div>
             {/* <div>
       <h2>Staff Information</h2>

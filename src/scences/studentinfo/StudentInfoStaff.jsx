@@ -6,6 +6,7 @@ import Topbar from "../global/Topbar";
 import StaffSidebar from "../global/StaffSidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import * as ReactBootStrap from "react-bootstrap";
 
 const customstyle = {
     headRow: {
@@ -31,12 +32,12 @@ const customstyle = {
     {
       name: "Name",
       selector: row => row.fullName,
-      sortable: true
+      sortable: false
     },
     {
       name: "Email",
       selector: row => row.email,
-      sortable: true
+      sortable: false
     },
     {
       name: "Register Number",
@@ -44,9 +45,15 @@ const customstyle = {
       sortable: true
     },
     {
+      name: "Phone",
+
+      selector: row => row.phoneNo,
+      sortable: false
+    },
+    {
       name: "Batch",
       selector: row => row.batch,
-      sortable: true
+      sortable: false
     },
     {
       name: "Actions",
@@ -65,6 +72,7 @@ const StudentInfoStaff = () => {
   const [theme, colorMode] = useMode();
   const [data, setData] = useState([]);
   const [filterdata, setFilterdata] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [token, setToken] = useState(null)
 
@@ -81,7 +89,7 @@ const StudentInfoStaff = () => {
           Authorization: `Bearer ${token}`
         }
       });
-
+      setLoading(true);
       console.log(response);
       const responseData = response.data;
       setData(responseData.students);
@@ -116,12 +124,12 @@ const StudentInfoStaff = () => {
                 <input type="text" placeholder="Seach by Name" onChange={handleFilter} style={{padding: "6px 10px"}}/>
               </div>
               <br/>
-            <DataTable
-              columns={column}
-              data={filterdata.length ? filterdata : data}
-              customStyles={customstyle}
-              pagination
-            ></DataTable>
+              {loading ? <DataTable
+                columns={column}
+                data={filterdata.length ? filterdata : data}
+                customStyles={customstyle}
+                pagination
+              /> : <ReactBootStrap.Spinner animation="border" /> }
             </div>
            {/* <div>
       <h2>Student Information</h2>

@@ -6,18 +6,48 @@ import Topbar from "../global/Topbar";
 import AdminSidebar from "../global/AdminSidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import * as ReactBootStrap from "react-bootstrap";
 
 const StudentInfoAdmin = () => {
   const [theme, colorMode] = useMode();
   const [data, setData] = useState([]);
   const [filterdata, setFilterdata] = useState([]);
-
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] =  useState(false);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('admin-token');
     setToken(storedToken);
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if(token) {
+      fetchStudents();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if(data.length > 0) {
+      const sortedData = [...data].sort((a, b) => (a.fullName < b.fullName) ? -1 : 1);
+      setFilterdata(sortedData);
+    }
+  }, [data]);
+
+  const fetchStudents = async () => {
+    try {
+      const response = await axios.get(`http://localhost:7777/api/students`, {
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setLoading(true);
+      const responseData = response.data;
+      setData(responseData.students);
+    } catch (error) {
+      console.error('Error fetching students:', error);
+    }
+  };
 
   const customStyle = {
     headRow: {
@@ -56,6 +86,11 @@ const StudentInfoAdmin = () => {
 
     },
     {
+      name: "Phone",
+      selector: row => row.phoneNo,
+      sortable: false,
+    },
+    {
       name: "Batch",
       selector: row => row.batch,
       sortable: false,
@@ -74,33 +109,9 @@ const StudentInfoAdmin = () => {
 
   ]
 
-  const fetchStudents = async () => {
-    try {
-      const response = await axios.get(`http://localhost:7777/api/students`, {
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      console.log(response);
-      const responseData = response.data;
-      setData(responseData.students);
-      console.log('Data after setting:', responseData); // Log the data after setting
-    } catch (error) {
-      console.error('Error fetching students:', error);
-    }
-  };
-
-  useEffect(() => {
-    if(token) {
-      fetchStudents()
-    }
-  }, [token]);
-
   const handleFilter = (event) => {
     const newRecord = data.filter(data => data.fullName.toLowerCase().includes(event.target.value.toLowerCase()))
-    setFilterdata(newRecord); // Update filter data state
+    setFilterdata(newRecord);
   }
 
   return (
@@ -117,12 +128,13 @@ const StudentInfoAdmin = () => {
                 <input type="text" placeholder="Search by Name" onChange={handleFilter} style={{padding: "6px 10px"}}/>
               </div>
               <br/>
-              <DataTable
+              {loading ? <DataTable
                 columns={columns}
-                data={filterdata.length ? filterdata : data} // Use filtered data if available, otherwise use all data
+                data={filterdata}
                 customStyles={customStyle}
                 pagination
-              />
+              /> : <ReactBootStrap.Spinner animation="border" /> }
+               {/* {} */}
             </div>
           </main>
         </div>

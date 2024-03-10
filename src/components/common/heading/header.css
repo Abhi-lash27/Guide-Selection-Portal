@@ -26,6 +26,7 @@
     color: white;
     font-weight: 500;
     transition: 0.5s;
+    text-decoration: none;
 }
 .header-main ul li a:hover{
     color: #9E1C3F;

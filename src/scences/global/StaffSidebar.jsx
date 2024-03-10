@@ -52,7 +52,7 @@ const StaffSidebar = () => {
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('staff-token');
     window.location.replace('/')
   }
 
