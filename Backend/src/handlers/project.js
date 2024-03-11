@@ -161,6 +161,8 @@ export const getAllProjectsForSingleStaff = async (req, res) => {
           select: {
             fullName: true,
             regNo: true,
+            phoneNo: true,
+            email: true
           }
         },
         reviews: {

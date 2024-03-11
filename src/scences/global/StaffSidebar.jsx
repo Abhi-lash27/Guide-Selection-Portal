@@ -130,13 +130,13 @@ const StaffSidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
-              title="Home"
-              to="/staff-dashboard"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            {/*<Item*/}
+            {/*  title="Home"*/}
+            {/*  to="/staff-dashboard"*/}
+            {/*  icon={<HomeOutlinedIcon />}*/}
+            {/*  selected={selected}*/}
+            {/*  setSelected={setSelected}*/}
+            {/*/>*/}
 
             <Typography
               variant="h6"
@@ -146,8 +146,8 @@ const StaffSidebar = () => {
               Data
             </Typography>
             <Item
-              title="Student Data"
-              to="/student-data-staff"
+              title="Home"
+              to="/staff-dashboard"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

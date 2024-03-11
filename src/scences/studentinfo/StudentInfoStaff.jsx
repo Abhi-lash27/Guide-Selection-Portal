@@ -7,6 +7,7 @@ import StaffSidebar from "../global/StaffSidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import * as ReactBootStrap from "react-bootstrap";
+import { jwtDecode } from "jwt-decode";
 
 const customstyle = {
     headRow: {
@@ -28,45 +29,7 @@ const customstyle = {
     }
   };
 
-  const column = [
-    {
-      name: "Name",
-      selector: row => row.fullName,
-      sortable: false
-    },
-    {
-      name: "Email",
-      selector: row => row.email,
-      sortable: false
-    },
-    {
-      name: "Register Number",
-      selector: row => row.regNo,
-      sortable: true
-    },
-    {
-      name: "Phone",
 
-      selector: row => row.phoneNo,
-      sortable: false
-    },
-    {
-      name: "Batch",
-      selector: row => row.batch,
-      sortable: false
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <button
-          className="delete-student"
-          onClick={() => handleDelete(row)}
-        >
-          Delete
-        </button>
-      ),
-    },
-  ]
 
 const StudentInfoStaff = () => {
   const [theme, colorMode] = useMode();
@@ -83,7 +46,11 @@ const StudentInfoStaff = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get(`http://localhost:7777/api/students`, {
+      const storedToken = localStorage.getItem('staff-token');
+      const decodedToken = jwtDecode(storedToken)
+      const staffId = decodedToken.id
+
+      const response = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews`, {
         headers: {
           "content-type": "application/json",
           Authorization: `Bearer ${token}`
@@ -92,7 +59,7 @@ const StudentInfoStaff = () => {
       setLoading(true);
       console.log(response);
       const responseData = response.data;
-      setData(responseData.students);
+      setData(responseData.projects);
       console.log('Data after setting:', responseData); // Log the data after setting
     } catch (error) {
       console.error('Error fetching students:', error);
@@ -105,10 +72,50 @@ const StudentInfoStaff = () => {
     }
   }, [token]);
 
+  const column = [
+    {
+      name: "PROJECT TITLE",
+      selector: (row) => row.title,
+      sortable: true,
+    },
+    {
+      name: "STUDENT-1 NAME",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "phone number",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].phoneNo : ""
+    },
+    {
+      name: "STUDENT-2 NAME",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "phone number",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[1].phoneNo : ""
+    },
+  ];
+
+
   const handleFilter = (event) => {
-    const newRecord = data.filter(data => data.fullName.toLowerCase().includes(event.target.value.toLowerCase()))
-    setFilterdata(newRecord); // Update filter data state
-  }
+    const inputValue = event.target.value.toLowerCase();
+    const newRecord = data.filter(project =>
+      project.title.toLowerCase().includes(inputValue)
+    );
+    setFilterdata(newRecord);
+  };
 
   return (
     <ColorModeContext.Provider value={colorMode}>
