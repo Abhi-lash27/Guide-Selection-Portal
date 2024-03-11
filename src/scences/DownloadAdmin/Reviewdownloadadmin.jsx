@@ -68,27 +68,32 @@ const DownloadReviewAdmin = () => {
   const columns = [
     {
       name: "PROJECT TITLE",
-      selector: "title",
+      selector: (row) => row.title,
       sortable: true,
     },
     {
       name: "STUDENT-1 NAME",
-      selector: "name1",
+      selector: (row) => row.fullName,
       sortable: true,
     },
     {
       name: "REGISTER NUMBER",
-      selector: "regno1",
+      selector: (row) => row.regNo,
       sortable: true,
     },
     {
       name: "STUDENT-2 NAME",
-      selector: "name2",
+      selector: (row) => row.fullName,
       sortable: true,
     },
     {
       name: "REGISTER NUMBER",
-      selector: "regno2",
+      selector: (row) => row.regNo,
+      sortable: true,
+    },
+    {
+      name: "STAGE",
+      selector: (row) => row.stage,
       sortable: true,
     },
     {
@@ -100,7 +105,7 @@ const DownloadReviewAdmin = () => {
     },
     {
       name: "APPROVE STATUS",
-      selector: "status",
+      selector: (row) => row.status,
       sortable: true,
     },
     {
