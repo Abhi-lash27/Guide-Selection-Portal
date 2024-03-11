@@ -66,30 +66,117 @@ export const registerProject = async (req, res) => {
   }
 };
 
+// export const getAllProjects = async (req, res) => {
+//   try {
+//     const projects = await prisma.project.findMany({
+//       include: {
+//         reviews: true,
+//         students: {
+//           select: {
+//             fullName: true,
+//             regNo: true,
+//           }
+//         },
+//         staff: {
+//           select: {
+//             fullName: true
+//           }
+//         }
+//       }
+//     });
+//     return res.status(200).json({ projects });
+//   } catch (err) {
+//     logger.error(err);
+//     return res.status(404).json({ error: "Projects not found" });
+//   }
+// };
+
 export const getAllProjects = async (req, res) => {
   try {
+    const { stage } = req.query;
+
+    let projects;
+    if (stage) {
+      projects = await prisma.project.findMany({
+        where: {
+          reviews: {
+            some: {
+              stage: stage
+            }
+          }
+        },
+        include: {
+          reviews: true,
+          students: {
+            select: {
+              fullName: true,
+              regNo: true,
+            }
+          },
+          staff: {
+            select: {
+              fullName: true
+            }
+          }
+        }
+      });
+    } else {
+      projects = await prisma.project.findMany({
+        include: {
+          reviews: true,
+          students: {
+            select: {
+              fullName: true,
+              regNo: true,
+            }
+          },
+          staff: {
+            select: {
+              fullName: true
+            }
+          }
+        }
+      });
+    }
+
+    return res.status(200).json({ projects });
+  } catch (err) {
+    logger.error(err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getAllProjectsForSingleStaff = async (req, res) => {
+  try {
+    const staffId = req.params.staffId; // Retrieve staffId from query parameters
+    const stage = req.query.stage; // Retrieve stage from query parameters
+
     const projects = await prisma.project.findMany({
+      where: {
+        staffId: staffId
+      },
       include: {
-        reviews: true,
         students: {
           select: {
             fullName: true,
             regNo: true,
           }
         },
-        staff: {
-          select: {
-            fullName: true
+        reviews: {
+          where: {
+            stage: stage
           }
         }
       }
     });
-    return res.status(200).json({ projects });
+
+    res.status(200).json({ projects });
   } catch (err) {
-    logger.error(err);
-    return res.status(404).json({ error: "Projects not found" });
+    console.error('Error retrieving projects:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 // export const getSingleProject = async (req, res) => {
 //   try {

@@ -27,7 +27,7 @@ import {
   updateProject,
   deleteProject,
   getAllProjects,
-  getSingleProject
+  getSingleProject, getAllProjectsForSingleStaff
 } from "./handlers/project.js";
 
 import { getFileById, updateFile, uploadFile } from "./handlers/file.js";
@@ -58,6 +58,8 @@ router.delete("/admins/:id", deleteAdmin);
 
 // Projects
 router.get("/projects", getAllProjects);
+router.get("/projects/reviews", getAllProjects);
+router.get("/projects/:staffId/reviews/", getAllProjectsForSingleStaff)
 router.get("/projects/:id", getSingleProject);
 router.get("/projects/:id/reviews", getSingleProject);
 router.post("/projects", registerProject);
