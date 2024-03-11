@@ -68,7 +68,22 @@ export const registerProject = async (req, res) => {
 
 export const getAllProjects = async (req, res) => {
   try {
-    const projects = await prisma.project.findMany();
+    const projects = await prisma.project.findMany({
+      include: {
+        reviews: true,
+        students: {
+          select: {
+            fullName: true,
+            regNo: true,
+          }
+        },
+        staff: {
+          select: {
+            fullName: true
+          }
+        }
+      }
+    });
     return res.status(200).json({ projects });
   } catch (err) {
     logger.error(err);
