@@ -4,12 +4,47 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import "../../index.css";
 import Topbar from "../global/Topbar";
 import StudentSidebar from "../global/StudentSidebar";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const StudentDashboard = () => {
   const [theme, colorMode] = useMode();
   const [data, setData] = useState([]);
-
   const [token, setToken] = useState(null)
+
+  const getStudentDetails = async() => {
+    try{
+      const storedToken = localStorage.getItem("token")
+      const decodedToken = jwtDecode(storedToken)
+      const studentId = decodedToken.id
+      const res = await axios.get(`http://localhost:7777/api/students/${studentId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization : `Bearer ${storedToken}`
+        }
+      }
+      );
+      // console.log(res);
+      const projectId = res.data.projectId
+
+      const newResponse = await axios.get(`http://localhost:7777/api/projects/${projectId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization : `Bearer ${storedToken}`
+        }
+      }
+      );
+      // console.log(newResponse);
+      setData(newResponse.data)
+
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  console.log(data);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -17,8 +52,8 @@ const StudentDashboard = () => {
       return window.location.href = "/"
     }
     setToken(storedToken);
+    getStudentDetails();
   }, [])
-
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -28,106 +63,33 @@ const StudentDashboard = () => {
           <main className="content">
             <Topbar />
             <div>
-              <h2>Student Information</h2>
+              <h2>Project Information</h2>
               <table>
                 <tbody>
-                  {(data.length > 0)? data.map((data, index) => {
-                        return (
-                          <tr key={index}>
-                            <tr>
-                              <th>Project Title</th>
-                              <td>{data.title}</td>
-                            </tr>
-                            <tr>
-                              <th>Team Member 1</th>
-                              <td>{data.member1}</td>
-                            </tr>
-                            <tr>
-                              <th>Register No 1</th>
-                              <td>{data.regno1}</td>
-                            </tr>
-                            <tr>
-                              <th>Guide Name</th>
-                              <td>{data.guide}</td>
-                            </tr>
-                            <tr>
-                              <th>Email 1</th>
-                              <td>{data.email1}</td>
-                            </tr>
-                            <tr>
-                              <th>Phone No 1</th>
-                              <td>{data.phno1}</td>
-                            </tr>
-                            <tr>
-                              <th>Team Member 2</th>
-                              <td>{data.member2}</td>
-                            </tr>
-                            <tr>
-                              <th>Register No 2</th>
-                              <td>{data.regno2}</td>
-                            </tr>
-                            <tr>
-                              <th>Email 2</th>
-                              <td>{data.email2}</td>
-                            </tr>
-                          </tr>
-                        );
-                      })
-                    : null }
-                  {/* : //{" "} */}
-                  {/* <tr>
-                    // <th>Project Title</th>
-                    // <td>Cell 1</td>
-                    //{" "}
-                  </tr>
-                  //{" "}
                   <tr>
-                    // <th>Team Member 1</th>
-                    // <td>Cell 1</td>
-                    //{" "}
+                    <td><strong>Project Title:</strong></td>
+                    <td>{data.title}</td>
                   </tr>
-                  //{" "}
                   <tr>
-                    // <th>Register No 1</th>
-                    // <td>Cell 2</td>
-                    //{" "}
+                    <td colSpan="2"><strong>Students:</strong></td>
                   </tr>
-                  //{" "}
+                  {Array.isArray(data.students) && data.students.map((student) => (
+                    <>
+                    <tr key={student.id}>
+                      <td>Name:</td>
+                      <td>{student.fullName}</td>
+                    </tr>
+                    <tr key={student.id}>
+                      <td>Reg No:</td>
+                      <td>{student.regNo}</td>
+                    </tr>
+                    </>
+                  ))}
                   <tr>
-                    // <th>Guide Name</th>
-                    // <td>Cell 2</td>
-                    //{" "}
+                    <td>Staff Name:</td>
+                    <td>{data.staff.fullName}</td>
                   </tr>
-                  //{" "}
-                  <tr>
-                    // <th>Email 1</th>
-                    // <td>Cell 2</td>
-                    //{" "}
-                  </tr>
-                  //{" "}
-                  <tr>
-                    // <th>Phone No 1</th>
-                    // <td>Cell 2</td>
-                    //{" "}
-                  </tr>
-                  //{" "}
-                  <tr>
-                    // <th>Team Member 2</th>
-                    // <td>Cell 2</td>
-                    //{" "}
-                  </tr>
-                  //{" "}
-                  <tr>
-                    // <th>Register No 2</th>
-                    // <td>Cell 2</td>
-                    //{" "}
-                  </tr>
-                  //{" "}
-                  <tr>
-                    // <th>Email 2</th>
-                    // <td>Cell 2</td>
-                    //{" "}
-                  </tr> */}
+                  
                 </tbody>
               </table>
             </div>
@@ -136,6 +98,10 @@ const StudentDashboard = () => {
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
-};
+  
+  
+                  }
+
+ 
 
 export default StudentDashboard;

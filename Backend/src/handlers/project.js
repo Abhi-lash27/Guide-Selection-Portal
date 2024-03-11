@@ -237,6 +237,11 @@ export const getSingleProject = async (req, res) => {
           where: {
             stage: stage || undefined // Filter reviews by stage if provided in query params
           }
+        },
+        staff: {
+          select: {
+            fullName: true
+          }
         }
       },
     });
