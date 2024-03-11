@@ -79,7 +79,7 @@ const AdminSidebar = () => {
         "& .pro-menu-item.active": {
           color: "#6870fa !important",
         },
-        height: "auto"
+        height: "500vh"
       }}
     >
       <ProSidebar collapsed={isCollapsed}>

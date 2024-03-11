@@ -74,7 +74,7 @@ const StaffSidebar = () => {
         "& .pro-menu-item.active": {
           color: "#6870fa !important",
         },
-        height: "100vh"
+        height: "500vh"
       }}
     >
       <ProSidebar collapsed={isCollapsed}>
