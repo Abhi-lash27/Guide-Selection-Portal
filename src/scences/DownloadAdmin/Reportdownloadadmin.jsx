@@ -5,11 +5,13 @@ import Topbar from "../global/Topbar";
 import AdminSidebar from "../global/AdminSidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import * as ReactBootStrap from "react-bootstrap";
+import {toast} from "react-toastify"
 
 const DownloadReportAdmin = () => {
   const [theme, colorMode] = useMode();
   const [token, setToken] = useState(null)
-
+  const [loading, setLoading] =  useState(false);
   const [modelData, setModelData] = useState('');
   const [finalData, setFinalData] = useState('');
 
@@ -22,6 +24,7 @@ const DownloadReportAdmin = () => {
           Authorization: `Bearer ${storedToken}`
         }
       });
+      setLoading(true)
       const responseData = res.data
       setModelData(responseData.projects)
     } catch (err) {
@@ -38,6 +41,7 @@ const DownloadReportAdmin = () => {
           Authorization: `Bearer ${storedToken}`
         }
       });
+      setLoading(true)
       const responseData = res.data
       setFinalData(responseData.projects)
     } catch (err) {
@@ -74,8 +78,10 @@ const DownloadReportAdmin = () => {
       link.setAttribute('download', 'report.pdf'); // you can set file name here
       document.body.appendChild(link);
       link.click();
+      toast.success("File Download Successful")
     } catch (error) {
       console.error('Error downloading file:', error);
+      toast.error("Error Downloading File")
     }
   };
 
@@ -155,26 +161,31 @@ const DownloadReportAdmin = () => {
       sortable: true,
     },
     {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
+      name: "STAFF NAME",
+
     },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
-    }
+
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
   const final = [
     {
@@ -217,26 +228,29 @@ const DownloadReportAdmin = () => {
       sortable: true,
     },
     {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
+      name: "STAFF NAME",
     }
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
   const handleFilter = (event) => {
     const newRecord = data.filter(data => data.title.toLowerCase().includes(event.target.value.toLowerCase()))
@@ -258,12 +272,14 @@ const DownloadReportAdmin = () => {
                 <input type="text" placeholder="Seach by Project" onChange={handleFilter} style={{padding: "6px 10px"}}/>
               </div>
               <br />
-              <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Model Review</h3>
+              {loading ? <>
+                <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Model Review</h3>
               <DataTable 
                 columns={model}
                 data={modelData}
                 customStyles={customStyles}
                 pagination
+                highlightOnHover
               />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Final Review</h3>
               <DataTable 
@@ -271,7 +287,12 @@ const DownloadReportAdmin = () => {
                 data={finalData}
                 customStyles={customStyles}
                 pagination
-              />
+                highlightOnHover
+              /></>:
+              <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}> 
+              <ReactBootStrap.Spinner animation="border"/>
+              </div>
+              }
             </div>
           </main>
         </div>

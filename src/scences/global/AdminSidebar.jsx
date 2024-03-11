@@ -16,6 +16,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
 import { jwtDecode as jwt_decode } from "jwt-decode";
+import {toast} from "react-toastify"
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -57,6 +58,7 @@ const AdminSidebar = () => {
   const handleLogout = () => {
     localStorage.removeItem('admin-token');
     window.location.replace('/')
+    toast.success("Logout Successfull")
   }
 
   return (

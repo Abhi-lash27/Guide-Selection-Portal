@@ -5,10 +5,13 @@ import Topbar from "../global/Topbar";
 import AdminSidebar from "../global/AdminSidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import {toast} from "react-toastify";
+import * as ReactBootStrap from "react-bootstrap";
 
 const DownloadPptAdmin = () => {
   const [theme, colorMode] = useMode();
   const [token, setToken] = useState(null)
+  const [loading, setLoading] =  useState(false);
   const [zeroData, setZeroData] = useState('');
   const [firstData, setFirstData] = useState('');
   const [secondData, setSecondData] = useState('');
@@ -26,6 +29,7 @@ const DownloadPptAdmin = () => {
           Authorization: `Bearer ${storedToken}`
         }
       });
+      setLoading(true);
       const responseData = res.data
       setZeroData(responseData.projects)
     } catch (err) {
@@ -42,6 +46,7 @@ const DownloadPptAdmin = () => {
           Authorization: `Bearer ${storedToken}`
         }
       });
+      setLoading(true);
       const responseData = res.data
       setFirstData(responseData.projects)
     } catch (err) {
@@ -58,6 +63,7 @@ const DownloadPptAdmin = () => {
           Authorization: `Bearer ${storedToken}`
         }
       });
+      setLoading(true);
       const responseData = res.data
       setSecondData(responseData.projects)
     } catch (err) {
@@ -74,6 +80,7 @@ const DownloadPptAdmin = () => {
           Authorization: `Bearer ${storedToken}`
         }
       });
+      setLoading(true);
       const responseData = res.data
       setThirdData(responseData.projects)
     } catch (err) {
@@ -90,6 +97,7 @@ const DownloadPptAdmin = () => {
           Authorization: `Bearer ${storedToken}`
         }
       });
+      setLoading(true);
       const responseData = res.data
       setModelData(responseData.projects)
     } catch (err) {
@@ -106,6 +114,7 @@ const DownloadPptAdmin = () => {
           Authorization: `Bearer ${storedToken}`
         }
       });
+      setLoading(true);
       const responseData = res.data
       setFinalData(responseData.projects)
     } catch (err) {
@@ -146,8 +155,10 @@ const DownloadPptAdmin = () => {
       link.setAttribute('download', 'test.ppt'); // you can set file name here
       document.body.appendChild(link);
       link.click();
+      toast.success("Download Successfull")
     } catch (error) {
       console.error('Error downloading file:', error);
+      toast.error("Error Downloading File")
     }
   };
 
@@ -227,26 +238,29 @@ const DownloadPptAdmin = () => {
       sortable: true,
     },
     {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
+      name: "STAFF NAME",
     }
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
 
   const first = [
@@ -290,26 +304,29 @@ const DownloadPptAdmin = () => {
       sortable: true,
     },
     {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
+      name: "STAFF NAME",
     }
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
 
 
@@ -354,26 +371,29 @@ const DownloadPptAdmin = () => {
       sortable: true,
     },
     {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
+      name: "STAFF NAME",
     }
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
   const third = [
     {
@@ -416,26 +436,29 @@ const DownloadPptAdmin = () => {
       sortable: true,
     },
     {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
+      name: "STAFF NAME",
     }
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
 
   const forth = [
@@ -479,26 +502,29 @@ const DownloadPptAdmin = () => {
       sortable: true,
     },
     {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
+      name: "STAFF NAME",
     }
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
 
   const model = [
@@ -542,26 +568,29 @@ const DownloadPptAdmin = () => {
       sortable: true,
     },
     {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
+      name: "STAFF NAME",
     }
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
 
   const final = [
@@ -605,32 +634,38 @@ const DownloadPptAdmin = () => {
       sortable: true,
     },
     {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
+      name: "STAFF NAME",
     }
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
 
   const handleFilter = (event) => {
-    const newRecord = data.filter(data => data.title.toLowerCase().includes(event.target.value.toLowerCase()))
-    setData(newRecord)  
-  }
+    const searchTerm = event.target.value.toLowerCase();
+    const filteredZeroData = zeroData.filter(data => data.title.toLowerCase().includes(searchTerm));
+    setZeroData(filteredZeroData);
+
+  };
+  
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -646,12 +681,15 @@ const DownloadPptAdmin = () => {
                 <input type="text" placeholder="Seach by Project" onChange={handleFilter} style={{padding: "6px 10px"}}/>
               </div>
               <br />
-              <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Zeroth Review</h3>
+              {loading ? 
+              <>
+               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Zeroth Review</h3>
               <DataTable 
                 columns={zero}
                 data={zeroData}
                 customStyles={customStyles}
                 pagination
+                highlightOnHover
                 />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>First Review</h3>
               <DataTable 
@@ -659,6 +697,7 @@ const DownloadPptAdmin = () => {
                 data={firstData}
                 customStyles={customStyles}
                 pagination
+                highlightOnHover
                 />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Second Review</h3>
               <DataTable 
@@ -666,6 +705,7 @@ const DownloadPptAdmin = () => {
                 data={secondData}
                 customStyles={customStyles}
                 pagination
+                highlightOnHover
                 />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Third Review</h3>
               <DataTable 
@@ -673,6 +713,7 @@ const DownloadPptAdmin = () => {
                 data={thirdData}
                 customStyles={customStyles}
                 pagination
+                highlightOnHover
                 />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Model Review</h3>
               <DataTable 
@@ -680,6 +721,7 @@ const DownloadPptAdmin = () => {
                 data={modelData}
                 customStyles={customStyles}
                 pagination
+                highlightOnHover
                 />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Final Review</h3>
               <DataTable 
@@ -687,7 +729,12 @@ const DownloadPptAdmin = () => {
                 data={finalData}
                 customStyles={customStyles}
                 pagination
-                />
+                highlightOnHover
+                /> </>
+                : <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                <ReactBootStrap.Spinner animation="border"/>
+                </div>
+              }
             </div>
               
           </main>

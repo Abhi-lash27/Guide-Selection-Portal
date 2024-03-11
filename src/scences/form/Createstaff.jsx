@@ -6,10 +6,10 @@ import Topbar from "../global/Topbar";
 import { ColorModeContext, useMode } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import axios from 'axios';
+import {toast} from "react-toastify"
 
 const Createstaff = () => {
   const [theme, colorMode] = useMode();
-
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,7 +42,8 @@ const Createstaff = () => {
     });
 
     if (res.data.staff) {
-      alert("Staff created successfully");
+      // alert("Staff created successfully");
+      toast.success("Staff created successfully")
       // Reset form fields
       setFullName("");
       setEmail("");
@@ -52,7 +53,8 @@ const Createstaff = () => {
     }
   } catch (error) {
     console.error("Error:", error);
-    alert("Failed to create staff");
+    // alert("Failed to create staff");
+    toast.error("Error Creating Staff")
   }
 }
 

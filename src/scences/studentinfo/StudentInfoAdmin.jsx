@@ -133,7 +133,10 @@ const StudentInfoAdmin = () => {
                 data={filterdata}
                 customStyles={customStyle}
                 pagination
-              /> : <ReactBootStrap.Spinner animation="border" /> }
+                highlightOnHover
+              /> : <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}> 
+              <ReactBootStrap.Spinner animation="border"/>
+              </div> }
                {/* {} */}
             </div>
           </main>

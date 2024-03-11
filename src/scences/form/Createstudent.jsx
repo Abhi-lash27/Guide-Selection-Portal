@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-
 import { useState } from "react";
 import './form.css';
 import AdminSidebar from "../global/AdminSidebar";
 import Topbar from "../global/Topbar";
 import { ColorModeContext, useMode } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import {toast} from "react-toastify"
 
 
 
 const Createstudent = () => {
     const [theme, colorMode] = useMode();
-
     const [fullName, setFullName] = useState("");
     const [regNo, setRegNo] = useState("");
     const [email, setEmail] = useState("");
@@ -46,10 +45,12 @@ const Createstudent = () => {
         });
     
         if (response.data) {
-          alert('Success');
+          // alert('Success');
+          toast.success("Successfully created Student")
         }
       } catch (error) {
         console.error('Error from create student :', error);
+        toast.error("Error Creating Student")
       }
     }
   

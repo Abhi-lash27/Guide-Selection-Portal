@@ -121,7 +121,10 @@ const StaffInfoAdmin = () => {
             data={filterdata.length ? filterdata : data}
             customStyles={customstyle}
             pagination
-            ></DataTable> : <ReactBootStrap.Spinner animation="border" /> }
+            highlightOnHover
+            ></DataTable> : <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}> 
+            <ReactBootStrap.Spinner animation="border"/>
+            </div> }
             
             </div>
             {/* <div>

@@ -5,6 +5,7 @@ import passwordImg from "../../images/password.png";
 import Header from "../../components/common/heading/Header";
 import { jwtDecode as jwt_decode } from "jwt-decode";
 import axios from 'axios';
+import {toast} from "react-toastify";
 
 const Admin = () => {
   const [email, setEmail] = useState("");
@@ -27,13 +28,16 @@ const Admin = () => {
         const decodedToken = jwt_decode(token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         window.location.href = "/admin-dashboard";
+        toast.success("Login Successful")
       } else {
         throw new Error('Token not found in response!');
       }
 
     } catch (error) {
       console.error("Login error:", error);
-      setError("Invalid email or password");
+      // setError("Invalid email or password");
+      toast.error("Invalid email or password");
+
     }
   }
 
