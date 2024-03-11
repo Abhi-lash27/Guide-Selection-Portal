@@ -89,6 +89,25 @@ export const getSingleStaff = async (req, res) => {
       where: {
         id: req.params.id,
       },
+      select: {
+        id: true,
+        fullName: true,
+        email: true,
+        specializations: true,// Add other necessary fields here
+        projects: {
+          select: {
+            title: true,
+            reviews: true,
+            students: {
+              select: {
+                fullName: true,
+                regNo: true,
+              }
+            },
+
+          }
+        },
+      }
     });
 
     if (!staff) {

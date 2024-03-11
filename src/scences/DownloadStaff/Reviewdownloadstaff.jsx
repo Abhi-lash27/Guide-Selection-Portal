@@ -1,45 +1,74 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ColorModeContext, useMode } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Topbar from "../global/Topbar";
 import StaffSidebar from "../global/StaffSidebar";
 import DataTable from "react-data-table-component";
+import axios from "axios";
+import { jwtDecode as jwt_decode } from "jwt-decode";
 
 const DownloadReviewStaff = () => {
   const [theme, colorMode] = useMode();
-  const [data, setData] = useState([
-    {
-      title: "Project 1",
-      name1: "John Doe",
-      regno1: "123456",
-      name2: "Jane Doe",
-      regno2: "654321",
-      review:"https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pdf",
-      status: "Pending",
-    },
-    {
-      title: "Project 2",
-      name1: "Alice Smith",
-      regno1: "987654",
-      name2: "Bob Smith",
-      regno2: "456789",
-      review: "Link to PPT",
-      status: "Pending",
-    },
-    // Add more data objects as needed
-  ]);
-  const [status, setStatus] = useState('');
 
-  const handleApprove = (rowIndex) => {
-    const newData = [...data];
-    newData[rowIndex].status = "Approved";
-    setData(newData);
+  const [data, setData] = useState();
+
+  const [token, setToken] = useState(null)
+
+  const [staffId, setStaffId] = useState(null)
+
+
+  const fetchAllStudents = async () => {
+    try {
+      const storedToken = localStorage.getItem('staff-token');
+
+      const decodedToken = jwt_decode(storedToken)
+      const newToken = decodedToken.id
+
+      const res = await axios.get(`http://localhost:7777/api/staffs/${newToken}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`
+        }
+      });
+      const responseData = res.data
+      setData(responseData.projects)
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handleDecline = (rowIndex) => {
-    const newData = [...data];
-    newData[rowIndex].status = "Declined";
-    setData(newData);
+  useEffect(() => {
+    const storedToken = localStorage.getItem('staff-token');
+    if (!storedToken) {
+      window.location.href = "/";
+      return;
+    }
+
+    setToken(storedToken);
+    fetchAllStudents();
+  }, []);
+
+  const handleDownload = async (fileId) => {
+    try {
+      const response = await axios({
+        url: `http://localhost:7777/api/files/${fileId}`,
+        method: 'GET',
+        responseType: 'blob', // important
+        headers: {
+          'Content-Type': 'application/json', // Adjust content type if necessary
+          'Authorization': `Bearer ${token}`, // Include your authorization token here
+        },
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'file.pdf'); // you can set file name here
+      document.body.appendChild(link);
+      link.click();
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
   };
 
   const customStyles = {
@@ -68,61 +97,70 @@ const DownloadReviewStaff = () => {
   const columns = [
     {
       name: "PROJECT TITLE",
-      selector: "title",
+      selector: (row) => row.title,
       sortable: true,
     },
     {
       name: "STUDENT-1 NAME",
-      selector: "name1",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].fullName : "",
       sortable: true,
     },
     {
       name: "REGISTER NUMBER",
-      selector: "regno1",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].regNo : "",
       sortable: true,
     },
     {
       name: "STUDENT-2 NAME",
-      selector: "name2",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].fullName : "",
       sortable: true,
     },
     {
       name: "REGISTER NUMBER",
-      selector: "regno2",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STAGE",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
       sortable: true,
     },
     {
       name: "REVIEW",
       cell: (row) => (
-        <button className="btn-download">View Review</button>
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          : ""
       ),
       sortable: true,
     },
     {
       name: "APPROVE STATUS",
-      selector: "status",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
       sortable: true,
     },
     {
       name: "Actions",
-      cell: (row, rowIndex) => (
+      cell: (row) => (
         <div>
-          {row.status === 'Pending' && (
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
             <>
-              <button className="btn-approve" onClick={() => handleApprove(rowIndex)}>Approve</button>
-              <button className="btn-decline" onClick={() => handleDecline(rowIndex)}>Decline</button>
+              <button className="btn-approve" onClick={() => {}}>Approve</button>
+              <button className="btn-decline" onClick={() => {}}>Decline</button>
             </>
           )}
-          {row.status === 'Approved' && <span>Approved</span>}
-          {row.status === 'Declined' && <span>Declined</span>}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
         </div>
       ),
       sortable: false,
-    },
+    }
   ];
+
+
   const handleFilter = (event) => {
     const newRecord = data.filter(data => data.title.toLowerCase().includes(event.target.value.toLowerCase()))
-    setData(newRecord)  
+    setData(newRecord)
   }
 
   return (
@@ -156,5 +194,3 @@ const DownloadReviewStaff = () => {
 };
 
 export default DownloadReviewStaff;
-
-
