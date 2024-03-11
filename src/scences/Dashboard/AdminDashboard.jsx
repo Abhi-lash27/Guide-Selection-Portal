@@ -1,24 +1,76 @@
 import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom"
 import { ColorModeContext, useMode } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import '../../index.css'
+import '../../index.css';
 import Topbar from "../global/Topbar";
 import AdminSidebar from "../global/AdminSidebar";
 import DataTable from "react-data-table-component";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 const AdminDashboard = () => {
   const [theme, colorMode] = useMode();
-
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState(null);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('admin-token');
-    if(!storedToken) {
-      return window.location.href = "/"
+    if (!storedToken) {
+      window.location.href = "/"; // Redirect to login if token is missing
+    } else {
+      setToken(storedToken);
+      fetchProjects(storedToken); // Fetch projects data
     }
-    setToken(storedToken);
-  }, [])
+  }, []);
+
+  // Function to fetch projects data
+  const fetchProjects = async (token) => {
+    try {
+      const response = await axios.get(`http://localhost:7777/api/projects`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setData(response.data.projects); // Set projects data in state
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Columns configuration for DataTable
+  const columns = [
+    {
+      name: "Project Title",
+      selector: "title",
+      sortable: true
+    },
+    {
+      name: "Student 1 Name",
+      selector: row => row.students && row.students.length > 0 ? row.students[0].fullName : "",
+      sortable: true
+    },
+    {
+      name: "Student 1 Register Number",
+      selector: row => row.students && row.students.length > 0 ? row.students[0].regNo : "",
+      sortable: true
+    },
+    {
+      name: "Student 2 Name",
+      selector: row => row.students && row.students.length > 1 ? row.students[1].fullName : "",
+      sortable: true
+    },
+    {
+      name: "Student 2 Register Number",
+      selector: row => row.students && row.students.length > 1 ? row.students[1].regNo : "",
+      sortable: true
+    },
+    {
+      name: "Guide Name",
+      selector: "staff.fullName",
+      sortable: true
+    }
+  ];
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -31,36 +83,11 @@ const AdminDashboard = () => {
             <div>
               <h2>LIST OF TEAMS</h2>
               <br />
-              <table style={{ width: 1200 }}>
-                <thead>
-                  <tr>
-                    <th>PROJECT TITLE</th>
-                    <th>STUDENT-1 NAME</th>
-                    <th>REGISTER NUMBER</th>
-                    <th>EMAIL</th>
-                    <th>PHONE NUMBER</th>
-                    <th>STUDENT-2 NAME</th>
-                    <th>REGISTER NUMBER</th>
-                    <th>EMAIL</th>
-                    <th>PHONE NUMBER</th>
-                    <th>GUIDE NAME</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
+              <DataTable
+                columns={columns}
+                data={data}
+                pagination
+              />
             </div>
           </main>
         </div>
