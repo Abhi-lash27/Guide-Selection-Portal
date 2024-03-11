@@ -9,45 +9,109 @@ import axios from "axios";
 const DownloadPptAdmin = () => {
   const [theme, colorMode] = useMode();
   const [token, setToken] = useState(null)
-  // const [data, setData] = useState([
-  //   {
-  //     title: "Project 1",
-  //     name1: "John Doe",
-  //     regno1: "123456",
-  //     name2: "Jane Doe",
-  //     regno2: "654321",
-  //     ppt:"https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pdf",
-  //     status: "Pending",
-  //   },
-  //   {
-  //     title: "Project 2",
-  //     name1: "Alice Smith",
-  //     regno1: "987654",
-  //     name2: "Bob Smith",
-  //     regno2: "456789",
-  //     ppt: "Link to PPT",
-  //     status: "Pending",
-  //   },
-  //   // Add more data objects as needed
-  // ]);
-  const [data, setData] = useState();
-  const [status, setStatus] = useState('');
+  const [zeroData, setZeroData] = useState('');
+  const [firstData, setFirstData] = useState('');
+  const [secondData, setSecondData] = useState('');
+  const [thirdData, setThirdData] = useState('');
+  const [modelData, setModelData] = useState('');
+  const [finalData, setFinalData] = useState('');
 
-  const fetchAllStudents = async () => {
+
+  const fetchAllStudentsZero = async () => {
     try {
       const storedToken = localStorage.getItem('admin-token');
-      const res = await axios.get(`http://localhost:7777/api/projects`, {
+      const res = await axios.get(`http://localhost:7777/api/projects/reviews?stage=zero`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${storedToken}`
         }
       });
       const responseData = res.data
-      setData(responseData.projects)
+      setZeroData(responseData.projects)
     } catch (err) {
       console.log(err);
     }
   };
+
+  const fetchAllStudentsFirst = async () => {
+    try {
+      const storedToken = localStorage.getItem('admin-token');
+      const res = await axios.get(`http://localhost:7777/api/projects/reviews?stage=one`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`
+        }
+      });
+      const responseData = res.data
+      setFirstData(responseData.projects)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchAllStudentsSecond = async () => {
+    try {
+      const storedToken = localStorage.getItem('admin-token');
+      const res = await axios.get(`http://localhost:7777/api/projects/reviews?stage=two`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`
+        }
+      });
+      const responseData = res.data
+      setSecondData(responseData.projects)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchAllStudentsThird = async () => {
+    try {
+      const storedToken = localStorage.getItem('admin-token');
+      const res = await axios.get(`http://localhost:7777/api/projects/reviews?stage=three`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`
+        }
+      });
+      const responseData = res.data
+      setThirdData(responseData.projects)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchAllStudentsModel = async () => {
+    try {
+      const storedToken = localStorage.getItem('admin-token');
+      const res = await axios.get(`http://localhost:7777/api/projects/reviews?stage=model`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`
+        }
+      });
+      const responseData = res.data
+      setModelData(responseData.projects)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchAllStudentsFinal = async () => {
+    try {
+      const storedToken = localStorage.getItem('admin-token');
+      const res = await axios.get(`http://localhost:7777/api/projects/reviews?stage=final`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`
+        }
+      });
+      const responseData = res.data
+      setFinalData(responseData.projects)
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   useEffect(() => {
     const storedToken = localStorage.getItem('admin-token');
@@ -56,7 +120,12 @@ const DownloadPptAdmin = () => {
       return;
     }
     setToken(storedToken);
-    fetchAllStudents();
+    fetchAllStudentsZero();
+    fetchAllStudentsFirst()
+    fetchAllStudentsSecond()
+    fetchAllStudentsThird()
+    fetchAllStudentsModel()
+    fetchAllStudentsFinal()
   }, []);
 
   const handleDownload = async (fileId) => {
@@ -74,7 +143,7 @@ const DownloadPptAdmin = () => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'ppt.pdf'); // you can set file name here
+      link.setAttribute('download', 'test.ppt'); // you can set file name here
       document.body.appendChild(link);
       link.click();
     } catch (error) {
@@ -152,7 +221,7 @@ const DownloadPptAdmin = () => {
       name: "PPT",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
-          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
           : ""
       ),
       sortable: true,
@@ -215,7 +284,7 @@ const DownloadPptAdmin = () => {
       name: "PPT",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
-          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
           : ""
       ),
       sortable: true,
@@ -279,7 +348,7 @@ const DownloadPptAdmin = () => {
       name: "PPT",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
-          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
           : ""
       ),
       sortable: true,
@@ -341,7 +410,7 @@ const DownloadPptAdmin = () => {
       name: "PPT",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
-          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
           : ""
       ),
       sortable: true,
@@ -404,7 +473,7 @@ const DownloadPptAdmin = () => {
       name: "PPT",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
-          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
           : ""
       ),
       sortable: true,
@@ -467,7 +536,7 @@ const DownloadPptAdmin = () => {
       name: "PPT",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
-          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
           : ""
       ),
       sortable: true,
@@ -530,7 +599,7 @@ const DownloadPptAdmin = () => {
       name: "PPT",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
-          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
           : ""
       ),
       sortable: true,
@@ -580,42 +649,42 @@ const DownloadPptAdmin = () => {
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Zeroth Review</h3>
               <DataTable 
                 columns={zero}
-                data={data}
+                data={zeroData}
                 customStyles={customStyles}
                 pagination
                 />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>First Review</h3>
               <DataTable 
                 columns={first}
-                data={data}
+                data={firstData}
                 customStyles={customStyles}
                 pagination
                 />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Second Review</h3>
               <DataTable 
                 columns={second}
-                data={data}
+                data={secondData}
                 customStyles={customStyles}
                 pagination
                 />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Third Review</h3>
               <DataTable 
                 columns={third}
-                data={data}
+                data={thirdData}
                 customStyles={customStyles}
                 pagination
                 />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Model Review</h3>
               <DataTable 
                 columns={model}
-                data={data}
+                data={modelData}
                 customStyles={customStyles}
                 pagination
                 />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Final Review</h3>
               <DataTable 
                 columns={final}
-                data={data}
+                data={finalData}
                 customStyles={customStyles}
                 pagination
                 />
