@@ -6,6 +6,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import StudentSidebar from "../global/StudentSidebar";
 import SearchableDropdown from "../../components/common/SearchableDropdown";
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 
 const Createstudent = () => {
   const [theme, colorMode] = useMode();
@@ -93,7 +95,7 @@ const Createstudent = () => {
       });
 
       console.log("Form submission successful:", res.data);
-      alert("Form submission successful");
+      toast.success("Form submission successful");
 
       // Clear form fields after successful submission
       setFormData({
@@ -104,7 +106,7 @@ const Createstudent = () => {
       });
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert("Error submitting form. Please try again.");
+      toast.error("Error submitting form. Please try again.");
     }
   };
 

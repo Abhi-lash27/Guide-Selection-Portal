@@ -70,10 +70,10 @@
         font-size: 30px;
         position: absolute;
         right: 25px;
-        top: -20px;
     }
     .mobile-nav-header{
         position: absolute;
+        z-index: +1;
         top: 8vh;
         left: 0;
         width: 100%;

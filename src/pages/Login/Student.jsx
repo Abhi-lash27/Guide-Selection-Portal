@@ -5,7 +5,7 @@ import user from "../../images/user.png";
 import passwordImg from "../../images/password.png";
 import Header from "../../components/common/heading/Header";
 import { jwtDecode as jwt_decode } from "jwt-decode";
-
+import {toast} from "react-toastify";
 import axios from 'axios'
 
 const Student = () => {
@@ -30,13 +30,15 @@ const Student = () => {
         const decodedToken = jwt_decode(token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         window.location.href = "/student-dashboard";
+        toast.success("Login Success")
       } else {
         throw new Error('Token not found in response!');
       }
 
     } catch (error) {
       console.error("Login error:", error);
-      setError("Invalid email or password");
+      // setError("Invalid email or password");
+      toast.error("Invalid email or password");
     }
   }
 

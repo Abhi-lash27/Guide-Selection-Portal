@@ -129,7 +129,11 @@ const StudentInfoStaff = () => {
                 data={filterdata.length ? filterdata : data}
                 customStyles={customstyle}
                 pagination
-              /> : <ReactBootStrap.Spinner animation="border" /> }
+              /> :
+              <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}> 
+              <ReactBootStrap.Spinner animation="border" /> 
+              </div>
+              }
             </div>
            {/* <div>
       <h2>Student Information</h2>

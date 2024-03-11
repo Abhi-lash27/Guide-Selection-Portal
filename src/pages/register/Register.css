@@ -75,7 +75,9 @@ select:focus {
 
 @media screen and (max-width: 768px) {
   .body-register {
-      padding-right: 20px; /* Adjusted padding for mobile screens */
+      padding-right: 20px;
+      
+       /* Adjusted padding for mobile screens */
   }
 
   .content1-register {

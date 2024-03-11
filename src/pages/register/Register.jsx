@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../../components/common/heading/Header";
 import "../register/Register.css";
 import axios from "axios";
+import {toast} from "react-toastify"
 
 
 const Register = () => {
@@ -29,11 +30,13 @@ const Register = () => {
       })
 
       if (res.data) {
-        alert('Success');
+        // alert('Success');
+        toast.success("Registration Success")
       }
 
     } catch (e) {
       console.log("Error in registration");
+      toast.error("Error in Registration");
     }
   }
 

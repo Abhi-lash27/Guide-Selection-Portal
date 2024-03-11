@@ -12,6 +12,7 @@ import { Button, CardActions, Box } from "@mui/material";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import Stack from "@mui/material/Stack";
+import { toast } from 'react-toastify';
 
 import { jwtDecode as jwt_decode } from "jwt-decode";
 
@@ -100,11 +101,13 @@ const ReportUpload = () => {
       })
 
       if(res.status >= 200 && res.status < 300) {
-        return alert("Success")
+        return toast.success("Uploaded Succesfully")
+        // return alert("Success")
       }
 
     } catch (err) {
       console.log("Error from report upload");
+      toast.error("Error uploading document");
     }
   }
 
@@ -126,11 +129,13 @@ const ReportUpload = () => {
       })
 
       if(res.status >= 200 && res.status < 300) {
-        return alert("Success")
+        return toast.success("Uploaded Succesfully")
+        // return alert("Success")
       }
 
     } catch (err) {
       console.log("Error from report upload");
+      toast.error("Error uploading document")
     }
   }
 
@@ -152,11 +157,13 @@ const ReportUpload = () => {
       })
 
       if(res.status >= 200 && res.status < 300) {
-        return alert("Success")
+        return toast.success("Uploaded Succesfully")
+        // return alert("Success")
       }
 
     } catch (err) {
       console.log("Error from report upload");
+      toast.error("Error uploading document")
     }
   }
 
@@ -178,11 +185,13 @@ const ReportUpload = () => {
       })
 
       if(res.status >= 200 && res.status < 300) {
-        return alert("Success")
+        return toast.success("Uploaded Succesfully")
+        // return alert("Success")
       }
 
     } catch (err) {
       console.log("Error from report upload");
+      toast.error("Error uploading document")
     }
   }
 
@@ -204,11 +213,13 @@ const ReportUpload = () => {
       })
 
       if(res.status >= 200 && res.status < 300) {
-        return alert("Success")
+        return toast.success("Uploaded Succesfully")
+        // return alert("Success")
       }
 
     } catch (err) {
       console.log("Error from report upload");
+      toast.error("Error uploading document")
     }
   }
 
@@ -230,11 +241,13 @@ const ReportUpload = () => {
       })
 
       if(res.status >= 200 && res.status < 300) {
-        return alert("Success")
+        return toast.success("Uploaded Succesfully")
+        // return alert("Success")
       }
 
     } catch (err) {
       console.log("Error from report upload");
+      toast.error("Error uploading document")
     }
   }
 
@@ -247,10 +260,14 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("deleted successfully")
+      if(res.status === 200) {
+      return toast.success("Deleted Succesfully")
+      // return alert("deleted successfully")
+      }
 
     } catch (err) {
       console.log("Error from delete");
+      toast.error("Error deleting document")
     }
   }
 
@@ -263,10 +280,15 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("deleted successfully")
+      if(res.status === 200) 
+      {
+        return toast.success("Deleted Succesfully")
+        // return alert("deleted successfully")
+      }
 
     } catch (err) {
       console.log("Error from delete");
+      toast.error("Error deleting document")
     }
   }
 
@@ -279,10 +301,14 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("deleted successfully")
+      if(res.status === 200){
+        return toast.success("Deleted Succesfully")
+        // return alert("deleted successfully")
+      } 
 
     } catch (err) {
       console.log("Error from delete");
+      toast.error("Error deleting document")
     }
   }
 
@@ -295,10 +321,14 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("deleted successfully")
+      if(res.status === 200){
+        return toast.success("Deleted Succesfully")
+        // return alert("deleted successfully")
+      } 
 
     } catch (err) {
       console.log("Error from delete");
+      toast.error("Error deleting document")
     }
   }
 
@@ -311,10 +341,14 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("deleted successfully")
+      if(res.status === 200){
+        return toast.success("Deleted Succesfully")
+        // return alert("deleted successfully")
+      } 
 
     } catch (err) {
       console.log("Error from delete");
+      toast.error("Error deleting document")
     }
   }
 
@@ -327,10 +361,14 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("deleted successfully")
+      if(res.status === 200){
+        return toast.success("Deleted Succesfully")
+        // return alert("deleted successfully")
+      } 
 
     } catch (err) {
       console.log("Error from delete");
+      toast.error("Error deleting document")
     }
   }
 
@@ -364,8 +402,10 @@ const ReportUpload = () => {
 
       // Remove the anchor from the document body after the download starts
       document.body.removeChild(link);
+      toast.success("Downloaded Successfully")
     } catch (err) {
-      console.log("error while downloading review form", err);
+      console.log("error while downloading review form",err);
+      toast.error("Error Downloading File")
     }
   };
 

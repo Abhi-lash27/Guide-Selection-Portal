@@ -6,15 +6,14 @@ import StaffSidebar from "../global/StaffSidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import { jwtDecode as jwt_decode } from "jwt-decode";
+import * as ReactBootStrap from "react-bootstrap";
 
 const DownloadReviewStaff = () => {
   const [theme, colorMode] = useMode();
-
   const [data, setData] = useState();
-
   const [token, setToken] = useState(null)
-
   const [staffId, setStaffId] = useState(null)
+  const [loading, setLoading] =  useState(false);
 
 
   const fetchAllStudents = async () => {
@@ -30,6 +29,7 @@ const DownloadReviewStaff = () => {
           Authorization: `Bearer ${storedToken}`
         }
       });
+      setLoading(true);
       const responseData = res.data
       setData(responseData.projects)
     } catch (err) {
@@ -63,7 +63,7 @@ const DownloadReviewStaff = () => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'file.pdf'); // you can set file name here
+      link.setAttribute('download', 'review.pdf'); // you can set file name here
       document.body.appendChild(link);
       link.click();
     } catch (error) {
@@ -94,7 +94,7 @@ const DownloadReviewStaff = () => {
     },
   };
 
-  const columns = [
+  const zeroth = [
     {
       name: "PROJECT TITLE",
       selector: (row) => row.title,
@@ -157,6 +157,320 @@ const DownloadReviewStaff = () => {
     }
   ];
 
+  const first = [
+    {
+      name: "PROJECT TITLE",
+      selector: (row) => row.title,
+      sortable: true,
+    },
+    {
+      name: "STUDENT-1 NAME",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STUDENT-2 NAME",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STAGE",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+      sortable: true,
+    },
+    {
+      name: "REVIEW",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          : ""
+      ),
+      sortable: true,
+    },
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+            <>
+              <button className="btn-approve" onClick={() => {}}>Approve</button>
+              <button className="btn-decline" onClick={() => {}}>Decline</button>
+            </>
+          )}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+        </div>
+      ),
+      sortable: false,
+    }
+  ];
+
+  const second = [
+    {
+      name: "PROJECT TITLE",
+      selector: (row) => row.title,
+      sortable: true,
+    },
+    {
+      name: "STUDENT-1 NAME",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STUDENT-2 NAME",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STAGE",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+      sortable: true,
+    },
+    {
+      name: "REVIEW",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          : ""
+      ),
+      sortable: true,
+    },
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+            <>
+              <button className="btn-approve" onClick={() => {}}>Approve</button>
+              <button className="btn-decline" onClick={() => {}}>Decline</button>
+            </>
+          )}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+        </div>
+      ),
+      sortable: false,
+    }
+  ];
+
+  const third = [
+    {
+      name: "PROJECT TITLE",
+      selector: (row) => row.title,
+      sortable: true,
+    },
+    {
+      name: "STUDENT-1 NAME",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STUDENT-2 NAME",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STAGE",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+      sortable: true,
+    },
+    {
+      name: "REVIEW",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          : ""
+      ),
+      sortable: true,
+    },
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+            <>
+              <button className="btn-approve" onClick={() => {}}>Approve</button>
+              <button className="btn-decline" onClick={() => {}}>Decline</button>
+            </>
+          )}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+        </div>
+      ),
+      sortable: false,
+    }
+  ];
+
+  const model = [
+    {
+      name: "PROJECT TITLE",
+      selector: (row) => row.title,
+      sortable: true,
+    },
+    {
+      name: "STUDENT-1 NAME",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STUDENT-2 NAME",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STAGE",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+      sortable: true,
+    },
+    {
+      name: "REVIEW",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          : ""
+      ),
+      sortable: true,
+    },
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+            <>
+              <button className="btn-approve" onClick={() => {}}>Approve</button>
+              <button className="btn-decline" onClick={() => {}}>Decline</button>
+            </>
+          )}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+        </div>
+      ),
+      sortable: false,
+    }
+  ];
+
+  const final = [
+    {
+      name: "PROJECT TITLE",
+      selector: (row) => row.title,
+      sortable: true,
+    },
+    {
+      name: "STUDENT-1 NAME",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 0 ? row.students[0].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STUDENT-2 NAME",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].fullName : "",
+      sortable: true,
+    },
+    {
+      name: "REGISTER NUMBER",
+      selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
+      sortable: true,
+    },
+    {
+      name: "STAGE",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+      sortable: true,
+    },
+    {
+      name: "REVIEW",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          : ""
+      ),
+      sortable: true,
+    },
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+            <>
+              <button className="btn-approve" onClick={() => {}}>Approve</button>
+              <button className="btn-decline" onClick={() => {}}>Decline</button>
+            </>
+          )}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+        </div>
+      ),
+      sortable: false,
+    }
+  ];
 
   const handleFilter = (event) => {
     const newRecord = data.filter(data => data.title.toLowerCase().includes(event.target.value.toLowerCase()))
@@ -172,19 +486,63 @@ const DownloadReviewStaff = () => {
           <main className="content">
             <Topbar />
             <div style={{ maxWidth: '100%', overflowX: 'auto', margin:'20px'}}>
-              <h2>Staff Name: Dr.R. Subhashini</h2>
               <br />
               <h2>LIST OF STUDENTS</h2>
               <div style={{display: "flex", justifyContent: "left"}}>
                 <input type="text" placeholder="Seach by Project" onChange={handleFilter} style={{padding: "6px 10px"}}/>
               </div>
               <br />
+              {loading ? 
+              <>
+              <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Zeroth Review</h3>
+              <DataTable
+                columns={zeroth}
+                data={data}
+                customStyles={customStyles}
+                pagination
+              /> 
+              <h3 style={{textAlign:'center', color:'#9E1C3F'}}>First Review</h3>
               <DataTable 
-                columns={columns}
+                columns={first}
                 data={data}
                 customStyles={customStyles}
                 pagination
               />
+              
+              <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Second Review</h3>
+              <DataTable 
+                columns={second}
+                data={data}
+                customStyles={customStyles}
+                pagination
+              />
+              <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Third Review</h3>
+              <DataTable 
+                columns={third}
+                data={data}
+                customStyles={customStyles}
+                pagination
+              />
+              <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Model Review</h3>
+              <DataTable 
+                columns={model}
+                data={data}
+                customStyles={customStyles}
+                pagination
+              />
+              <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Final Review</h3>
+              <DataTable 
+                columns={final}
+                data={data}
+                customStyles={customStyles}
+                pagination
+              />
+              </>
+              :
+              <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}> 
+              <ReactBootStrap.Spinner animation="border"/>
+              </div>}
+              
             </div>
           </main>
         </div>
