@@ -98,15 +98,12 @@ export const getAllProjects = async (req, res) => {
     let projects;
     if (stage) {
       projects = await prisma.project.findMany({
-        where: {
+        include: {
           reviews: {
-            some: {
+            where: {
               stage: stage
             }
-          }
-        },
-        include: {
-          reviews: true,
+          },
           students: {
             select: {
               fullName: true,
@@ -120,6 +117,9 @@ export const getAllProjects = async (req, res) => {
           }
         }
       });
+
+      // Filter projects to include only those where all reviews match the specified stage
+      projects = projects.filter(project => project.reviews.every(review => review.stage === stage));
     } else {
       projects = await prisma.project.findMany({
         include: {
@@ -145,6 +145,7 @@ export const getAllProjects = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 export const getAllProjectsForSingleStaff = async (req, res) => {
   try {
