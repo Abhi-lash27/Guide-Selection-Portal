@@ -12,29 +12,55 @@ const DownloadReportStaff = () => {
   const [theme, colorMode] = useMode();
   const [data, setData] = useState();
   const [token, setToken] = useState(null)
-  const [status, setStatus] = useState('');
+
   const [loading, setLoading] =  useState(false);
 
-  const fetchAllStudents = async () => {
+  const [modelData, setModelData] = useState('');
+  const [finalData, setFinalData] = useState('');
+
+  const fetchAllStudentsModel = async () => {
     try {
       const storedToken = localStorage.getItem('staff-token');
-
       const decodedToken = jwt_decode(storedToken)
-      const newToken = decodedToken.id
+      // console.log(decodedToken.id);
 
-      const res = await axios.get(`http://localhost:7777/api/staffs/${newToken}`, {
+      const staffId = decodedToken.id
+
+      const res = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews?stage=model`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${storedToken}`
         }
       });
-      setLoading(true);
+      setLoading(true)
       const responseData = res.data
-      setData(responseData.projects)
+      setModelData(responseData.projects)
     } catch (err) {
       console.log(err);
     }
   };
+
+  const fetchAllStudentsFinal = async () => {
+    try {
+      const storedToken = localStorage.getItem('staff-token');
+      const decodedToken = jwt_decode(storedToken)
+      // console.log(decodedToken.id);
+
+      const staffId = decodedToken.id
+
+      const res = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews?stage=final`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`
+        }
+      });
+      setLoading(true)
+      const responseData = res.data
+      setFinalData(responseData.projects)
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   useEffect(() => {
     const storedToken = localStorage.getItem('staff-token');
@@ -44,7 +70,8 @@ const DownloadReportStaff = () => {
     }
 
     setToken(storedToken);
-    fetchAllStudents();
+    fetchAllStudentsModel()
+    fetchAllStudentsFinal()
   }, []);
 
   const handleDownload = async (fileId) => {
@@ -129,32 +156,32 @@ const DownloadReportStaff = () => {
       name: "REPORT",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
-          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          <button onClick={() => handleDownload(row.reviews[0].fileId[2])}>Download</button>
           : ""
       ),
       sortable: true,
     },
-    {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
-    }
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
 
   const final = [
@@ -192,32 +219,32 @@ const DownloadReportStaff = () => {
       name: "REPORT",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
-          <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
+          <button onClick={() => handleDownload(row.reviews[0].fileId[2])}>Download</button>
           : ""
       ),
       sortable: true,
     },
-    {
-      name: "APPROVE STATUS",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div>
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-            <>
-              <button className="btn-approve" onClick={() => {}}>Approve</button>
-              <button className="btn-decline" onClick={() => {}}>Decline</button>
-            </>
-          )}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-          {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-        </div>
-      ),
-      sortable: false,
-    }
+    // {
+    //   name: "APPROVE STATUS",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div>
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
+    //         <>
+    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
+    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
+    //         </>
+    //       )}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
+    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
+    //     </div>
+    //   ),
+    //   sortable: false,
+    // }
   ];
 
 
@@ -245,14 +272,14 @@ const DownloadReportStaff = () => {
                 <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Model Review</h3>
               <DataTable 
                 columns={model}
-                data={data}
+                data={modelData}
                 customStyles={customStyles}
                 pagination
               />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Final Review</h3>
               <DataTable 
                 columns={final}
-                data={data}
+                data={finalData}
                 customStyles={customStyles}
                 pagination
               />
