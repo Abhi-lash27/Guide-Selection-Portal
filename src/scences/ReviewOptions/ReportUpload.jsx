@@ -99,7 +99,9 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("Success")
+      if(res.status >= 200 && res.status < 300) {
+        return alert("Success")
+      }
 
     } catch (err) {
       console.log("Error from report upload");
@@ -123,7 +125,9 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("Success")
+      if(res.status >= 200 && res.status < 300) {
+        return alert("Success")
+      }
 
     } catch (err) {
       console.log("Error from report upload");
@@ -147,7 +151,9 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("Success")
+      if(res.status >= 200 && res.status < 300) {
+        return alert("Success")
+      }
 
     } catch (err) {
       console.log("Error from report upload");
@@ -171,7 +177,9 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("Success")
+      if(res.status >= 200 && res.status < 300) {
+        return alert("Success")
+      }
 
     } catch (err) {
       console.log("Error from report upload");
@@ -195,7 +203,9 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("Success")
+      if(res.status >= 200 && res.status < 300) {
+        return alert("Success")
+      }
 
     } catch (err) {
       console.log("Error from report upload");
@@ -219,17 +229,115 @@ const ReportUpload = () => {
         }
       })
 
-      if(res.status === 200) return alert("Success")
+      if(res.status >= 200 && res.status < 300) {
+        return alert("Success")
+      }
 
     } catch (err) {
       console.log("Error from report upload");
     }
   }
 
+  const deleteZero = async () => {
+    try {
+      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=zero`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      if(res.status === 200) return alert("deleted successfully")
+
+    } catch (err) {
+      console.log("Error from delete");
+    }
+  }
+
+  const deleteFirst = async () => {
+    try {
+      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=one`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      if(res.status === 200) return alert("deleted successfully")
+
+    } catch (err) {
+      console.log("Error from delete");
+    }
+  }
+
+  const deleteSecond = async () => {
+    try {
+      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=two`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      if(res.status === 200) return alert("deleted successfully")
+
+    } catch (err) {
+      console.log("Error from delete");
+    }
+  }
+
+  const deleteThree = async () => {
+    try {
+      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=three`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      if(res.status === 200) return alert("deleted successfully")
+
+    } catch (err) {
+      console.log("Error from delete");
+    }
+  }
+
+  const deleteModel = async () => {
+    try {
+      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=model`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      if(res.status === 200) return alert("deleted successfully")
+
+    } catch (err) {
+      console.log("Error from delete");
+    }
+  }
+
+  const deleteFinal = async () => {
+    try {
+      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=final`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      if(res.status === 200) return alert("deleted successfully")
+
+    } catch (err) {
+      console.log("Error from delete");
+    }
+  }
+
 
   const downloadReviewForm = async () => {
     try {
-      const res = await axios.get("http://localhost:7777/api/files/658918e4dab0ccdee5129cbf", {
+      const res = await axios.get("http://localhost:7777/api/review-form", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -335,16 +443,16 @@ const ReportUpload = () => {
                     </CardContent>
                   </Card>
               <Stack direction="row">
-                <ReportCard name="0th Review" handleSubmit={submitZero} handleFileId1={handleFileId1} handleFileId2={handleFileId2} />
-                <ReportCard name="1st Review" handleSubmit={submitFirst} handleFileId1={handleFileId1} handleFileId2={handleFileId2}/>
+                <ReportCard name="0th Review" handleSubmit={submitZero} handleFileId1={handleFileId1} handleFileId2={handleFileId2} handleDeleteReview={deleteZero} />
+                <ReportCard name="1st Review" handleSubmit={submitFirst} handleFileId1={handleFileId1} handleFileId2={handleFileId2} handleDeleteReview={deleteFirst}/>
               </Stack>
               <Stack direction="row">
-                <ReportCard name="2nd Review" handleSubmit={submitSecond} handleFileId1={handleFileId1} handleFileId2={handleFileId2}/>
-                <ReportCard name="3rd Review" handleSubmit={submitThird} handleFileId1={handleFileId1} handleFileId2={handleFileId2}/>
+                <ReportCard name="2nd Review" handleSubmit={submitSecond} handleFileId1={handleFileId1} handleFileId2={handleFileId2} handleDeleteReview={deleteSecond}/>
+                <ReportCard name="3rd Review" handleSubmit={submitThird} handleFileId1={handleFileId1} handleFileId2={handleFileId2} handleDeleteReview={deleteThree}/>
               </Stack>
               <Stack direction="row">
-                <FinalCard name="Model Review" handleSubmit={submitModel} handleFileId1={handleFileId1} handleFileId2={handleFileId2} handleFileId3={handleFileId3} />
-                <FinalCard name="Final Review" handleSubmit={submitFinal} handleFileId1={handleFileId1} handleFileId2={handleFileId2} handleFileId3={handleFileId3} />
+                <FinalCard name="Model Review" handleSubmit={submitModel} handleFileId1={handleFileId1} handleFileId2={handleFileId2} handleFileId3={handleFileId3} handleDeleteReview={deleteModel}/>
+                <FinalCard name="Final Review" handleSubmit={submitFinal} handleFileId1={handleFileId1} handleFileId2={handleFileId2} handleFileId3={handleFileId3} handleDeleteReview={deleteFinal} />
               </Stack>
             </div>
           </main>

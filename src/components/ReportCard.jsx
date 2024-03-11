@@ -11,7 +11,7 @@ import Modal from "@mui/material/Modal";
 import axios from "axios";
 
 
-const ReportCard = ({ name, handleSubmit, handleFileId1, handleFileId2 }) => {
+const ReportCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleDeleteReview }) => {
 
   const [theme, colorMode] = useMode();
   const colors = tokens(theme.palette.mode);
@@ -232,72 +232,73 @@ const ReportCard = ({ name, handleSubmit, handleFileId1, handleFileId2 }) => {
                 </button>
               </Box>
             </Modal>
-            <Button
-              onClick={handleUpdate}
-              size="small"
-              sx={{
-                color: colors.blueAccent[400],
-                border: 1,
-                mx: 2
-              }}
-            >
-              <FileUploadOutlinedIcon></FileUploadOutlinedIcon>
-              Update
-            </Button>
-            <Modal
-              open={update}
-              onClose={closeUpdate}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx={style}>
-                <Typography
-                  id="modal-modal-title"
-                  variant="h4"
-                  component="h2"
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-start"
-                  }}
-                >
-                  Update Files
-                </Typography>
-                <br />
-                <Typography
-                  style={{
-                    fontSize: "16px"
-                  }}
-                >Review form</Typography>
-                <input type="file" />
-                <br /> <br />
-                <Typography
-                  style={{
-                    fontSize: "16px"
-                  }}
-                >PPT</Typography>
-                <input type="file" />
-                <br />
-                <button
-                  type="submit"
-                  style={{ marginRight: 5, marginTop: 5, backgroundColor: "green", color: "white" }}
-                >
-                  Submit
-                </button>
-                <button
-                  type="button"
-                  style={{ backgroundColor: "red", color: "white" }}
-                  onClick={closeUpdate}
-                >
-                  Cancel
-                </button>
-              </Box>
-            </Modal>
+            {/*<Button*/}
+            {/*  onClick={handleUpdate}*/}
+            {/*  size="small"*/}
+            {/*  sx={{*/}
+            {/*    color: colors.blueAccent[400],*/}
+            {/*    border: 1,*/}
+            {/*    mx: 2*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  <FileUploadOutlinedIcon></FileUploadOutlinedIcon>*/}
+            {/*  Update*/}
+            {/*</Button>*/}
+            {/*<Modal*/}
+            {/*  open={update}*/}
+            {/*  onClose={closeUpdate}*/}
+            {/*  aria-labelledby="modal-modal-title"*/}
+            {/*  aria-describedby="modal-modal-description"*/}
+            {/*>*/}
+            {/*  <Box sx={style}>*/}
+            {/*    <Typography*/}
+            {/*      id="modal-modal-title"*/}
+            {/*      variant="h4"*/}
+            {/*      component="h2"*/}
+            {/*      style={{*/}
+            {/*        display: "flex",*/}
+            {/*        justifyContent: "flex-start"*/}
+            {/*      }}*/}
+            {/*    >*/}
+            {/*      Update Files*/}
+            {/*    </Typography>*/}
+            {/*    <br />*/}
+            {/*    <Typography*/}
+            {/*      style={{*/}
+            {/*        fontSize: "16px"*/}
+            {/*      }}*/}
+            {/*    >Review form</Typography>*/}
+            {/*    <input type="file" />*/}
+            {/*    <br /> <br />*/}
+            {/*    <Typography*/}
+            {/*      style={{*/}
+            {/*        fontSize: "16px"*/}
+            {/*      }}*/}
+            {/*    >PPT</Typography>*/}
+            {/*    <input type="file" />*/}
+            {/*    <br />*/}
+            {/*    <button*/}
+            {/*      type="submit"*/}
+            {/*      style={{ marginRight: 5, marginTop: 5, backgroundColor: "green", color: "white" }}*/}
+            {/*    >*/}
+            {/*      Submit*/}
+            {/*    </button>*/}
+            {/*    <button*/}
+            {/*      type="button"*/}
+            {/*      style={{ backgroundColor: "red", color: "white" }}*/}
+            {/*      onClick={closeUpdate}*/}
+            {/*    >*/}
+            {/*      Cancel*/}
+            {/*    </button>*/}
+            {/*  </Box>*/}
+            {/*</Modal>*/}
             <Button
               onClick={handleDelete}
               size="small"
               sx={{
                 color: danger,
-                border: 1
+                border: 1,
+                mx: 2
               }}
             >
               <DeleteOutlineIcon></DeleteOutlineIcon>
@@ -330,6 +331,7 @@ const ReportCard = ({ name, handleSubmit, handleFileId1, handleFileId2 }) => {
                 </Typography>
                 <br />
                 <button
+                  onClick={handleDeleteReview}
                   type="submit"
                   style={{
                     marginRight: 5,

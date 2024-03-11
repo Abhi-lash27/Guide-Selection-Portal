@@ -76,11 +76,46 @@ export const getAllProjects = async (req, res) => {
   }
 };
 
+// export const getSingleProject = async (req, res) => {
+//   try {
+//     const project = await prisma.project.findUnique({
+//       where: {
+//         id: req.params.id,
+//       },
+//       include: {
+//         students: {
+//           select: {
+//             id: true,
+//             fullName: true,
+//             email: true,
+//             batch: true,
+//             regNo: true,
+//             phoneNo: true
+//           },
+//         },
+//         reviews: true
+//       },
+//     });
+//
+//     if (!project) {
+//       return res.status(404).json({ error: "Project not found" });
+//     }
+//
+//     return res.status(200).json(project);
+//   } catch (err) {
+//     logger.error(err);
+//     return res.status(404).json({ error: "Project not found" });
+//   }
+// };
+
 export const getSingleProject = async (req, res) => {
   try {
+    const projectId = req.params.id;
+    const { stage } = req.query;
+
     const project = await prisma.project.findUnique({
       where: {
-        id: req.params.id,
+        id: projectId,
       },
       include: {
         students: {
@@ -93,7 +128,11 @@ export const getSingleProject = async (req, res) => {
             phoneNo: true
           },
         },
-        reviews: true
+        reviews: {
+          where: {
+            stage: stage || undefined // Filter reviews by stage if provided in query params
+          }
+        }
       },
     });
 
@@ -104,9 +143,10 @@ export const getSingleProject = async (req, res) => {
     return res.status(200).json(project);
   } catch (err) {
     logger.error(err);
-    return res.status(404).json({ error: "Project not found" });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 export const updateProject = async (req, res) => {
   try {

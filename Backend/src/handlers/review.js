@@ -42,3 +42,35 @@ export const reviewForm = async (req, res, next) => {
   }
 }
 
+export const deleteReviewsByProjectId = async (req, res) => {
+  try {
+    const projectId = req.params.projectId; // Assuming the projectId is passed in the URL
+    const { stage } = req.query;
+
+    const reviewsToDelete = await prisma.review.findMany({
+      where: {
+        projectId: projectId,
+        stage: stage || undefined // Filter reviews by stage if provided in query params
+      },
+    });
+
+    if (!reviewsToDelete || reviewsToDelete.length === 0) {
+      return res.status(404).json({ error: "No reviews found for the project" });
+    }
+
+    // Deleting all found reviews
+    await prisma.review.deleteMany({
+      where: {
+        projectId: projectId,
+        stage: stage || undefined // Filter reviews by stage if provided in query params
+      },
+    });
+
+    return res.status(200).json({ message: "Reviews deleted successfully" });
+  } catch (err) {
+    logger.error(err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+

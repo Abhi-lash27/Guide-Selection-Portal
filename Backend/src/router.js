@@ -32,7 +32,7 @@ import {
 
 import { getFileById, updateFile, uploadFile } from "./handlers/file.js";
 
-import { review, updateReview,reviewForm } from "./handlers/review.js";
+import { review, updateReview, reviewForm, deleteReviewsByProjectId } from "./handlers/review.js";
 
 const router = Router();
 
@@ -59,6 +59,7 @@ router.delete("/admins/:id", deleteAdmin);
 // Projects
 router.get("/projects", getAllProjects);
 router.get("/projects/:id", getSingleProject);
+router.get("/projects/:id/reviews", getSingleProject);
 router.post("/projects", registerProject);
 router.put("/projects/:id", updateProject);
 router.delete("/projects/:id", deleteProject);
@@ -70,5 +71,6 @@ router.put("/files/:id", upload.single("data"), updateFile);
 router.get("/review-form",reviewForm);
 router.post("/reviews", review);
 router.put("/reviews/:id", updateReview);
+router.delete("/projects/:id/reviews", deleteReviewsByProjectId)
 
 export default router;
