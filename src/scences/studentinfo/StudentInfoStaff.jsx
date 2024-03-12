@@ -136,6 +136,7 @@ const StudentInfoStaff = () => {
                 data={filterdata.length ? filterdata : data}
                 customStyles={customstyle}
                 pagination
+                highlightOnHover
               /> :
               <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}> 
               <ReactBootStrap.Spinner animation="border" /> 

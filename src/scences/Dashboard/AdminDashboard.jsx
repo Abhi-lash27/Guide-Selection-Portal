@@ -38,6 +38,27 @@ const AdminDashboard = () => {
     }
   };
 
+  const customstyle = {
+    headRow: {
+      style: {
+        backgroundColor: "#45a049",
+        color: "white",
+        margin : "20px"
+      }
+    },
+    headCells: {
+      style: {
+        fontsize: "16px",
+        textTransform: "uppercase"
+      }
+    },
+    cells: {
+      style: {
+        fontsize: "15px",
+      }
+    }
+  };
+
   // Columns configuration for DataTable
   const columns = [
     {
@@ -86,7 +107,9 @@ const AdminDashboard = () => {
               <DataTable
                 columns={columns}
                 data={data}
+                customStyles={customstyle}
                 pagination
+                highlightOnHover
               />
             </div>
           </main>
