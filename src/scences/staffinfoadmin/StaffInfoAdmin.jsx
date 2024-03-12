@@ -8,6 +8,7 @@ import AdminSidebar from "../global/AdminSidebar";
 import { rootShouldForwardProp } from "@mui/material/styles/styled";
 import axios from "axios";
 import * as ReactBootStrap from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const customstyle = {
   headRow: {
@@ -29,22 +30,25 @@ const customstyle = {
   }
 };
 
-
 const StaffInfoAdmin = () => {
   const [theme, colorMode] = useMode();
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   const [filterdata, setFilterdata] = useState([]);
-  const [loading, setLoading] =  useState(false);
-
-
-  const [token, setToken] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('admin-token');
     setToken(storedToken);
-  }, [])
+  }, []);
 
-  const fetchStudents = async () => {
+  useEffect(() => {
+    if (token) {
+      fetchStaff();
+    }
+  }, [token]);
+
+  const fetchStaff = async () => {
     try {
       const response = await axios.get(`http://localhost:7777/api/staffs`, {
         headers: {
@@ -53,53 +57,60 @@ const StaffInfoAdmin = () => {
         }
       });
       setLoading(true);
-      console.log(response);
-      const responseData = response.data;
-      setData(responseData.staff);
-      console.log('Data after setting:', responseData); // Log the data after setting
+      setData(response.data.staff);
     } catch (error) {
       console.error('Error fetching staffs:', error);
     }
   };
 
-  useEffect(() => {
-    if(token) {
-      fetchStudents()
+  const handleDelete = async (row) => {
+    try {
+      await axios.delete(`http://localhost:7777/api/staffs/${row.id}`, {
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+      // Remove the deleted staff from the state
+      setData(data.filter(item => item.id !== row.id));
+      toast.success("Deleted successfully")
+    } catch (error) {
+      console.error('Error deleting staff:', error);
     }
-  }, [token]);
+  };
 
-  const column = [
+  const handleFilter = (event) => {
+    const newRecord = data.filter(data => data.fullName.toLowerCase().includes(event.target.value.toLowerCase()));
+    setFilterdata(newRecord);
+  };
+
+  const columns = [
     {
       name: "Name",
-      selector: data => data.fullName,
+      selector: "fullName",
       sortable: true
     },
     {
       name: "Email",
-      selector: data => data.email,
+      selector: "email",
       sortable: true
+    },
+    {
+      name: "Specializations",
+      selector: "specializations",
     },
     {
       name: "Actions",
       cell: (row) => (
         <button
-          className="delete-student"
+          className="delete-staff"
           onClick={() => handleDelete(row)}
         >
           Delete
         </button>
       ),
     },
-  ]
-
-  // const handleFilter = (event) => {
-  //   const newRecord = data.filter(data => data.fullName.toLowerCase().includes(event.target.value.toLowerCase()))
-  //   setData(newRecord)
-  // }
-  const handleFilter = (event) => {
-    const newRecord = data.filter(data => data.fullName.toLowerCase().includes(event.target.value.toLowerCase()))
-    setFilterdata(newRecord); // Update filter data state
-  }
+  ];
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -112,45 +123,19 @@ const StaffInfoAdmin = () => {
             <div style={{padding: "50px 10%"}}>
               <h2>Staff Information</h2>
               <div style={{display: "flex", justifyContent: "left"}}>
-                <input type="text" placeholder="Seach by Name" onChange={handleFilter} style={{padding: "6px 10px"}}/>
+                <input type="text" placeholder="Search by Name" onChange={handleFilter} style={{padding: "6px 10px"}}/>
               </div>
               <br/>
-              {/*<h1>{data.fullName}</h1>*/}
               {loading ? <DataTable
-            columns={column}
-            data={filterdata.length ? filterdata : data}
-            customStyles={customstyle}
-            pagination
-            highlightOnHover
-            ></DataTable> : <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}> 
-            <ReactBootStrap.Spinner animation="border"/>
-            </div> }
-            
+                columns={columns}
+                data={filterdata.length ? filterdata : data}
+                customStyles={customstyle}
+                pagination
+                highlightOnHover
+              ></DataTable> : <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                <ReactBootStrap.Spinner animation="border"/>
+              </div>}
             </div>
-            {/* <div>
-      <h2>Staff Information</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody tbody>
-          {(data.length > 0 ) ? data.map((data, index) => {
-            return (
-              <tr key={index}>
-                <td>{data.name}</td>
-                <td>{data.email}</td>
-              </tr>
-            )
-          }): <tr>
-            <td></td>
-            <td></td>
-            </tr>}
-        </tbody>
-       </table>
-     </div>  */}
           </main>
         </div>
       </ThemeProvider>

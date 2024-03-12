@@ -95,17 +95,17 @@ const StudentInfoAdmin = () => {
       selector: row => row.batch,
       sortable: false,
     },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <button
-          className="delete-student"
-          onClick={() => handleDelete(row)}
-        >
-          Delete
-        </button>
-      ),
-    },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <button
+    //       className="delete-student"
+    //       onClick={() => handleDelete(row)}
+    //     >
+    //       Delete
+    //     </button>
+    //   ),
+    // },
 
   ]
 
