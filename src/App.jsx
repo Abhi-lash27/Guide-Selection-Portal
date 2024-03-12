@@ -38,7 +38,7 @@ const App = () => {
         <Route path='/student-login' element={<Student />} />
         <Route path='/admin-dashboard' element={<AdminDashboard />} />
         <Route path='/staff-dashboard' element={<StudentInfoStaff />} />
-        <Route path='/student-dashboard' element={<StudentDashboard />} />
+        <Route path='/student-dashboard' element={<ProjectRegister />} />
         <Route path='/create-staff' element={<Createstaff />} />
         <Route path='/create-student' element={<Createstudent />} />
         {/*<Route path='/student-upload-ppt' element={<PPTUpload />} />*/}
@@ -53,7 +53,7 @@ const App = () => {
         <Route path='/staff-ppt' element={<Pptdownloadstaff />} />
         <Route path='/staff-reports' element={<Reportdownloadstaff />} />
         <Route path='/staff-review-form' element={<Reviewdownloadstaff />} />
-        <Route path='/register-project' element={<ProjectRegister />} />
+        <Route path='/project-details' element={<StudentDashboard />} />
       </Routes>
     </Router>
     </>

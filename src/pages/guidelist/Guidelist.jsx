@@ -4,7 +4,7 @@ import axios from "axios";
 import Header from "../../components/common/heading/Header";
 
 import "../guidelist/Guidelist.css";
-import Subhashini from '../../images/subhashini.jpg'
+import * as ReactBootStrap from "react-bootstrap";
 
 // const Guides = [
 //     {
@@ -18,6 +18,7 @@ import Subhashini from '../../images/subhashini.jpg'
 const GuideList = () => {
 
   const [guides, setGuides] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -29,6 +30,7 @@ const GuideList = () => {
       const data = res.data.staff
       console.log(data);
       setGuides(data);
+      setLoading(true);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -41,11 +43,15 @@ const GuideList = () => {
       <div className="body-guidelist"></div>
       <Header />
         <h2 className="title-guidelist">Guides</h2>
-        <div className="guides-guidelist">
+        {loading ?  <div className="guides-guidelist">
           {guides.map((guide) => {
             return <Guide {...guide} key={guide.id}></Guide>;
           })}
+        </div> : 
+        <div  style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <ReactBootStrap.Spinner animation="border" variant="light" />
         </div>
+        }
       </>
     );
   };

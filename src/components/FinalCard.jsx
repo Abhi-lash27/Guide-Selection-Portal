@@ -9,6 +9,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { red } from "@mui/material/colors";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
+import {toast} from "react-toastify"
 
 
 const FinalCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleFileId3, handleDeleteReview }) => {
@@ -74,12 +75,14 @@ const FinalCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleFil
       if (res.status === 200) {
         setId1(null);
 
-        return alert("Pdf uploaded");
+        // return alert("Pdf uploaded");
+        toast.success("Pdf Uploaded ")
       }
 
       setUpload(false);
     } catch (error) {
       console.error("Error uploading files: ", error);
+      toast.error("Error Uploading Pdf")
     }
   };
 
@@ -105,12 +108,14 @@ const FinalCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleFil
       if (res.status === 200) {
         setId2(null);
 
-        return alert("PPT uploaded");
+        // return alert("PPT uploaded");
+        toast.success("PPT Uploaded")
       }
 
       setUpload(false);
     } catch (error) {
       console.error("Error uploading files: ", error);
+      toast.error("Error Uploading PPT")
     }
   };
 
@@ -137,12 +142,14 @@ const FinalCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleFil
       if (res.status === 200) {
         setId3(null);
 
-        return alert("Report uploaded");
+        // return alert("Report uploaded");
+        toast.success("Report Uploaded")
       }
 
       setUpload(false);
     } catch (error) {
       console.error("Error uploading files: ", error);
+      toast.error("Error Uploading report")
     }
   };
 

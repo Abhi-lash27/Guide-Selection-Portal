@@ -121,7 +121,8 @@ const StudentDashboard = () => {
                 </div>
               
             : <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}> 
-              <ReactBootStrap.Spinner animation="border" /> 
+              {/* <ReactBootStrap.Spinner animation="border" />  */}
+              <h2 style={{color: "red"}}>Regsiter your project to see your data!!</h2>
               </div>
               }
               </div>

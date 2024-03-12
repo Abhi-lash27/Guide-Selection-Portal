@@ -136,15 +136,15 @@ const StudentSidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Home"
+              title="Register"
               to="/student-dashboard"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Register"
-              to="/register-project"
+              title="Project Details"
+              to="/project-details"
               icon={<PersonAddOutlinedIcon />}
               selected={selected}
               setSelected={setSelected} 
