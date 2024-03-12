@@ -75,9 +75,6 @@ const Student = () => {
                 />
               </div>
             </div>
-            <div className="forgot-pass-login">
-              Forgot Password?<span>Click Here</span>
-            </div>
             {error && <div className="error-message">{error}</div>}
             <div  className="submit-cont-login">
               <button type="submit" className="submit-login">Login</button>
