@@ -47,11 +47,11 @@ const App = () => {
         <Route path='/student-data-admin' element={<StudentInfoAdmin />} />
         {/*<Route path='/student-data-staff' element={<StudentInfoStaff />} />*/}
         <Route path='/staff-data-admin' element={<StaffInfoAdmin />} />
-        <Route path='/admin-ppt' element={<Pptdownloadadmin />} />
-        <Route path='/admin-reports' element={<Reportdownloadadmin />} />
+        {/* <Route path='/admin-ppt' element={<Pptdownloadadmin />} /> */}
+        {/* <Route path='/admin-reports' element={<Reportdownloadadmin />} /> */}
         <Route path='/admin-review-form' element={<Reviewdownloadadmin />} />
-        <Route path='/staff-ppt' element={<Pptdownloadstaff />} />
-        <Route path='/staff-reports' element={<Reportdownloadstaff />} />
+        {/* <Route path='/staff-ppt' element={<Pptdownloadstaff />} /> */}
+        {/* <Route path='/staff-reports' element={<Reportdownloadstaff />} /> */}
         <Route path='/staff-review-form' element={<Reviewdownloadstaff />} />
         <Route path='/project-details' element={<StudentDashboard />} />
       </Routes>

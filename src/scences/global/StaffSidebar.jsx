@@ -153,13 +153,13 @@ const StaffSidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Review Form"
+              title="Documnents"
               to="/staff-review-form"
               icon={<FeedOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Reports"
               to="/staff-reports"
               icon={<FeedOutlinedIcon />}
@@ -172,7 +172,7 @@ const StaffSidebar = () => {
               icon={<FeedOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Typography
               variant="h6"
               color={colors.grey[300]}

@@ -179,13 +179,13 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Review Form"
+              title="Documents"
               to="/admin-review-form"
               icon={<FeedOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Reports"
               to="/admin-reports"
               icon={<FeedOutlinedIcon />}
@@ -198,7 +198,7 @@ const AdminSidebar = () => {
               icon={<FeedOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Typography
               variant="h6"
               color={colors.grey[300]}

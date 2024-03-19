@@ -212,13 +212,13 @@ const DownloadReviewAdmin = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
+    // {
+    //   name: "STAGE",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+    //   sortable: true,
+    // },
     {
-      name: "STAGE",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-      sortable: true,
-    },
-    {
-      name: "REVIEW",
+      name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
@@ -227,8 +227,14 @@ const DownloadReviewAdmin = () => {
       sortable: true,
     },
     {
-      name: "STAFF NAME",
-    }
+      name: "PPT",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
+          : ""
+      ),
+      sortable: true,
+    },
     // {
     //   name: "APPROVE STATUS",
     //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
@@ -277,13 +283,13 @@ const DownloadReviewAdmin = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
+    // {
+    //   name: "STAGE",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+    //   sortable: true,
+    // },
     {
-      name: "STAGE",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-      sortable: true,
-    },
-    {
-      name: "REVIEW",
+      name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
@@ -292,7 +298,13 @@ const DownloadReviewAdmin = () => {
       sortable: true,
     },
     {
-      name: "STAFF NAME",
+      name: "PPT",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
+          : ""
+      ),
+      sortable: true,
     },
     // {
     //   name: "APPROVE STATUS",
@@ -342,13 +354,13 @@ const DownloadReviewAdmin = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
+    // {
+    //   name: "STAGE",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+    //   sortable: true,
+    // },
     {
-      name: "STAGE",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-      sortable: true,
-    },
-    {
-      name: "REVIEW",
+      name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
@@ -357,7 +369,13 @@ const DownloadReviewAdmin = () => {
       sortable: true,
     },
     {
-      name: "STAFF NAME",
+      name: "PPT",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
+          : ""
+      ),
+      sortable: true,
     },
     // {
     //   name: "APPROVE STATUS",
@@ -407,13 +425,13 @@ const DownloadReviewAdmin = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
+    // {
+    //   name: "STAGE",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+    //   sortable: true,
+    // },
     {
-      name: "STAGE",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-      sortable: true,
-    },
-    {
-      name: "REVIEW",
+      name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
@@ -422,7 +440,13 @@ const DownloadReviewAdmin = () => {
       sortable: true,
     },
     {
-      name: "STAFF NAME",
+      name: "PPT",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
+          : ""
+      ),
+      sortable: true,
     },
     // {
     //   name: "APPROVE STATUS",
@@ -472,13 +496,13 @@ const DownloadReviewAdmin = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
+    // {
+    //   name: "STAGE",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+    //   sortable: true,
+    // },
     {
-      name: "STAGE",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-      sortable: true,
-    },
-    {
-      name: "REVIEW",
+      name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
@@ -487,8 +511,23 @@ const DownloadReviewAdmin = () => {
       sortable: true,
     },
     {
-      name: "STAFF NAME",
+      name: "PPT",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
+          : ""
+      ),
+      sortable: true,
     },
+    {
+      name: "Report",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[2])}>Download</button>
+          : ""
+      ),
+      sortable: true,
+    }
     // {
     //   name: "APPROVE STATUS",
     //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
@@ -537,13 +576,13 @@ const DownloadReviewAdmin = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
+    // {
+    //   name: "STAGE",
+    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
+    //   sortable: true,
+    // },
     {
-      name: "STAGE",
-      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-      sortable: true,
-    },
-    {
-      name: "REVIEW",
+      name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
@@ -552,8 +591,23 @@ const DownloadReviewAdmin = () => {
       sortable: true,
     },
     {
-      name: "STAFF NAME",
+      name: "PPT",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
+          : ""
+      ),
+      sortable: true,
     },
+    {
+      name: "Report",
+      cell: (row) => (
+        row.reviews && row.reviews.length > 0 ?
+          <button onClick={() => handleDownload(row.reviews[0].fileId[2])}>Download</button>
+          : ""
+      ),
+      sortable: true,
+    }
     // {
     //   name: "APPROVE STATUS",
     //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
