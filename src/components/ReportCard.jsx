@@ -69,8 +69,8 @@ const ReportCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleDe
       if(res.status === 200) {
         setId1(null)
 
-        // return alert("Pdf uploaded")
-        toast.success("Pdf Uploaded")
+        return alert("Pdf uploaded")
+        // toast.success("Pdf Uploaded")
       }
 
       setUpload(false);
@@ -102,8 +102,8 @@ const ReportCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleDe
       if(res.status === 200) {
         setId2(null)
 
-        // return alert("PPT uploaded")
-        toast.success("PPT Uploaded")
+        return alert("PPT uploaded")
+        // toast.success("PPT Uploaded")
       }
 
       setUpload(false);

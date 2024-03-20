@@ -274,6 +274,37 @@ export const updateProject = async (req, res) => {
   }
 };
 
+export const updateReviewByProjectId = async (req, res) => {
+  const { staffId, projectId } = req.params;
+  const { stage } = req.body;
+  try {
+    const review = await prisma.review.findFirst({
+      where: {
+        projectId: projectId,
+        staffId: staffId,
+        stage: stage
+      }
+    });
+
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+
+    // Update the status of the review
+    const updatedReview = await prisma.review.update({
+      where: {
+        id: review.id
+      },
+      data: req.body
+    });
+
+    res.json(updatedReview);
+  } catch (err) {
+    console.error('Error updating review:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 export const deleteProject = async (req, res) => {
   try {
     const deletedProject = await prisma.project.delete({

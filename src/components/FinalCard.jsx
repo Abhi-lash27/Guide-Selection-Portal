@@ -75,8 +75,8 @@ const FinalCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleFil
       if (res.status === 200) {
         setId1(null);
 
-        // return alert("Pdf uploaded");
-        toast.success("Pdf Uploaded ")
+        return alert("Pdf uploaded");
+        // toast.success("Pdf Uploaded ")
       }
 
       setUpload(false);
@@ -108,8 +108,8 @@ const FinalCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleFil
       if (res.status === 200) {
         setId2(null);
 
-        // return alert("PPT uploaded");
-        toast.success("PPT Uploaded")
+        return alert("PPT uploaded");
+        // toast.success("PPT Uploaded")
       }
 
       setUpload(false);
@@ -142,8 +142,8 @@ const FinalCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleFil
       if (res.status === 200) {
         setId3(null);
 
-        // return alert("Report uploaded");
-        toast.success("Report Uploaded")
+        return alert("Report uploaded");
+        // toast.success("Report Uploaded")
       }
 
       setUpload(false);

@@ -6,7 +6,9 @@ import StaffSidebar from "../global/StaffSidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import { jwtDecode as jwt_decode } from "jwt-decode";
+import CommentBox from "../../components/CommentBox.jsx";
 import * as ReactBootStrap from "react-bootstrap";
+import { toast } from "react-toastify"
 
 const DownloadReviewStaff = () => {
   const [theme, colorMode] = useMode();
@@ -21,138 +23,74 @@ const DownloadReviewStaff = () => {
   const [modelData, setModelData] = useState('');
   const [finalData, setFinalData] = useState('');
 
-
-  const fetchAllStudentsZero = async () => {
+  const fetchAllStudentsByStage = async (stage) => {
     try {
       const storedToken = localStorage.getItem('staff-token');
-      const decodedToken = jwt_decode(storedToken)
-      // console.log(decodedToken.id);
+      const decodedToken = jwt_decode(storedToken);
+      const staffId = decodedToken.id;
 
-      const staffId = decodedToken.id
-
-      const res = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews?stage=zero`, {
+      const res = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews?stage=${stage}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${storedToken}`
         }
       });
-      setLoading(true)
-      const responseData = res.data
-      setZeroData(responseData.projects)
+
+      setLoading(true);
+      const responseData = res.data;
+
+      switch (stage) {
+        case 'zero':
+          setZeroData(responseData.projects);
+          break;
+        case 'one':
+          setFirstData(responseData.projects);
+          break;
+        case 'two':
+          setSecondData(responseData.projects);
+          break;
+        case 'three':
+          setThirdData(responseData.projects);
+          break;
+        case 'model':
+          setModelData(responseData.projects);
+          break;
+        case 'final':
+          setFinalData(responseData.projects);
+          break;
+        default:
+          console.error('Invalid stage');
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const fetchAllStudentsFirst = async () => {
+  const handleApprove = async (reviewStage, projectId, reviewStatus) => {
     try {
       const storedToken = localStorage.getItem('staff-token');
-      const decodedToken = jwt_decode(storedToken)
-      // console.log(decodedToken.id);
+      const decodedToken = jwt_decode(storedToken);
+      const staffId = decodedToken.id;
 
-      const staffId = decodedToken.id
+      const reviewData = {
+        stage: reviewStage,
+        status: reviewStatus
+      }
 
-      const res = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews?stage=one`, {
+      const res = await axios.put(`http://localhost:7777/api/projects/${staffId}/reviews/${projectId}`, reviewData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${storedToken}`
         }
-      });
-      setLoading(true)
-      const responseData = res.data
-      setFirstData(responseData.projects)
+      })
+
+      toast.success("Status updated")
     } catch (err) {
-      console.log(err);
-    }
-  };
+      toast.error(err)
 
-  const fetchAllStudentsSecond = async () => {
-    try {
-      const storedToken = localStorage.getItem('staff-token');
-      const decodedToken = jwt_decode(storedToken)
-      // console.log(decodedToken.id);
-
-      const staffId = decodedToken.id
-
-      const res = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews?stage=two`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${storedToken}`
-        }
-      });
-      setLoading(true)
-      const responseData = res.data
-      setSecondData(responseData.projects)
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const fetchAllStudentsThird = async () => {
-    try {
-      const storedToken = localStorage.getItem('staff-token');
-      const decodedToken = jwt_decode(storedToken)
-      // console.log(decodedToken.id);
-
-      const staffId = decodedToken.id
-
-      const res = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews?stage=three`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${storedToken}`
-        }
-      });
-      setLoading(true)
-      const responseData = res.data
-      setThirdData(responseData.projects)
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const fetchAllStudentsModel = async () => {
-    try {
-      const storedToken = localStorage.getItem('staff-token');
-      const decodedToken = jwt_decode(storedToken)
-      // console.log(decodedToken.id);
-
-      const staffId = decodedToken.id
-
-      const res = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews?stage=model`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${storedToken}`
-        }
-      });
-      setLoading(true)
-      const responseData = res.data
-      setModelData(responseData.projects)
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const fetchAllStudentsFinal = async () => {
-    try {
-      const storedToken = localStorage.getItem('staff-token');
-      const decodedToken = jwt_decode(storedToken)
-      // console.log(decodedToken.id);
-
-      const staffId = decodedToken.id
-
-      const res = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews?stage=final`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${storedToken}`
-        }
-      });
-      setLoading(true)
-      const responseData = res.data
-      setFinalData(responseData.projects)
-    } catch (err) {
-      console.log(err);
     }
   }
+
 
   useEffect(() => {
     const storedToken = localStorage.getItem('staff-token');
@@ -162,12 +100,12 @@ const DownloadReviewStaff = () => {
     }
 
     setToken(storedToken);
-    fetchAllStudentsZero();
-    fetchAllStudentsFirst()
-    fetchAllStudentsSecond()
-    fetchAllStudentsThird()
-    fetchAllStudentsModel()
-    fetchAllStudentsFinal()
+    fetchAllStudentsByStage('zero')
+    fetchAllStudentsByStage('one')
+    fetchAllStudentsByStage('two')
+    fetchAllStudentsByStage('three')
+    fetchAllStudentsByStage('model')
+    fetchAllStudentsByStage('final')
   }, []);
 
   const handleDownload = async (fileId) => {
@@ -216,6 +154,7 @@ const DownloadReviewStaff = () => {
     },
   };
 
+
   const zeroth = [
     {
       name: "PROJECT TITLE",
@@ -242,17 +181,12 @@ const DownloadReviewStaff = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
-    // {
-    //   name: "STAGE",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-    //   sortable: true,
-    // },
     {
       name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
@@ -261,37 +195,43 @@ const DownloadReviewStaff = () => {
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
-    // {
-    //   name: "APPROVE STATUS",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Actions",
-    //   cell: (row) => (
-    //     <div>
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-    //         <>
-    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
-    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
-    //         </>
-    //       )}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-    //     </div>
-    //   ),
-    //   sortable: false,
-    // }
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status.toUpperCase() : "Not yet uploaded",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div id={row.reviews.id}>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status && (
+            <>
+              <button className="btn-approve" onClick={() => handleApprove("zero", row.id, "approved")}>Approve</button>
+              <button className="btn-decline" onClick={() => handleApprove("zero", row.id, "rejected")}>Reject</button>
+            </>
+          )}
+        </div>
+      ),
+      sortable: false
+    },
+    {
+      name: "Comments",
+      cell: (row) => <CommentBox handleSubmit={() => {
+      }} />
+    },
+    {
+      name: "Marks"
+    }
   ];
   const first = [
     {
       name: "PROJECT TITLE",
       selector: (row) => row.title,
-      sortable: true,
+      sortable: true
     },
     {
       name: "STUDENT-1 NAME",
@@ -313,17 +253,12 @@ const DownloadReviewStaff = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
-    // {
-    //   name: "STAGE",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-    //   sortable: true,
-    // },
     {
       name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
@@ -332,31 +267,37 @@ const DownloadReviewStaff = () => {
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
-    // {
-    //   name: "APPROVE STATUS",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Actions",
-    //   cell: (row) => (
-    //     <div>
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-    //         <>
-    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
-    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
-    //         </>
-    //       )}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-    //     </div>
-    //   ),
-    //   sortable: false,
-    // }
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status.toUpperCase() : "Not yet uploaded",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div id={row.id}>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status && (
+            <>
+              <button className="btn-approve" onClick={() => handleApprove("one", row.id, "approved")}>Approve</button>
+              <button className="btn-decline" onClick={() => handleApprove("one", row.id, "rejected")}>Reject</button>
+            </>
+          )}
+        </div>
+      ),
+      sortable: false
+    },
+    {
+      name: "Comments",
+      cell: (row) => <CommentBox handleSubmit={() => {
+      }} />
+    },
+    {
+      name: "Marks"
+    }
   ];
   const second = [
     {
@@ -384,17 +325,12 @@ const DownloadReviewStaff = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
-    // {
-    //   name: "STAGE",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-    //   sortable: true,
-    // },
     {
       name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
@@ -403,31 +339,37 @@ const DownloadReviewStaff = () => {
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
-    // {
-    //   name: "APPROVE STATUS",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Actions",
-    //   cell: (row) => (
-    //     <div>
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-    //         <>
-    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
-    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
-    //         </>
-    //       )}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-    //     </div>
-    //   ),
-    //   sortable: false,
-    // }
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status.toUpperCase() : "Not yet uploaded",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div id={row.reviews.id}>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status && (
+            <>
+              <button className="btn-approve" onClick={() => handleApprove("two", row.id, "approved")}>Approve</button>
+              <button className="btn-decline" onClick={() => handleApprove("two", row.id, "rejected")}>Reject</button>
+            </>
+          )}
+        </div>
+      ),
+      sortable: false
+    },
+    {
+      name: "Comments",
+      cell: (row) => <CommentBox handleSubmit={() => {
+      }} />
+    },
+    {
+      name: "Marks"
+    }
   ];
   const third = [
     {
@@ -455,17 +397,12 @@ const DownloadReviewStaff = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
-    // {
-    //   name: "STAGE",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-    //   sortable: true,
-    // },
     {
       name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
@@ -474,32 +411,37 @@ const DownloadReviewStaff = () => {
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
-    
-    // {
-    //   name: "APPROVE STATUS",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Actions",
-    //   cell: (row) => (
-    //     <div>
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-    //         <>
-    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
-    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
-    //         </>
-    //       )}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-    //     </div>
-    //   ),
-    //   sortable: false,
-    // }
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status.toUpperCase() : "Not yet uploaded",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div id={row.reviews.id}>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status && (
+            <>
+              <button className="btn-approve" onClick={() => handleApprove("three", row.id, "approved")}>Approve</button>
+              <button className="btn-decline" onClick={() => handleApprove("three", row.id, "rejected")}>Reject</button>
+            </>
+          )}
+        </div>
+      ),
+      sortable: false
+    },
+    {
+      name: "Comments",
+      cell: (row) => <CommentBox handleSubmit={() => {
+      }} />
+    },
+    {
+      name: "Marks"
+    }
   ];
   const model = [
     {
@@ -527,17 +469,12 @@ const DownloadReviewStaff = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
-    // {
-    //   name: "STAGE",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-    //   sortable: true,
-    // },
     {
       name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
@@ -546,7 +483,7 @@ const DownloadReviewStaff = () => {
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
@@ -555,31 +492,37 @@ const DownloadReviewStaff = () => {
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[2])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
+    },
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status.toUpperCase() : "Not yet uploaded",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div id={row.reviews.id}>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status && (
+            <>
+              <button className="btn-approve" onClick={() => handleApprove("model", row.id, "approved")}>Approve</button>
+              <button className="btn-decline" onClick={() => handleApprove("model", row.id, "rejected")}>Reject</button>
+            </>
+          )}
+        </div>
+      ),
+      sortable: false
+    },
+    {
+      name: "Comments",
+      cell: (row) => <CommentBox handleSubmit={() => {
+      }} />
+    },
+    {
+      name: "Marks"
     }
-    // {
-    //   name: "APPROVE STATUS",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Actions",
-    //   cell: (row) => (
-    //     <div>
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-    //         <>
-    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
-    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
-    //         </>
-    //       )}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-    //     </div>
-    //   ),
-    //   sortable: false,
-    // }
   ];
   const final = [
     {
@@ -607,17 +550,12 @@ const DownloadReviewStaff = () => {
       selector: (row) => row.students && row.students.length > 1 ? row.students[1].regNo : "",
       sortable: true,
     },
-    // {
-    //   name: "STAGE",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].stage : "",
-    //   sortable: true,
-    // },
     {
       name: "REVIEW FORM",
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[0])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
@@ -626,7 +564,7 @@ const DownloadReviewStaff = () => {
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[1])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
     },
@@ -635,31 +573,37 @@ const DownloadReviewStaff = () => {
       cell: (row) => (
         row.reviews && row.reviews.length > 0 ?
           <button onClick={() => handleDownload(row.reviews[0].fileId[2])}>Download</button>
-          : ""
+          : "Not yet uploaded"
       ),
       sortable: true,
+    },
+    {
+      name: "APPROVE STATUS",
+      selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status.toUpperCase() : "Not yet uploaded",
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div id={row.reviews.id}>
+          {row.reviews && row.reviews.length > 0 && row.reviews[0].status && (
+            <>
+              <button className="btn-approve" onClick={() => handleApprove("final", row.id, "approved")}>Approve</button>
+              <button className="btn-decline" onClick={() => handleApprove("final", row.id, "rejected")}>Reject</button>
+            </>
+          )}
+        </div>
+      ),
+      sortable: false
+    },
+    {
+      name: "Comments",
+      cell: (row) => <CommentBox handleSubmit={() => {
+      }} />
+    },
+    {
+      name: "Marks"
     }
-    // {
-    //   name: "APPROVE STATUS",
-    //   selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status : "",
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Actions",
-    //   cell: (row) => (
-    //     <div>
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'pending' && (
-    //         <>
-    //           <button className="btn-approve" onClick={() => {}}>Approve</button>
-    //           <button className="btn-decline" onClick={() => {}}>Decline</button>
-    //         </>
-    //       )}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'approved' && <span>Approved</span>}
-    //       {row.reviews && row.reviews.length > 0 && row.reviews[0].status === 'declined' && <span>Declined</span>}
-    //     </div>
-    //   ),
-    //   sortable: false,
-    // }
   ];
 
   const handleFilter = (event) => {
@@ -721,7 +665,7 @@ const DownloadReviewStaff = () => {
                 pagination
               />
               <h3 style={{textAlign:'center', color:'#9E1C3F'}}>Final Review</h3>
-              <DataTable 
+              <DataTable
                 columns={final}
                 data={finalData}
                 customStyles={customStyles}
