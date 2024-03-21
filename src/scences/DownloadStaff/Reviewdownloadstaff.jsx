@@ -7,6 +7,7 @@ import DataTable from "react-data-table-component";
 import axios from "axios";
 import { jwtDecode as jwt_decode } from "jwt-decode";
 import CommentBox from "../../components/CommentBox.jsx";
+import MarkBox from "../../components/MarkBox.jsx";
 import * as ReactBootStrap from "react-bootstrap";
 import { toast } from "react-toastify"
 
@@ -84,9 +85,68 @@ const DownloadReviewStaff = () => {
         }
       })
 
-      toast.success("Status updated")
+      if(res.status >= 200 && res.status < 300) {
+        toast.success("Status updated")
+        window.location.reload()
+      }
+
     } catch (err) {
       toast.error(err)
+
+    }
+  }
+
+  const handleUpdateMarks = async (reviewStage, projectId, reviewMarks) => {
+    try {
+      const storedToken = localStorage.getItem('staff-token');
+      const decodedToken = jwt_decode(storedToken);
+      const staffId = decodedToken.id;
+
+      const markData = {
+        stage: reviewStage,
+        marks: reviewMarks
+      }
+
+      const res = await axios.put(`http://localhost:7777/api/projects/${staffId}/reviews/${projectId}`, markData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`
+        }
+      })
+
+      if(res.status >= 200 && res.status <=300) {
+        toast.success("Mark Uploaded")
+        window.location.reload();
+      }
+
+    } catch (err) {
+      toast.error(err)
+    }
+  }
+
+  const handleUpdateComments = async (reviewStage, projectId, comments) => {
+    try {
+      const storedToken = localStorage.getItem('staff-token');
+      const decodedToken = jwt_decode(storedToken);
+      const staffId = decodedToken.id;
+
+      const commentData = {
+        stage: reviewStage,
+        comments: comments
+      }
+
+      const res = await axios.put(`http://localhost:7777/api/projects/${staffId}/reviews/${projectId}`, commentData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`
+        }
+      })
+
+      if(res.status >= 200 && res.status <= 300) {
+        return toast.success("Commented successfully")
+      }
+
+    } catch (err) {
 
     }
   }
@@ -220,13 +280,37 @@ const DownloadReviewStaff = () => {
     },
     {
       name: "Comments",
-      cell: (row) => <CommentBox handleSubmit={() => {
-      }} />
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <CommentBox handleSubmit={(comment) => handleUpdateComments("zero", row.id, comment)} />
+            : "Not yet uploaded"
+        );
+      }
     },
     {
-      name: "Marks"
+      name: "Allocate marks",
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <MarkBox handleSubmit={(marks) => handleUpdateMarks("zero", row.id, marks)} />
+            : "Not yet uploaded"
+        );
+      }
+    },
+    {
+      name: "Marks",
+      selector: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            row.reviews[0].marks
+            : "Not yet uploaded"
+        );
+      }
     }
+
   ];
+
   const first = [
     {
       name: "PROJECT TITLE",
@@ -292,13 +376,37 @@ const DownloadReviewStaff = () => {
     },
     {
       name: "Comments",
-      cell: (row) => <CommentBox handleSubmit={() => {
-      }} />
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <CommentBox handleSubmit={(comment) => handleUpdateComments("one", row.id, comment)} />
+            : "Not yet uploaded"
+        );
+      }
     },
     {
-      name: "Marks"
+      name: "Allocate marks",
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <MarkBox handleSubmit={(marks) => handleUpdateMarks("one", row.id, marks)} />
+            : "Not yet uploaded"
+        );
+      }
+    },
+    {
+      name: "Marks",
+      selector: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            row.reviews[0].marks
+            : "Not yet uploaded"
+        );
+      }
     }
+
   ];
+
   const second = [
     {
       name: "PROJECT TITLE",
@@ -364,13 +472,37 @@ const DownloadReviewStaff = () => {
     },
     {
       name: "Comments",
-      cell: (row) => <CommentBox handleSubmit={() => {
-      }} />
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <CommentBox handleSubmit={(comment) => handleUpdateComments("two", row.id, comment)} />
+            : "Not yet uploaded"
+        );
+      }
     },
     {
-      name: "Marks"
+      name: "Allocate marks",
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <MarkBox handleSubmit={(marks) => handleUpdateMarks("two", row.id, marks)} />
+            : "Not yet uploaded"
+        );
+      }
+    },
+    {
+      name: "Marks",
+      selector: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            row.reviews[0].marks
+            : "Not yet uploaded"
+        );
+      }
     }
+
   ];
+
   const third = [
     {
       name: "PROJECT TITLE",
@@ -436,13 +568,37 @@ const DownloadReviewStaff = () => {
     },
     {
       name: "Comments",
-      cell: (row) => <CommentBox handleSubmit={() => {
-      }} />
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <CommentBox handleSubmit={(comment) => handleUpdateComments("three", row.id, comment)} />
+            : "Not yet uploaded"
+        );
+      }
     },
     {
-      name: "Marks"
+      name: "Allocate marks",
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <MarkBox handleSubmit={(marks) => handleUpdateMarks("three", row.id, marks)} />
+            : "Not yet uploaded"
+        );
+      }
+    },
+    {
+      name: "Marks",
+      selector: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            row.reviews[0].marks
+            : "Not yet uploaded"
+        );
+      }
     }
+
   ];
+
   const model = [
     {
       name: "PROJECT TITLE",
@@ -517,13 +673,37 @@ const DownloadReviewStaff = () => {
     },
     {
       name: "Comments",
-      cell: (row) => <CommentBox handleSubmit={() => {
-      }} />
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <CommentBox handleSubmit={(comment) => handleUpdateComments("model", row.id, comment)} />
+            : "Not yet uploaded"
+        );
+      }
     },
     {
-      name: "Marks"
+      name: "Allocate marks",
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <MarkBox handleSubmit={(marks) => handleUpdateMarks("model", row.id, marks)} />
+            : "Not yet uploaded"
+        );
+      }
+    },
+    {
+      name: "Marks",
+      selector: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            row.reviews[0].marks
+            : "Not yet uploaded"
+        );
+      }
     }
+
   ];
+
   const final = [
     {
       name: "PROJECT TITLE",
@@ -598,12 +778,35 @@ const DownloadReviewStaff = () => {
     },
     {
       name: "Comments",
-      cell: (row) => <CommentBox handleSubmit={() => {
-      }} />
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <CommentBox handleSubmit={(comment) => handleUpdateComments("final", row.id, comment)} />
+            : "Not yet uploaded"
+        );
+      }
     },
     {
-      name: "Marks"
+      name: "Allocate marks",
+      cell: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            <MarkBox handleSubmit={(marks) => handleUpdateMarks("final", row.id, marks)} />
+            : "Not yet uploaded"
+        );
+      }
+    },
+    {
+      name: "Marks",
+      selector: (row) => {
+        return (
+          row.reviews && row.reviews.length > 0 ?
+            row.reviews[0].marks
+            : "Not yet uploaded"
+        );
+      }
     }
+
   ];
 
   const handleFilter = (event) => {
