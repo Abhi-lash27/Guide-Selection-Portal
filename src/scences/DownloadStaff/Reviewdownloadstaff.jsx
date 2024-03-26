@@ -289,6 +289,11 @@ const DownloadReviewStaff = () => {
       }
     },
     {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
+      sortable: true,
+    },
+    {
       name: "Allocate marks",
       cell: (row) => {
         return (
@@ -383,6 +388,11 @@ const DownloadReviewStaff = () => {
             : "Not yet uploaded"
         );
       }
+    },
+    {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
+      sortable: true,
     },
     {
       name: "Allocate marks",
@@ -481,6 +491,11 @@ const DownloadReviewStaff = () => {
       }
     },
     {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
+      sortable: true,
+    },
+    {
       name: "Allocate marks",
       cell: (row) => {
         return (
@@ -575,6 +590,11 @@ const DownloadReviewStaff = () => {
             : "Not yet uploaded"
         );
       }
+    },
+    {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
+      sortable: true,
     },
     {
       name: "Allocate marks",
@@ -682,6 +702,11 @@ const DownloadReviewStaff = () => {
       }
     },
     {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
+      sortable: true,
+    },
+    {
       name: "Allocate marks",
       cell: (row) => {
         return (
@@ -787,6 +812,11 @@ const DownloadReviewStaff = () => {
       }
     },
     {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
+      sortable: true,
+    },
+    {
       name: "Allocate marks",
       cell: (row) => {
         return (
@@ -809,10 +839,10 @@ const DownloadReviewStaff = () => {
 
   ];
 
-  const handleFilter = (event) => {
-    const newRecord = data.filter(data => data.title.toLowerCase().includes(event.target.value.toLowerCase()))
-    setData(newRecord)
-  }
+  // const handleFilter = (event) => {
+  //   const newRecord = data.filter(data => data.title.toLowerCase().includes(event.target.value.toLowerCase()))
+  //   setData(newRecord)
+  // }
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -825,9 +855,9 @@ const DownloadReviewStaff = () => {
             <div style={{ maxWidth: '100%', overflowX: 'auto', margin:'20px'}}>
               <br />
               <h2>LIST OF STUDENTS</h2>
-              <div style={{display: "flex", justifyContent: "left"}}>
-                <input type="text" placeholder="Seach by Project" onChange={handleFilter} style={{padding: "6px 10px"}}/>
-              </div>
+              {/*<div style={{display: "flex", justifyContent: "left"}}>*/}
+              {/*  <input type="text" placeholder="Search by Project" onChange={handleFilter} style={{padding: "6px 10px"}}/>*/}
+              {/*</div>*/}
               <br />
               {loading ? 
               <>

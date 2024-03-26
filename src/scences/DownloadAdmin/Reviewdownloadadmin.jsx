@@ -174,6 +174,11 @@ const DownloadReviewAdmin = () => {
       sortable: true,
     },
     {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
+      sortable: true,
+    },
+    {
       name: "Marks",
       selector: (row) => {
         return (
@@ -232,6 +237,11 @@ const DownloadReviewAdmin = () => {
     {
       name: "APPROVE STATUS",
       selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status.toUpperCase() : "Not yet uploaded",
+      sortable: true,
+    },
+    {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
       sortable: true,
     },
     {
@@ -296,6 +306,11 @@ const DownloadReviewAdmin = () => {
       sortable: true,
     },
     {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
+      sortable: true,
+    },
+    {
       name: "Marks",
       selector: (row) => {
         return (
@@ -354,6 +369,11 @@ const DownloadReviewAdmin = () => {
     {
       name: "APPROVE STATUS",
       selector: (row) => row.reviews && row.reviews.length > 0 ? row.reviews[0].status.toUpperCase() : "Not yet uploaded",
+      sortable: true,
+    },
+    {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
       sortable: true,
     },
     {
@@ -427,6 +447,11 @@ const DownloadReviewAdmin = () => {
       sortable: true,
     },
     {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
+      sortable: true,
+    },
+    {
       name: "Marks",
       selector: (row) => {
         return (
@@ -497,6 +522,11 @@ const DownloadReviewAdmin = () => {
       sortable: true,
     },
     {
+      name: "Comments",
+      selector: (row) => row.reviews?.[0]?.comments || "No Comments",
+      sortable: true,
+    },
+    {
       name: "Marks",
       selector: (row) => {
         return (
@@ -508,10 +538,10 @@ const DownloadReviewAdmin = () => {
     }
   ];
 
-  const handleFilter = (event) => {
-    const newRecord = data.filter(data => data.title.toLowerCase().includes(event.target.value.toLowerCase()))
-    setData(newRecord)  
-  }
+  // const handleFilter = (event) => {
+  //   const newRecord = data.filter(data => data.title.toLowerCase().includes(event.target.value.toLowerCase()))
+  //   setData(newRecord)
+  // }
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -524,9 +554,9 @@ const DownloadReviewAdmin = () => {
             <div style={{ maxWidth: '100%', overflowX: 'auto', margin:'20px'}}>
               <br />
               <h2>LIST OF STUDENTS (REVIEW)</h2>
-              <div style={{display: "flex", justifyContent: "left"}}>
-                <input type="text" placeholder="Seach by Project" onChange={handleFilter} style={{padding: "6px 10px"}}/>
-              </div>
+              {/*<div style={{display: "flex", justifyContent: "left"}}>*/}
+              {/*  <input type="text" placeholder="Seach by Project" onChange={handleFilter} style={{padding: "6px 10px"}}/>*/}
+              {/*</div>*/}
               <br />
               {loading ? <><h3 style={{textAlign:'center', color:'#9E1C3F'}}>Zeroth Review</h3>
               <DataTable 

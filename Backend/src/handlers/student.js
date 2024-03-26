@@ -71,8 +71,13 @@ export const getSingleStudent = async (req, res) => {
       where: {
         id: req.params.id,
       },
-      include: {
-        project: true,
+      select: {
+        fullName: true,
+        email: true,
+        phoneNo: true,
+        projectId: true,
+        regNo: true,
+        project: true
       }
     });
 
