@@ -9,7 +9,7 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 
 
-const Createstudent = () => {
+const ProjectRegister = () => {
   const [theme, colorMode] = useMode();
 
   const [guideDropdown, setGuideDropdown] = useState([]);
@@ -30,7 +30,7 @@ const Createstudent = () => {
 
   const fetchStudents = async () => {
     try {
-      const res = await axios.get(`http://localhost:7777/api/students`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/students`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
@@ -46,7 +46,7 @@ const Createstudent = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get('http://localhost:7777/api/staffs');
+      const res = await axios.get('${import.meta.env.VITE_API_URL}/staffs');
       const data = res.data.staff;
       console.log(data);
       setGuideDropdown(data);
@@ -87,7 +87,7 @@ const Createstudent = () => {
       };
 
       // Make the POST request
-      const res = await axios.post('http://localhost:7777/api/projects', postData, {
+      const res = await axios.post('${import.meta.env.VITE_API_URL}/projects', postData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -176,4 +176,4 @@ const Createstudent = () => {
   );
 };
 
-export default Createstudent;
+export default ProjectRegister;

@@ -30,7 +30,7 @@ const Createstudent = () => {
       event.preventDefault();
     
       try {
-        const response = await axios.post('http://localhost:7777/signup', {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/signup`, {
           fullName,
           regNo,
           phoneNo,

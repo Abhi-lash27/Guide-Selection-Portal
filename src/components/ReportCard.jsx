@@ -52,7 +52,7 @@ const ReportCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleDe
       formData.append("data", file1);
       formData.append("type", "pdf")
 
-      const res = await axios.post(`http://localhost:7777/api/files`, formData, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/files`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
@@ -86,7 +86,7 @@ const ReportCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleDe
       formData.append("data", file2);
       formData.append("type", "ppt")
 
-      const res = await axios.post(`http://localhost:7777/api/files`, formData, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/files`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
@@ -237,66 +237,6 @@ const ReportCard = ({ name, handleSubmit, handleFileId1, handleFileId2, handleDe
                 </button>
               </Box>
             </Modal>
-            {/*<Button*/}
-            {/*  onClick={handleUpdate}*/}
-            {/*  size="small"*/}
-            {/*  sx={{*/}
-            {/*    color: colors.blueAccent[400],*/}
-            {/*    border: 1,*/}
-            {/*    mx: 2*/}
-            {/*  }}*/}
-            {/*>*/}
-            {/*  <FileUploadOutlinedIcon></FileUploadOutlinedIcon>*/}
-            {/*  Update*/}
-            {/*</Button>*/}
-            {/*<Modal*/}
-            {/*  open={update}*/}
-            {/*  onClose={closeUpdate}*/}
-            {/*  aria-labelledby="modal-modal-title"*/}
-            {/*  aria-describedby="modal-modal-description"*/}
-            {/*>*/}
-            {/*  <Box sx={style}>*/}
-            {/*    <Typography*/}
-            {/*      id="modal-modal-title"*/}
-            {/*      variant="h4"*/}
-            {/*      component="h2"*/}
-            {/*      style={{*/}
-            {/*        display: "flex",*/}
-            {/*        justifyContent: "flex-start"*/}
-            {/*      }}*/}
-            {/*    >*/}
-            {/*      Update Files*/}
-            {/*    </Typography>*/}
-            {/*    <br />*/}
-            {/*    <Typography*/}
-            {/*      style={{*/}
-            {/*        fontSize: "16px"*/}
-            {/*      }}*/}
-            {/*    >Review form</Typography>*/}
-            {/*    <input type="file" />*/}
-            {/*    <br /> <br />*/}
-            {/*    <Typography*/}
-            {/*      style={{*/}
-            {/*        fontSize: "16px"*/}
-            {/*      }}*/}
-            {/*    >PPT</Typography>*/}
-            {/*    <input type="file" />*/}
-            {/*    <br />*/}
-            {/*    <button*/}
-            {/*      type="submit"*/}
-            {/*      style={{ marginRight: 5, marginTop: 5, backgroundColor: "green", color: "white" }}*/}
-            {/*    >*/}
-            {/*      Submit*/}
-            {/*    </button>*/}
-            {/*    <button*/}
-            {/*      type="button"*/}
-            {/*      style={{ backgroundColor: "red", color: "white" }}*/}
-            {/*      onClick={closeUpdate}*/}
-            {/*    >*/}
-            {/*      Cancel*/}
-            {/*    </button>*/}
-            {/*  </Box>*/}
-            {/*</Modal>*/}
             <Button
               onClick={handleDelete}
               size="small"

@@ -20,7 +20,7 @@ const StudentDashboard = () => {
       const decodedToken = jwtDecode(storedToken);
       const studentId = decodedToken.id;
       const res = await axios.get(
-        `http://localhost:7777/api/students/${studentId}`,
+        `${import.meta.env.VITE_API_URL}/students/${studentId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -31,7 +31,7 @@ const StudentDashboard = () => {
       const projectId = res.data.projectId;
 
       const newResponse = await axios.get(
-        `http://localhost:7777/api/projects/${projectId}`,
+        `${import.meta.env.VITE_API_URL}/projects/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",

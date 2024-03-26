@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import { tokens } from "../../theme";
 import { Button, CardActions, Box } from "@mui/material";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import Stack from "@mui/material/Stack";
 import { toast } from 'react-toastify';
 
@@ -49,7 +48,7 @@ const ReportUpload = () => {
 
   const fetchStudentData = async () => {
     try {
-      const res = await axios.get(`http://localhost:7777/api/students/${studentId}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/students/${studentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -93,7 +92,7 @@ const ReportUpload = () => {
         stage: "zero"
       }
 
-      const res = await axios.post(`http://localhost:7777/api/reviews`, data, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/reviews`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
@@ -101,7 +100,7 @@ const ReportUpload = () => {
       })
 
       if(res.status >= 200 && res.status < 300) {
-        return toast.success("Uploaded Succesfully")
+        return toast.success("Uploaded Successfully")
         // return alert("Success")
       }
 
@@ -121,7 +120,7 @@ const ReportUpload = () => {
         stage: "one"
       }
 
-      const res = await axios.post(`http://localhost:7777/api/reviews`, data, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/reviews`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
@@ -129,7 +128,7 @@ const ReportUpload = () => {
       })
 
       if(res.status >= 200 && res.status < 300) {
-        return toast.success("Uploaded Succesfully")
+        return toast.success("Uploaded Successfully")
         // return alert("Success")
       }
 
@@ -149,7 +148,7 @@ const ReportUpload = () => {
         stage: "two"
       }
 
-      const res = await axios.post(`http://localhost:7777/api/reviews`, data, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/reviews`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
@@ -157,7 +156,7 @@ const ReportUpload = () => {
       })
 
       if(res.status >= 200 && res.status < 300) {
-        return toast.success("Uploaded Succesfully")
+        return toast.success("Uploaded Successfully")
         // return alert("Success")
       }
 
@@ -177,7 +176,7 @@ const ReportUpload = () => {
         stage: "three"
       }
 
-      const res = await axios.post(`http://localhost:7777/api/reviews`, data, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/reviews`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
@@ -205,7 +204,7 @@ const ReportUpload = () => {
         stage: "model"
       }
 
-      const res = await axios.post(`http://localhost:7777/api/reviews`, data, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/reviews`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
@@ -233,7 +232,7 @@ const ReportUpload = () => {
         stage: "final"
       }
 
-      const res = await axios.post(`http://localhost:7777/api/reviews`, data, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/reviews`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
@@ -241,7 +240,7 @@ const ReportUpload = () => {
       })
 
       if(res.status >= 200 && res.status < 300) {
-        return toast.success("Uploaded Succesfully")
+        return toast.success("Uploaded Successfully")
         // return alert("Success")
       }
 
@@ -253,7 +252,7 @@ const ReportUpload = () => {
 
   const deleteZero = async () => {
     try {
-      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=zero`, {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/projects/${projectId}/reviews?stage=zero`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
@@ -261,7 +260,7 @@ const ReportUpload = () => {
       })
 
       if(res.status === 200) {
-      return toast.success("Deleted Succesfully")
+      return toast.success("Deleted Successfully")
       // return alert("deleted successfully")
       }
 
@@ -273,7 +272,7 @@ const ReportUpload = () => {
 
   const deleteFirst = async () => {
     try {
-      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=one`, {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/projects/${projectId}/reviews?stage=one`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
@@ -282,7 +281,7 @@ const ReportUpload = () => {
 
       if(res.status === 200) 
       {
-        return toast.success("Deleted Succesfully")
+        return toast.success("Deleted Successfully")
         // return alert("deleted successfully")
       }
 
@@ -294,7 +293,7 @@ const ReportUpload = () => {
 
   const deleteSecond = async () => {
     try {
-      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=two`, {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/projects/${projectId}/reviews?stage=two`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
@@ -302,7 +301,7 @@ const ReportUpload = () => {
       })
 
       if(res.status === 200){
-        return toast.success("Deleted Succesfully")
+        return toast.success("Deleted Successfully")
         // return alert("deleted successfully")
       } 
 
@@ -314,7 +313,7 @@ const ReportUpload = () => {
 
   const deleteThree = async () => {
     try {
-      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=three`, {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/projects/${projectId}/reviews?stage=three`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
@@ -322,7 +321,7 @@ const ReportUpload = () => {
       })
 
       if(res.status === 200){
-        return toast.success("Deleted Succesfully")
+        return toast.success("Deleted Successfully")
         // return alert("deleted successfully")
       } 
 
@@ -334,7 +333,7 @@ const ReportUpload = () => {
 
   const deleteModel = async () => {
     try {
-      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=model`, {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/projects/${projectId}/reviews?stage=model`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
@@ -342,7 +341,7 @@ const ReportUpload = () => {
       })
 
       if(res.status === 200){
-        return toast.success("Deleted Succesfully")
+        return toast.success("Deleted Successfully")
         // return alert("deleted successfully")
       } 
 
@@ -354,7 +353,7 @@ const ReportUpload = () => {
 
   const deleteFinal = async () => {
     try {
-      const res = await axios.delete(`http://localhost:7777/api/projects/${projectId}/reviews?stage=final`, {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/projects/${projectId}/reviews?stage=final`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
@@ -362,7 +361,7 @@ const ReportUpload = () => {
       })
 
       if(res.status === 200){
-        return toast.success("Deleted Succesfully")
+        return toast.success("Deleted Successfully")
         // return alert("deleted successfully")
       } 
 
@@ -375,7 +374,7 @@ const ReportUpload = () => {
 
   const downloadReviewForm = async () => {
     try {
-      const res = await axios.get("http://localhost:7777/api/review-form", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/review-form`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

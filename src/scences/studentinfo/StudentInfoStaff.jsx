@@ -50,7 +50,7 @@ const StudentInfoStaff = () => {
       const decodedToken = jwtDecode(storedToken)
       const staffId = decodedToken.id
 
-      const response = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/projects/${staffId}/reviews`, {
         headers: {
           "content-type": "application/json",
           Authorization: `Bearer ${token}`

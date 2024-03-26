@@ -6,15 +6,6 @@ import Header from "../../components/common/heading/Header";
 import "../guidelist/Guidelist.css";
 import * as ReactBootStrap from "react-bootstrap";
 
-// const Guides = [
-//     {
-//       profileImg: Subhashini,
-//       fullName: "Dr.R.Subhashini",
-//       specializations: "AI, Machine Learning, Deep Learning",
-//       id: 1,
-//     },
-// ]
-
 const GuideList = () => {
 
   const [guides, setGuides] = useState([]);
@@ -26,7 +17,7 @@ const GuideList = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get('http://localhost:7777/api/staffs');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/staffs`);
       const data = res.data.staff
       console.log(data);
       setGuides(data);
@@ -69,4 +60,4 @@ const GuideList = () => {
     );
   };
 
-  export default GuideList;
+  export default GuideList;

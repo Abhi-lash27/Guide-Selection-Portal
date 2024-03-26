@@ -35,7 +35,7 @@ const StudentInfoAdmin = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get(`http://localhost:7777/api/students`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/students`, {
         headers: {
           "content-type": "application/json",
           Authorization: `Bearer ${token}`
@@ -95,18 +95,6 @@ const StudentInfoAdmin = () => {
       selector: row => row.batch,
       sortable: false,
     },
-    // {
-    //   name: "Actions",
-    //   cell: (row) => (
-    //     <button
-    //       className="delete-student"
-    //       onClick={() => handleDelete(row)}
-    //     >
-    //       Delete
-    //     </button>
-    //   ),
-    // },
-
   ]
 
   const handleFilter = (event) => {

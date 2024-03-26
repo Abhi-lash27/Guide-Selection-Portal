@@ -30,7 +30,7 @@ const DownloadReviewStaff = () => {
       const decodedToken = jwt_decode(storedToken);
       const staffId = decodedToken.id;
 
-      const res = await axios.get(`http://localhost:7777/api/projects/${staffId}/reviews?stage=${stage}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/projects/${staffId}/reviews?stage=${stage}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${storedToken}`
@@ -78,7 +78,7 @@ const DownloadReviewStaff = () => {
         status: reviewStatus
       }
 
-      const res = await axios.put(`http://localhost:7777/api/projects/${staffId}/reviews/${projectId}`, reviewData, {
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/projects/${staffId}/reviews/${projectId}`, reviewData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${storedToken}`
@@ -107,7 +107,7 @@ const DownloadReviewStaff = () => {
         marks: reviewMarks
       }
 
-      const res = await axios.put(`http://localhost:7777/api/projects/${staffId}/reviews/${projectId}`, markData, {
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/projects/${staffId}/reviews/${projectId}`, markData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${storedToken}`
@@ -135,7 +135,7 @@ const DownloadReviewStaff = () => {
         comments: comments
       }
 
-      const res = await axios.put(`http://localhost:7777/api/projects/${staffId}/reviews/${projectId}`, commentData, {
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/projects/${staffId}/reviews/${projectId}`, commentData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${storedToken}`
@@ -171,7 +171,7 @@ const DownloadReviewStaff = () => {
   const handleDownload = async (fileId) => {
     try {
       const response = await axios({
-        url: `http://localhost:7777/api/files/${fileId}`,
+        url: `${import.meta.env.VITE_API_URL}/files/${fileId}`,
         method: 'GET',
         responseType: 'blob', // important
         headers: {

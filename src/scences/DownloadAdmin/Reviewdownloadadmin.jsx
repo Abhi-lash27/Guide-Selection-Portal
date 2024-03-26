@@ -23,7 +23,7 @@ const DownloadReviewAdmin = () => {
   const fetchAllStudentsByStage = async (stage) => {
     try {
       const storedToken = localStorage.getItem('admin-token');
-      const res = await axios.get(`http://localhost:7777/api/projects/reviews?stage=${stage}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/projects/reviews?stage=${stage}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${storedToken}`
@@ -79,7 +79,7 @@ const DownloadReviewAdmin = () => {
   const handleDownload = async (fileId) => {
     try {
       const response = await axios({
-        url:` http://localhost:7777/api/files/${fileId}`,
+        url:` ${import.meta.env.VITE_API_URL}/files/${fileId}`,
         method: 'GET',
         responseType: 'blob', // important
         headers: {
@@ -537,11 +537,6 @@ const DownloadReviewAdmin = () => {
       }
     }
   ];
-
-  // const handleFilter = (event) => {
-  //   const newRecord = data.filter(data => data.title.toLowerCase().includes(event.target.value.toLowerCase()))
-  //   setData(newRecord)
-  // }
 
   return (
     <ColorModeContext.Provider value={colorMode}>

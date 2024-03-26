@@ -16,7 +16,7 @@ const Staff = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(`http://localhost:7777/login/staff`, {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/login/staff`, {
         email,
         password
       });

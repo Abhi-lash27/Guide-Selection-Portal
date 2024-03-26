@@ -5,7 +5,6 @@ import DataTable from "react-data-table-component";
 import "../../index.css";
 import Topbar from "../global/Topbar";
 import AdminSidebar from "../global/AdminSidebar";
-import { rootShouldForwardProp } from "@mui/material/styles/styled";
 import axios from "axios";
 import * as ReactBootStrap from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -50,7 +49,7 @@ const StaffInfoAdmin = () => {
 
   const fetchStaff = async () => {
     try {
-      const response = await axios.get(`http://localhost:7777/api/staffs`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/staffs`, {
         headers: {
           "content-type": "application/json",
           Authorization: `Bearer ${token}`
@@ -65,7 +64,7 @@ const StaffInfoAdmin = () => {
 
   const handleDelete = async (row) => {
     try {
-      await axios.delete(`http://localhost:7777/api/staffs/${row.id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/staffs/${row.id}`, {
         headers: {
           "content-type": "application/json",
           Authorization: `Bearer ${token}`
