@@ -74,61 +74,87 @@ const StudentDashboard = () => {
                 <div className="table-responsive">
                   <table className="table table-bordered">
                     <tbody>
-                      <tr>
-                        <td>
-                          <strong>Project Title:</strong>
-                        </td>
-                        <td>{data.title}</td>
-                      </tr>
-                      <tr>
-                        <td colSpan="2">
-                          <strong>Students:</strong>
-                        </td>
-                      </tr>
-                      {Array.isArray(data.students) &&
-                        data.students.map((student) => (
-                          <React.Fragment key={student.id}>
-                            <tr>
-                              <td>Name:</td>
-                              <td>{student.fullName}</td>
-                            </tr>
-                            <tr>
-                              <td>Reg No:</td>
-                              <td>{student.regNo}</td>
-                            </tr>
-                            <tr>
-                              <td>Email:</td>
-                              <td>{student.email}</td>
-                            </tr>
-                            <tr>
-                              <td>Phone Number:</td>
-                              <td>{student.phoneNo}</td>
-                            </tr>
-                            <tr>
-                              <td>Batch:</td>
-                              <td>{student.batch}</td>
-                            </tr>
-                          </React.Fragment>
-                        ))}
-                      <tr>
-                        <td>
-                          <strong>Staff Name:</strong>
-                        </td>
-                        <td>{data.staff && data.staff.fullName}</td>
-                      </tr>
+                    <tr>
+                      <td>
+                        <strong>Project Title:</strong>
+                      </td>
+                      <td>{data.title}</td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2">
+                        <strong>Students:</strong>
+                      </td>
+                    </tr>
+                    {Array.isArray(data.students) &&
+                      data.students.map((student) => (
+                        <React.Fragment key={student.id}>
+                          <tr>
+                            <td>Name:</td>
+                            <td>{student.fullName}</td>
+                          </tr>
+                          <tr>
+                            <td>Reg No:</td>
+                            <td>{student.regNo}</td>
+                          </tr>
+                          <tr>
+                            <td>Email:</td>
+                            <td>{student.email}</td>
+                          </tr>
+                          <tr>
+                            <td>Phone Number:</td>
+                            <td>{student.phoneNo}</td>
+                          </tr>
+                          <tr>
+                            <td>Batch:</td>
+                            <td>{student.batch}</td>
+                          </tr>
+                        </React.Fragment>
+                      ))}
+                    <tr>
+                      <td>
+                        <strong>Staff Name:</strong>
+                      </td>
+                      <td>{data.staff && data.staff.fullName}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Stages</strong>
+                      </td>
+                      <td>
+                        <table className="table">
+                          <thead>
+                          <tr>
+                            <th>Stage</th>
+                            <th>Status</th>
+                            <th>Comments</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          {data.reviews &&
+                            data.reviews.map((review) => (
+                              <tr key={review.id}>
+                                <td>{review.stage}</td>
+                                <td>{review.status}</td>
+                                <td>{review.comments || "N/A"}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
                     </tbody>
                   </table>
                 </div>
-              
-            : <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}> 
-              {/* <ReactBootStrap.Spinner animation="border" />  */}
-              <h2 style={{color: "red"}}>Regsiter your project to see your data!!</h2>
-              </div>
-              }
-              </div>
-              </div>
+
+          : <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            {/* <ReactBootStrap.Spinner animation="border" />  */}
+            <h2 style={{ color: "red" }}>Regsiter your project to see your data!!</h2>
           </div>
-        </div> 
+        }
+              </div>
+            </div>
+          </div>
+        </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
